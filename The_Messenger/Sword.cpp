@@ -13,20 +13,20 @@
 #include "Scene.h"
 #include "AnimatedSprite.h"
 #include "Enemy.h"
+#include "Crystal.h"
 
 using namespace agp;
 
 Sword::Sword(Mario* mario)
-	: DynamicObject(mario->scene(), RectF(mario->pos().x, mario->pos().y, 2, 2), nullptr, mario->layer() - 1)
+	: DynamicObject(mario->scene(), RectF(mario->pos().x, mario->pos().y, 5, 3), nullptr, mario->layer() - 1)
 {
-	_fit = false;
 	_link = mario;
 	_facingDir = _link->facingDir();
 	_yGravityForce = 0;
 	_CCD = false;
 
 	// Inizializzazione parametri del collider della spada
-	_collider.adjust(1.3, 0.8, 1.5f, -0.2f);
+	_collider = { 1, 0.8, 3, 2 };
 }
 
 void Sword::update(float dt)
@@ -46,7 +46,13 @@ void Sword::update(float dt)
 
 bool Sword::collidableWith(CollidableObject* obj)
 {
-	return dynamic_cast<Enemy*>(obj);
+	Enemy* enemy = dynamic_cast<Enemy*>(obj);
+	if (enemy != nullptr)
+		return dynamic_cast<Enemy*>(obj);
+
+	Crystal* crystal = dynamic_cast<Crystal*>(obj);
+	if (crystal != nullptr)
+		return dynamic_cast<Crystal*>(obj);
 }
 
 bool Sword::collision(CollidableObject* with, bool begin, Direction fromDir)
@@ -54,6 +60,7 @@ bool Sword::collision(CollidableObject* with, bool begin, Direction fromDir)
 	Enemy* enemy = dynamic_cast<Enemy*>(with);
 	if (enemy)
 		enemy->smash();
+	
 
 	return true;
 }

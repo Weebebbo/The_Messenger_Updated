@@ -32,7 +32,7 @@ void StaticLift::update(float dt) {
 bool StaticLift::collision(CollidableObject* with, bool begin, Direction fromDir) {
 	Mario* mario = dynamic_cast<Mario*>(with);
 
-	if (mario && fromDir == Direction::DOWN) {
+	if (mario && (fromDir == Direction::DOWN || fromDir == Direction::LEFT || fromDir == Direction::RIGHT)) {
 		_compenetrable = true; 
 
 		schedule("compenetrable_off", 0.4f, [this] {

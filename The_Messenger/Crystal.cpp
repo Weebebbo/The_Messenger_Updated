@@ -2,6 +2,7 @@
 #include "StaticObject.h"
 #include "SpriteFactory.h"
 #include "Sword.h"
+#include "Mario.h"
 
 using namespace agp;
 
@@ -17,17 +18,11 @@ Crystal::Crystal(Scene* scene, const RectF& rect, int layer) :
 	_sprite = SpriteFactory::instance()->get("crystal");
 
 	_yGravityForce = 0;
-	//_xMoveForce = 3.f;
-	//_xVelMax = 3;
-	//move(Direction::RIGHT);
 }
 
 void Crystal::update(float dt)
 {
-	//move(Direction::RIGHT);
-	//_sprite = SpriteFactory::instance()->get("ranged_kappa_stand");
 	CollidableObject::update(dt);
-
 }
 
 bool Crystal::collision(CollidableObject* with, bool begin, Direction fromDir) {
@@ -35,11 +30,9 @@ bool Crystal::collision(CollidableObject* with, bool begin, Direction fromDir) {
 	Sword* sword = dynamic_cast<Sword*>(with);
 
 	if (sword != nullptr) {
-		std::cout << "ninja colpisce il fregno" << std::endl;
 		this->kill();
 		return true;
 	}
-	else if (sword == nullptr)
-		std::cout << "prova cazzo" << std::endl;
-	return false;
+	else
+		return false;
 }
