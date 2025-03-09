@@ -30,6 +30,7 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_dying = false;
 	_dead = false;
 	_invincible = false;
+	_healthBar = 4;
 
 	// Attacco
 	_crouchAttack = false;
@@ -325,7 +326,11 @@ void Mario::die()
 
 void Mario::hurt()
 {
-	// TODO: powerdown (e.g. if Mario is big, becomes small)
-	if(!_invincible)
+	if (!_invincible)
+		_healthBar--; //quando arriva a 0 il ninja schiatta
+	
+	std::cout << _healthBar << std::endl;
+
+	if (_healthBar == 0)
 		die();
 }

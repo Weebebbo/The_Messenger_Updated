@@ -32,7 +32,8 @@ public:
 
 	// extends collision logic (+collision with Mario only)
 	virtual bool collidableWith(CollidableObject* obj) override;
-	virtual void smash() override; 
+	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
+	virtual void smash() override;
 
 	virtual std::string name() override { return strprintf("Fireball[%d]", _id); }
 };

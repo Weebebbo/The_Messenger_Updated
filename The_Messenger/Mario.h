@@ -27,6 +27,7 @@ class agp::Mario : public DynamicObject
 		bool _invincible;
 		bool _dying;
 		bool _dead;
+		int _healthBar; 
 		
 		bool _standingAttack1;
 		bool _standingAttack2;

@@ -150,6 +150,8 @@ Sprite* SpriteFactory::get(const std::string& id)
 	//Animazioni items
 	else if (id == "crystal")
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][0].begin(), _autoTiles["items"][0].begin() + 4 }, 6);
+	else if (id == "smash")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][13].begin(), _autoTiles["items"][13].begin() + 4 }, 6);
 
 	else
 	{
