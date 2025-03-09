@@ -44,6 +44,21 @@ bool Fireball::collidableWith(CollidableObject* obj)
 	return dynamic_cast<Mario*>(obj);
 }
 
+bool Fireball::collision(CollidableObject* with, bool begin, Direction fromDir) {
+
+	Mario* mario = dynamic_cast<Mario*>(with); 
+
+	if (mario) {
+		_scene->killObject(this);
+		mario->hurt();
+		return true;
+	}
+
+	return false;
+}
+
 void Fireball::smash() {
-	this->kill(); 
+	_sprite = SpriteFactory::instance()->get("smash");
+	_scene->killObject(this);
+	
 }

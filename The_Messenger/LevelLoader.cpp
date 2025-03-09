@@ -87,7 +87,7 @@ Scene* LevelLoader::load(const std::string& name)
 		new StaticObject(world, RectF(0, -13, 162, 19),  spriteLoader->get("terrain"), -1);
 	
 		// Enemies 
-		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(10, 1));
+		RangedKappa* rKappa1 = new RangedKappa(world, PointF(10, 1));
 		//RangedKappa* rKappa2 = new RangedKappa(world, PointF(13, 1));
 		//Bat* bat1 = new Bat(world, PointF(10, 0));
 		//GreenKappa* gKappa1 = new GreenKappa(world, PointF(10, 1)); 
@@ -96,8 +96,8 @@ Scene* LevelLoader::load(const std::string& name)
 		// static lifts
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
 		//StaticObject* moneta = new StaticObject(world, RectF(4, 2, 1, 1), spriteLoader->get("money"));
-		Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
-		StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
+		//Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
+		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
 		//StaticObject* moneta = new StaticObject(world, RectF(4, 2, 1, 1), spriteLoader->get("money"));
 		//Emerald* emerald1 = new Emerald(world, RectF(6, 2, 1, 1));
 		//Emerald* emerald2 = new Emerald(world, RectF(8, 2, 1, 1));
@@ -107,7 +107,7 @@ Scene* LevelLoader::load(const std::string& name)
 		Mario* mario = new Mario(world, PointF(2.5, 0));
 		world->setPlayer(mario);
 
-		// Caricamento colider da file json
+		// Caricamento collider da file json
 		loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
 
 		return world;
