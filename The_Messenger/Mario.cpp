@@ -104,8 +104,13 @@ void Mario::update(float dt)
 	if (_fall || _rise || _ball)
 		climb_stationary();
 
+
 	if (_fall && _wantsToClimb)
 		_wantsToClimb = false;
+	
+	// Cosi' il coso quando è basso non può camminare con il collider basso
+	if (_crouch && _walking)
+		_crouch = false;
 
 	// animations
 	if (_dying)
@@ -282,19 +287,14 @@ void Mario::attack()
 	schedule("attacking_off", 0.33f, [this]()
 	{
 		//Disattivazione dell'attacco
-		if (_runningAttack)
-			_runningAttack = false;
-		else if (_jumpingAttack)
-			_jumpingAttack = false;
-		else if (_crouchAttack)
-			_crouchAttack = false;
-		else {
-			_standingAttack1 = false;
-		}
-
-		_scene->killObject(_sword);
-		_sword = nullptr;
+		_runningAttack = false;
+		_jumpingAttack = false;
+		_crouchAttack = false;
+		_standingAttack1 = false;
 		});
+
+	_scene->killObject(_sword);
+	_sword = nullptr;
 }
 
 void Mario::die()
