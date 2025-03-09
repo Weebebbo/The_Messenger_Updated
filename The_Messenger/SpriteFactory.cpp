@@ -1,0 +1,193 @@
+// ----------------------------------------------------------------
+// From "Algorithms and Game Programming" in C++ by Alessandro Bria
+// Copyright (C) 2024 Alessandro Bria (a.bria@unicas.it). 
+// All rights reserved.
+// 
+// Released under the BSD License
+// See LICENSE in root directory for full details.
+// ----------------------------------------------------------------
+
+#include "SpriteFactory.h"
+#include "SDL_image.h"
+#include "graphicsUtils.h"
+#include "sdlUtils.h"
+#include "Window.h"
+#include "AnimatedSprite.h"
+#include "TiledSprite.h"
+#include "FilledSprite.h"
+#include "Game.h"
+#include <iostream>
+
+using namespace agp;
+
+SpriteFactory::SpriteFactory()
+{
+	if (IMG_Init(IMG_INIT_PNG) == 0)
+	{
+		SDL_Log("Unable to initialize SDL_image: %s", SDL_GetError());
+		return;
+	}
+
+	SDL_Renderer* renderer = Game::instance()->window()->renderer();
+	
+	_spriteSheets["ninja"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja.png", _autoTiles["ninja"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
+	_spriteSheets["effects"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja_effects.png", _autoTiles["effects"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
+	_spriteSheets["enemies2"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/nemici_del_messaggero.png", _autoTiles["enemies2"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
+
+	_spriteSheets["mario"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/mario.png", _autoTiles["mario"], {27, 89, 153}, { 147, 187, 236 });
+	_spriteSheets["enemies"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/enemies.png", _autoTiles["enemies"], { 27, 89, 153 }, { 147, 187, 236 }, 17);
+	_spriteSheets["hud"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "sprites/hud.png", { 147, 187, 236 });
+	_spriteSheets["tiles"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/stage_tiles.png", _autoTiles["tiles"], { 27, 89, 153 }, { 147, 187, 236 }, 5, true, false);
+	_spriteSheets["link"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/link.png", _autoTiles["link"], { 0, 128, 128 }, { 0, 64, 64 });
+	_spriteSheets["marco"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/marco.png", _autoTiles["marco"], { 255, 0, 255 }, { 0, 255, 0 });
+	_spriteSheets["hud1"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/hud1.png", _autoTiles["hud1"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
+	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/Items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
+
+	//Prova di aggiunta mappa
+	_spriteSheets["map"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room1.png");
+}
+
+// anchors
+static RectI hud_letter(519, 254, 8, 8);
+static RectI hud_number(519, 263, 8, 8);
+static RectI hud_letter_disabled(519, 366, 8, 8);
+static RectI hud_number_disabled(519, 375, 8, 8);
+static RectI hud_coin(519, 289, 8, 8);
+
+Sprite* SpriteFactory::get(const std::string& id)
+{
+	std::vector< RectI> rects;
+
+	// single-frame sprites
+	if (id == "terrain")
+		return new FilledSprite(_spriteSheets["map"]);
+	else if (id == "brick")
+		return new Sprite(_spriteSheets["tiles"], _autoTiles["tiles"][5][1]);
+	else if (id == "wall")
+		return new Sprite(_spriteSheets["tiles"], _autoTiles["tiles"][5][2]);
+	else if (id == "block")
+		return new Sprite(_spriteSheets["tiles"], _autoTiles["tiles"][3][5]);
+	else if (id == "welcome")
+		return new Sprite(_spriteSheets["hud"], RectI(1, 2 + 16 * 2, 16 * 16, 13 * 16));
+	else if (id == "gameover")
+		return new Sprite(_spriteSheets["hud"], RectI(260, 253, 16 * 16, 15 * 16));
+	else if (id == "hammer")
+		return new Sprite(_spriteSheets["enemies"], _autoTiles["enemies"][0][25]);
+	else if (id == "hammer_brother_jump")
+		return new Sprite(_spriteSheets["enemies"], _autoTiles["enemies"][0][24]);
+	else if (id == "platform")
+		return new FilledSprite(_spriteSheets["tiles"], _autoTiles["tiles"][8][33]);
+	else if (id == "jump_rise")
+		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][1][0]);
+	else if (id == "jump_fall")
+		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][1][1]);
+	else if (id == "ninja_crouch")
+		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][0][2]);
+	else if (id == "bat_stand")
+		return new Sprite(_spriteSheets["enemies2"], _autoTiles["enemies2"][0][4]);
+	else if (id == "skelouton_stand")
+		return new Sprite(_spriteSheets["enemies2"], _autoTiles["enemies2"][10][0]);
+	else if (id == "money")
+		return new Sprite(_spriteSheets["hud1"], _autoTiles["hud1"][0][5]);
+	//prova ninja
+	else if (id == "ninja_stand")
+		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][0][0]);
+	else if (id == "ninja_stationaryClimb")
+		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][12][3]);
+
+	// animated sprites
+	else if (id == "mario_walk")
+		return new AnimatedSprite(_spriteSheets["mario"], { _autoTiles["mario"][0].begin() + 2, _autoTiles["mario"][0].begin() + 5 }, 10);
+	else if (id == "mario_run")
+		return new AnimatedSprite(_spriteSheets["mario"], { _autoTiles["mario"][0].begin() + 2, _autoTiles["mario"][0].begin() + 5 }, 20);
+	else if (id == "box")
+		return new AnimatedSprite(_spriteSheets["tiles"], { _autoTiles["tiles"][3].begin(), _autoTiles["tiles"][3].begin() + 3 }, 5, { 0, 1, 2, 1, 0 });
+	else if (id == "hud_coin")
+	{
+		rects.push_back(moveBy(hud_coin, 0, 0));
+		rects.push_back(moveBy(hud_coin, 1, 0, 8, 8));
+		rects.push_back(moveBy(hud_coin, 2, 0, 8, 8));
+		rects.push_back(moveBy(hud_coin, 1, 0, 8, 8));
+		rects.push_back(moveBy(hud_coin, 0, 0));
+		rects.push_back(moveBy(hud_coin, 0, 0));
+		return new AnimatedSprite(_spriteSheets["hud"], rects, 6);
+	}
+	else if (id == "jump_ball")
+		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][2][0], _autoTiles["ninja"][2][3] }, 10);
+	else if (id == "ninja_walk")
+		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][3][0], _autoTiles["ninja"][3][3] }, 10);
+	else if (id == "ninja_climbMovement")
+		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][12].begin(), _autoTiles["ninja"][12].begin() + 3 }, 8);
+
+	//Animazioni degli attacchi
+	else if (id == "running_attack")
+		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][4].begin(), _autoTiles["ninja"][4].begin() + 4 }, 12);
+	else if (id == "standing_attack1")
+		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][6].begin(), _autoTiles["ninja"][6].begin() + 4 }, 12);
+	else if (id == "standing_attack2")
+		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][7].begin(), _autoTiles["ninja"][7].begin() + 4 }, 12);
+	else if (id == "jump_attack")
+		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][5].begin(), _autoTiles["ninja"][5].begin() + 4 }, 12);
+	else if (id == "crouch_attack")
+		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][11].begin(), _autoTiles["ninja"][11].begin() + 4 }, 12);
+	
+	//Animazioni dei nemici
+	else if (id == "ranged_kappa_stand")
+		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][6].begin(), _autoTiles["enemies2"][6].begin() + 4 }, 6);
+	else if (id == "ranged_kappa_fireball")
+		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][7].begin(), _autoTiles["enemies2"][7].begin() + 4 }, 8);
+	else if (id == "fireball")
+		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][8].begin(), _autoTiles["enemies2"][8].begin() + 4 }, 6);
+	else if (id == "bat_flying")
+		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][0].begin(), _autoTiles["enemies2"][0].begin() + 4 }, 6);
+	else if (id == "green_kappa_walk")
+		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][5].begin(), _autoTiles["enemies2"][5].begin() + 4 }, 6);
+	else if (id == "skelouton_walk")
+		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][9].begin(), _autoTiles["enemies2"][9].begin() + 4 }, 6);
+	else if (id == "skelouton_walk_on")
+		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][10].begin(), _autoTiles["enemies2"][10].begin() + 4 }, 6);
+
+	//Animazioni items
+	else if (id == "crystal")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][0].begin(), _autoTiles["items"][0].begin() + 4 }, 6);
+
+	else
+	{
+		std::cerr << "Cannot find sprite \"" << id << "\"\n";
+		return nullptr;
+	}
+}
+
+Sprite* SpriteFactory::getText(std::string text, const Vec2Df& size, int fillN, char fillChar, bool enabled)
+{
+	std::vector< RectI> tiles;
+
+	if (fillN)
+		while (text.size() != fillN)
+			text = fillChar + text;
+
+	RectI& number_anchor = enabled ? hud_number : hud_number_disabled;
+	RectI& letter_anchor = enabled ? hud_letter : hud_letter_disabled;
+
+	for (auto& c : text)
+	{
+		if(isdigit(c))
+			tiles.push_back(moveBy(number_anchor, c - '0', 0, 8, 8));
+		else if (isalpha(c))
+			tiles.push_back(moveBy(letter_anchor, toupper(c) - 'A', 0, 8, 8));
+		else if (c == '-')
+			tiles.push_back(moveBy(number_anchor, 10, 0, 8, 8));
+		else if (c == '*')
+			tiles.push_back(moveBy(number_anchor, 11, 0, 8, 8));
+		else if (c == '!')
+			tiles.push_back(moveBy(number_anchor, 12, 0, 8, 8));
+		else if (c == '©')
+			tiles.push_back(moveBy(number_anchor, 13, 0, 8, 8));
+		else if (c == '.')
+			tiles.push_back(moveBy(number_anchor, 14, 0, 8, 8));
+		else
+			tiles.push_back(moveBy(hud_letter, 0, -5, 8, 8));	// empty space
+	}
+
+	return new TiledSprite(_spriteSheets["hud"], tiles, size);
+}

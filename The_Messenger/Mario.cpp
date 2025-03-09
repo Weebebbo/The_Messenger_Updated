@@ -1,0 +1,331 @@
+// ----------------------------------------------------------------
+// From "Algorithms and Game Programming" in C++ by Alessandro Bria
+// Copyright (C) 2024 Alessandro Bria (a.bria@unicas.it). 
+// All rights reserved.
+// 
+// Released under the BSD License
+// See LICENSE in root directory for full details.
+// ----------------------------------------------------------------
+
+#include "Mario.h"
+#include "SpriteFactory.h"
+#include "Audio.h"
+#include "AnimatedSprite.h"
+#include "PlatformerGame.h"
+#include "PlatformerGameScene.h"
+#include "Sword.h"
+#include "Scene.h"
+#include "StaticLift.h"
+
+using namespace agp;
+
+//RectF(pos.x + 1 / 16.0f, pos.y - 2, 2, 2.69)
+Mario::Mario(Scene* scene, const PointF& pos)
+	: DynamicObject(scene, RectF(pos.x + 1.0f, pos.y - 2.0f, 2.40f, 2.69f), nullptr)
+{	
+	defaultCollider();
+	
+	_fit = false;
+	_walking = false;
+	_dying = false;
+	_dead = false;
+	_invincible = false;
+
+	// Attacco
+	_crouchAttack = false;
+	_standingAttack1 = false;
+	_standingAttack2 = false; 
+	_runningAttack = false;
+	_jumpingAttack = false;
+	_sword = nullptr; 
+	
+	//Scalata
+	_climbingMovement = false;
+	_wantsToClimb = false;
+
+	//Discesa
+	_canDescend = false; 
+	_collisionWithLift = false;
+	_canCrouch = true;
+
+	//stati del salto 
+	_rise = false;
+	_ball = false; 
+	_fall = false; 
+	
+	_crouch = false; 
+	_prevCrouch = false;
+
+	_xLastNonZeroVel = 0; 
+	
+	//rimozione di skid e attrito, aggiunta partenza senza transitorio
+	_xSkiddingForce = 1000;
+	_xFrictionForce = 50;
+	_xMoveForce = 60;
+
+	// ANIMAZIONI
+	_sprites["stand"] = SpriteFactory::instance()->get("ninja_stand");
+	_sprites["walk"] = SpriteFactory::instance()->get("ninja_walk");
+	_sprites["die"] = SpriteFactory::instance()->get("mario_die");
+
+	_sprites["rise"] = SpriteFactory::instance()->get("jump_rise");
+	_sprites["ball"] = SpriteFactory::instance()->get("jump_ball");
+	_sprites["fall"] = SpriteFactory::instance()->get("jump_fall");
+	_sprites["crouch"] = SpriteFactory::instance()->get("ninja_crouch");
+	_sprites["stationary_climb"] = SpriteFactory::instance()->get("ninja_stationaryClimb");
+	_sprites["climbMovement"] = SpriteFactory::instance()->get("ninja_climbMovement");
+
+	//Animazioni degli attacchi
+	_sprites["running_attack"] = SpriteFactory::instance()->get("running_attack");
+	_sprites["jump_attack"] = SpriteFactory::instance()->get("jump_attack");
+	_sprites["standing_attack1"] = SpriteFactory::instance()->get("standing_attack1");
+	_sprites["standing_attack2"] = SpriteFactory::instance()->get("standing_attack2");
+	_sprites["crouch_attack"] = SpriteFactory::instance()->get("crouch_attack");
+
+	// Sprite predefinita
+	_sprite = _sprites["stand"];
+}
+
+void Mario::update(float dt)
+{
+	// physics
+	DynamicObject::update(dt);
+
+	// state logic
+	if ((_rise && grounded()) || (_fall && grounded())) {
+		_rise = false;
+		_fall = false;
+	}
+	if (_vel.x != 0 && !_rise)
+		_xLastNonZeroVel = _vel.x;
+	_walking = _vel.x != 0;
+
+	// Funzione per la scalata, nell'update mette false a _wantsToClimb
+	if (_fall || _rise || _ball)
+		climb_stationary();
+
+	if (_fall && _wantsToClimb)
+		_wantsToClimb = false;
+
+	// animations
+	if (_dying)
+		_sprite = _sprites["die"];
+	else if (_standingAttack1) {
+		if (_standingAttack2)
+			_sprite = _sprites["standing_attack1"];
+		else
+			_sprite = _sprites["standing_attack2"];
+	}
+	else if (_runningAttack)
+		_sprite = _sprites["running_attack"];
+	else if (_jumpingAttack)
+		_sprite = _sprites["jump_attack"];
+	else if (_crouchAttack)
+		_sprite = _sprites["crouch_attack"];
+	else if (_wantsToClimb)
+		_sprite = _sprites["stationary_climb"];
+	else if (_climbingMovement)
+		_sprite = _sprites["climbMovement"];
+	else if (_rise)
+		_sprite = _sprites["rise"];
+	else if (_ball)
+		_sprite = _sprites["ball"];
+	else if (_fall)
+		_sprite = _sprites["fall"];
+	else if (_walking)
+		_sprite = _sprites["walk"];
+	else if (_crouch)
+		_sprite = _sprites["crouch"];
+	else
+		_sprite = _sprites["stand"];
+
+	// x-mirroring
+	if (_vel.x < 0 || (_vel.x == 0 && _xLastNonZeroVel < 0))
+	{
+		_flip = SDL_FLIP_HORIZONTAL;
+		if(!_crouch)
+			_collider = { 0.35f, -0.1f, 1.3f, 2.4f };
+	}
+	else
+	{
+		_flip = SDL_FLIP_NONE;
+		if (!_crouch)
+			defaultCollider();
+	}
+}
+
+void Mario::move(Direction dir)
+{
+	if (_dying || _dead)
+		return;
+
+	DynamicObject::move(dir);
+}
+
+void Mario::jump(bool on)
+{
+	if (_dying || _dead)
+		return;
+
+	if (_wantsToClimb)
+	{
+		climb_stationary();
+	}
+	if (on && !midair() && !_wantsToClimb)
+	{
+		velAdd(Vec2Df(0, -_yJumpImpulse));
+
+		if (std::abs(_vel.x) < 9)
+			_yGravityForce = 25;
+		else
+			_yGravityForce = 21;
+
+		_rise = true;
+		_wantsToClimb = false;
+
+		schedule("jump_to_ball", 0.2f, [this]()
+			{
+				_rise = false;
+				_ball = true;
+
+				schedule("ball_off", 0.3f, [this]()
+					{
+						std::cout << "ball off" << std::endl;
+						_ball = false;
+					});
+				_fall = true;
+
+			});
+
+		Audio::instance()->playSound("jump-small");
+	}
+	else if (!on && midair() && !_dying && !_wantsToClimb)
+	{
+		_yGravityForce = 90;
+
+		if (vel().y > 0) {
+			_ball = false;
+			_fall = true;
+		}
+	}
+}
+
+void Mario::climb_stationary()
+{
+	if (_dying || _dead)
+		return;
+
+	if (_wantsToClimb && !_walking)
+	{
+		_fall = false;
+		_ball = false;
+		_rise = false;
+
+		_vel = { 0, 0 };
+		_yGravityForce = 0;
+	}
+	else if (_walking && _wantsToClimb)
+	{
+		_wantsToClimb = false;
+		_fall = true;
+		_yGravityForce = 90;
+	}
+}
+
+void Mario::crouch(bool on) {
+	if (_dying || _dead)
+		return;
+	
+	if (on && !_walking && !midair())
+	{
+		_crouch = true;
+		if (_xLastNonZeroVel > 0)
+			_collider = { 0.8f, 1.0f, 1.4f, 1.3f };
+		else if (_xLastNonZeroVel < 0)
+			_collider = { 0.35f, 1.0f, 1.3f, 1.3f };
+		_prevCrouch = true;
+	}
+	else if(_prevCrouch && !on)
+	{
+		_crouch = false; 
+		_prevCrouch = false;
+		defaultCollider();
+	}
+}
+
+void Mario::attack()
+{
+	if (_dying || _dead)
+		return;
+
+	Audio::instance()->playSound("sword");
+
+	_sword = new Sword(this);
+
+	//Scelta dell'animazione per l'attacco
+	if (_crouch)
+	{
+		_crouchAttack = true;
+	}
+	else if (_walking && !midair())
+		_runningAttack = true;
+	else if (midair())
+		_jumpingAttack = true;
+	else {
+		_standingAttack1 = true;
+		if (_standingAttack2)
+			_standingAttack2 = false;
+		else
+			_standingAttack2 = true; 
+	}
+
+	schedule("attacking_off", 0.33f, [this]()
+	{
+		//Disattivazione dell'attacco
+		if (_runningAttack)
+			_runningAttack = false;
+		else if (_jumpingAttack)
+			_jumpingAttack = false;
+		else if (_crouchAttack)
+			_crouchAttack = false;
+		else {
+			_standingAttack1 = false;
+		}
+
+		_scene->killObject(_sword);
+		_sword = nullptr;
+		});
+}
+
+void Mario::die()
+{
+	if (_dying)
+		return;
+
+	_dying = true;
+	_collidable = false;
+	_yGravityForce = 0;
+	_vel = { 0,0 };
+	_xDir = Direction::NONE;
+	Audio::instance()->haltMusic();
+	Audio::instance()->playSound("death");
+	dynamic_cast<PlatformerGame*>(Game::instance())->freeze(true);
+
+	schedule("dying", 0.5f, [this]()
+		{
+			_yGravityForce = 25;
+			velAdd(Vec2Df(0, -_yJumpImpulse));
+			schedule("die", 3, [this]()
+				{
+					_dead = true;
+					dynamic_cast<PlatformerGame*>(Game::instance())->gameover();
+				});
+		});
+}
+
+void Mario::hurt()
+{
+	// TODO: powerdown (e.g. if Mario is big, becomes small)
+	if(!_invincible)
+		die();
+}
