@@ -18,7 +18,7 @@
 using namespace agp;
 
 Sword::Sword(Mario* mario)
-	: DynamicObject(mario->scene(), RectF(mario->pos().x, mario->pos().y, 5, 3), nullptr, mario->layer() - 1)
+	: DynamicObject(mario->scene(), RectF(mario->pos().x, mario->pos().y, 2.0f, 2.0f), nullptr, mario->layer() - 1)
 {
 	_link = mario;
 	_facingDir = _link->facingDir();
@@ -26,7 +26,7 @@ Sword::Sword(Mario* mario)
 	_CCD = false;
 
 	// Inizializzazione parametri del collider della spada
-	_collider = { 1, 0.8, 3, 2 };
+	_collider = { 1.5f, 0.8f, 2.0f, 1.0f };
 }
 
 void Sword::update(float dt)
@@ -39,20 +39,17 @@ void Sword::update(float dt)
 		setPos(_link->pos() + PointF{  0, -7 / 16.0f });
 	}
 	else if (_facingDir == Direction::LEFT)
-		setPos(_link->pos() + PointF{ -32 / 16.0f, -7 / 16.0f });
+		setPos(_link->pos() + PointF{ -42 / 16.0f, -7 / 16.0f });
 
 	DynamicObject::update(dt);
 }
 
 bool Sword::collidableWith(CollidableObject* obj)
 {
-	Enemy* enemy = dynamic_cast<Enemy*>(obj);
-	if (enemy != nullptr)
-		return dynamic_cast<Enemy*>(obj);
-
-	Crystal* crystal = dynamic_cast<Crystal*>(obj);
-	if (crystal != nullptr)
-		return dynamic_cast<Crystal*>(obj);
+	if (dynamic_cast<Enemy*>(obj))
+		return true;
+	else if (dynamic_cast<Crystal*>(obj))
+		return true;
 }
 
 bool Sword::collision(CollidableObject* with, bool begin, Direction fromDir)
@@ -60,7 +57,6 @@ bool Sword::collision(CollidableObject* with, bool begin, Direction fromDir)
 	Enemy* enemy = dynamic_cast<Enemy*>(with);
 	if (enemy)
 		enemy->smash();
-	
 
 	return true;
 }

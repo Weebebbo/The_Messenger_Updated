@@ -104,11 +104,10 @@ void Mario::update(float dt)
 	if (_fall || _rise || _ball)
 		climb_stationary();
 
-
 	if (_fall && _wantsToClimb)
 		_wantsToClimb = false;
 	
-	// Cosi' il coso quando è basso non può camminare con il collider basso
+	// Cosi' il coso quando ï¿½ basso non puï¿½ camminare con il collider basso
 	if (_crouch && _walking)
 		_crouch = false;
 
@@ -237,11 +236,20 @@ void Mario::climb_stationary()
 	}
 }
 
+void Mario::climbing_movement()
+{
+	if (_wantsToClimb)
+	{
+		_wantsToClimb = false;
+		_climbingMovement = true;
+	}
+}
+
 void Mario::crouch(bool on) {
 	if (_dying || _dead)
 		return;
 	
-	if (on && !_walking && !midair())
+	if (on && !_walking && !midair() && !_wantsToClimb && !_climbingMovement)
 	{
 		_crouch = true;
 		if (_xLastNonZeroVel > 0)

@@ -42,12 +42,6 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		mario->move(Direction::NONE);
 	else
 		mario->move(Direction::NONE);
-	
-	//if (keyboard[SDL_SCANCODE_SPACE] && keyboard[SDL_SCANCODE_DOWN] && mario->get_collisionWithLift())
-	//	mario->jump(false);
-	//else 
-	//	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
-	//mario->descend(keyboard[SDL_SCANCODE_SPACE] && keyboard[SDL_SCANCODE_DOWN]);
 
 	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 	mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
@@ -55,6 +49,25 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 	{
 		mario->descend();
 		mario->get_collisionWithLift();
+	}
+
+	if (mario->get_wantsToClimb() || (!mario->get_wantsToClimb() && mario->get_climbingMovement()))
+	{
+		if (keyboard[SDL_SCANCODE_UP])
+		{
+			mario->setVelY(-5);
+			mario->climbing_movement();
+		}
+		else if (keyboard[SDL_SCANCODE_DOWN])
+		{
+			mario->setVelY(3);
+			mario->climbing_movement();
+		}
+		else
+		{
+			mario->set_climbingMovement(false);
+			mario->set_wantsToClimb(true);
+		}
 	}
 }
 

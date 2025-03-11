@@ -81,6 +81,7 @@ class agp::Mario : public DynamicObject
 		virtual void jump(bool on = true);
 		void crouch(bool on = true);
 		void climb_stationary();
+		void climbing_movement();
 		void descend() { _canDescend = true; }
 
 		// scripted actions
