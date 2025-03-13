@@ -20,6 +20,7 @@ class agp::ClimbableWalls : public CollidableObject
 protected:
 
 	bool _didMarioHitMe;
+	//bool _isTheColliderFinished;
 
 public:
 
@@ -27,7 +28,8 @@ public:
 	virtual ~ClimbableWalls() {}
 
 	//Getters
-	bool get_didMarioHitMe() { return _didMarioHitMe; }
+	//bool get_didMarioHitMe() { return _didMarioHitMe; }
+	//bool get_isTheColliderFinished() { return _isTheColliderFinished; }
 
 	// extends game logic (-physics, -collisions)
 	virtual void update(float dt) override; //{RenderableObject::update(dt);}

@@ -43,7 +43,8 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	//Scalata
 	_climbingMovement = false;
 	_wantsToClimb = false;
-	_finishedClimbableWall = false;
+	_finishedClimbableWallUpperLimit = false;
+	_finishedClimbableWallLowerLimit = false;
 
 	//Discesa
 	_canDescend = false; 

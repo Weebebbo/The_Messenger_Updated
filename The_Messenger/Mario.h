@@ -48,7 +48,8 @@ class agp::Mario : public DynamicObject
 		bool _prevCrouch;
 		bool _wantsToClimb;
 		bool _climbingMovement;
-		bool _finishedClimbableWall;
+		bool _finishedClimbableWallUpperLimit;
+		bool _finishedClimbableWallLowerLimit;
 		
 		std::map<std::string, Sprite*> _sprites;
 
@@ -67,14 +68,16 @@ class agp::Mario : public DynamicObject
 		bool get_fall() { return _fall; }
 		bool get_canDescend() { return _canDescend; }
 		bool get_collisionWithLift() { return _collisionWithLift; }
-		bool get_finishedClimbingWall() { return _finishedClimbableWall; }
+		bool get_finishedClimbingWallUpperLimit() { return _finishedClimbableWallUpperLimit; }
+		bool get_finishedClimbingWallLowerLimit() { return _finishedClimbableWallLowerLimit; }
 		Vec2Df get_prevVel() { return _prevVel; }
 		// Setter
 		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }
 		void set_climbingMovement(bool climbingMovement) { _climbingMovement = climbingMovement; }
 		void set_canDescend(bool canDescend) { _canDescend = canDescend; }
 		void set_collisionWithLift(bool collisionWithLift) { _collisionWithLift = collisionWithLift; }
-		void set_finishedClimbingWall(bool finished) { _finishedClimbableWall = finished; }
+		void set_finishedClimbingWallUpperLimit(bool finished) { _finishedClimbableWallUpperLimit = finished; }
+		void set_finishedClimbingWallLowerLimit(bool finished) { _finishedClimbableWallLowerLimit = finished; }
 
 		// extends game logic (+mario logic)
 		virtual void update(float dt) override;

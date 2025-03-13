@@ -54,20 +54,35 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 
 	if (mario->get_wantsToClimb() || (!mario->get_wantsToClimb() && mario->get_climbingMovement()))
 	{
-		if (keyboard[SDL_SCANCODE_UP] && !mario->get_finishedClimbingWall())
+		if (keyboard[SDL_SCANCODE_UP] && !mario->get_finishedClimbingWallUpperLimit() && !mario->get_finishedClimbingWallLowerLimit())
 		{
 			mario->setVelY(-5);
 			mario->climbing_movement();
 		}
-		else if (keyboard[SDL_SCANCODE_DOWN] && !mario->get_finishedClimbingWall())
+		else if (keyboard[SDL_SCANCODE_DOWN] && !mario->get_finishedClimbingWallUpperLimit() && !mario->get_finishedClimbingWallLowerLimit())
 		{
 			mario->setVelY(3);
 			mario->climbing_movement();
 		}
-		else if (mario->get_finishedClimbingWall() && (keyboard[SDL_SCANCODE_UP || SDL_SCANCODE_DOWN]))
+		else if (mario->get_finishedClimbingWallUpperLimit())
 		{
-			std::cout<<"climbing_movement"<<std::endl;
-			mario->setVelY(0);
+			if (keyboard[SDL_SCANCODE_UP])
+			{
+				mario->setVelY(-0.9f);
+				mario->climbing_movement();
+			}
+			else 
+				mario->set_finishedClimbingWallUpperLimit(false);
+		}
+		else if (mario->get_finishedClimbingWallLowerLimit())
+		{
+			if (keyboard[SDL_SCANCODE_DOWN])
+			{
+				mario->setVelY(-0.9f);
+				mario->climbing_movement();
+			}
+			else
+				mario->set_finishedClimbingWallLowerLimit(false);
 		}
 		else
 		{

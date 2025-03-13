@@ -19,12 +19,17 @@ void ClimbableWalls::update(float dt)
 
 	if (mario->get_climbingMovement() && _didMarioHitMe)
 	{
-		if (sceneCollider().top() > mario->sceneCollider().pos.y)
-		{
-			std::cout<<"viva il duce"<<std::endl;
-		}
-		std::cout << sceneCollider().top() << "  duce  " << mario->sceneCollider().pos.y << std::endl;
-		//std::cout<<sceneCollider().pos.y<<std::endl;
+		if (mario->sceneCollider().top() < sceneCollider().top())
+			mario->set_finishedClimbingWallUpperLimit(true);
+		else if (mario->sceneCollider().bottom() > sceneCollider().bottom())
+			mario->set_finishedClimbingWallLowerLimit(true);
+	}
+
+	if ((mario->sceneCollider().right() < sceneCollider().left() || mario->sceneCollider().left() > sceneCollider().right()) && _didMarioHitMe)
+	{
+		_didMarioHitMe = false;
+		mario->set_finishedClimbingWallUpperLimit(false);
+		mario->set_finishedClimbingWallLowerLimit(false);
 	}
 }
 
