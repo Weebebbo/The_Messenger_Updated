@@ -15,6 +15,7 @@
 #include "timeUtils.h"
 #include "HUD.h"
 #include "PlatformerGame.h"
+#include "geometryUtils.h"
 #include "StaticLift.h"
 
 using namespace agp;
@@ -53,15 +54,20 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 
 	if (mario->get_wantsToClimb() || (!mario->get_wantsToClimb() && mario->get_climbingMovement()))
 	{
-		if (keyboard[SDL_SCANCODE_UP])
+		if (keyboard[SDL_SCANCODE_UP] && !mario->get_finishedClimbingWall())
 		{
 			mario->setVelY(-5);
 			mario->climbing_movement();
 		}
-		else if (keyboard[SDL_SCANCODE_DOWN])
+		else if (keyboard[SDL_SCANCODE_DOWN] && !mario->get_finishedClimbingWall())
 		{
 			mario->setVelY(3);
 			mario->climbing_movement();
+		}
+		else if (mario->get_finishedClimbingWall() && (keyboard[SDL_SCANCODE_UP || SDL_SCANCODE_DOWN]))
+		{
+			std::cout<<"climbing_movement"<<std::endl;
+			mario->setVelY(0);
 		}
 		else
 		{

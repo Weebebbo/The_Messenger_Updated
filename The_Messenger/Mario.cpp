@@ -11,6 +11,7 @@
 #include "SpriteFactory.h"
 #include "Audio.h"
 #include "AnimatedSprite.h"
+#include "ClimbableWalls.h"
 #include "PlatformerGame.h"
 #include "PlatformerGameScene.h"
 #include "Sword.h"
@@ -42,6 +43,7 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	//Scalata
 	_climbingMovement = false;
 	_wantsToClimb = false;
+	_finishedClimbableWall = false;
 
 	//Discesa
 	_canDescend = false; 
@@ -337,3 +339,4 @@ void Mario::hurt()
 	if(!_invincible)
 		die();
 }
+

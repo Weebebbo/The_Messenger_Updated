@@ -84,7 +84,7 @@ Scene* LevelLoader::load(const std::string& name)
 		world->setBackgroundColor(Color(92, 148, 252));
 
 		// terrain
-		new StaticObject(world, RectF(0, -13, 162, 19),  spriteLoader->get("terrain"), -2);
+		new StaticObject(world, RectF(0, 0, 162, 19),  spriteLoader->get("terrain"), -2);
 	
 		// Enemies 
 		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(10, 1));

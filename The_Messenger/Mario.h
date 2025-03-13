@@ -48,6 +48,7 @@ class agp::Mario : public DynamicObject
 		bool _prevCrouch;
 		bool _wantsToClimb;
 		bool _climbingMovement;
+		bool _finishedClimbableWall;
 		
 		std::map<std::string, Sprite*> _sprites;
 
@@ -66,12 +67,14 @@ class agp::Mario : public DynamicObject
 		bool get_fall() { return _fall; }
 		bool get_canDescend() { return _canDescend; }
 		bool get_collisionWithLift() { return _collisionWithLift; }
+		bool get_finishedClimbingWall() { return _finishedClimbableWall; }
 		Vec2Df get_prevVel() { return _prevVel; }
 		// Setter
 		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }
 		void set_climbingMovement(bool climbingMovement) { _climbingMovement = climbingMovement; }
 		void set_canDescend(bool canDescend) { _canDescend = canDescend; }
 		void set_collisionWithLift(bool collisionWithLift) { _collisionWithLift = collisionWithLift; }
+		void set_finishedClimbingWall(bool finished) { _finishedClimbableWall = finished; }
 
 		// extends game logic (+mario logic)
 		virtual void update(float dt) override;
@@ -91,4 +94,5 @@ class agp::Mario : public DynamicObject
 
 		virtual std::string name() override { return strprintf("Mario[%d]", _id); }
 		virtual void defaultCollider() override { _collider = { 0.6f, -0.1f, 1.3f, 2.4f }; };
+		//virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
 };
