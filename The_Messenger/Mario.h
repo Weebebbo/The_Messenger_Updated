@@ -97,5 +97,4 @@ class agp::Mario : public DynamicObject
 
 		virtual std::string name() override { return strprintf("Mario[%d]", _id); }
 		virtual void defaultCollider() override { _collider = { 0.6f, -0.1f, 1.3f, 2.4f }; };
-		//virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
 };
