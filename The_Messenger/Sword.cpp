@@ -12,6 +12,7 @@
 #include "SpriteFactory.h"
 #include "Scene.h"
 #include "AnimatedSprite.h"
+#include "Candlestick.h"
 #include "Enemy.h"
 #include "Crystal.h"
 
@@ -49,6 +50,8 @@ bool Sword::collidableWith(CollidableObject* obj)
 	if (dynamic_cast<Enemy*>(obj))
 		return true;
 	else if (dynamic_cast<Crystal*>(obj))
+		return true;
+	else if (dynamic_cast<Candlestick*>(obj))
 		return true;
 }
 
