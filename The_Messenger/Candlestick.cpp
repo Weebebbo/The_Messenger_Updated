@@ -32,7 +32,7 @@ void Candlestick::update(float dt)
 	RenderableObject::update(dt);
 
     //Genero un numero randomico di gemme per ogni candelabro diverso, compreso tra 1 e 7
-    _howManyEmeralds = std::rand() % 8 + 1;
+    _howManyEmeralds = (std::rand() % 8) + 1;
 
 	if (_didMarioHitMe && !_wasIhitBefore)
 	{
@@ -41,19 +41,36 @@ void Candlestick::update(float dt)
             if (i > _howManyEmeralds / 2)
             {
                 PointF pos = this->pos();
-                pos.x -= (std::rand() % 10) / 16.0f;
-                pos.y -= (std::rand() % 10) / 16.0f;
-                scene()->newObject(new Emerald(scene(), RectF(pos.x, pos.y, 1.0f, 1.0f), 0));
+                pos.x -= std::rand() % 2;
+                pos.y -= std::rand() % 2;
+                //scene()->newObject(new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0));
+                Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
+                emerald->velAdd(Vec2Df(2, 2));
+                scene()->newObject(emerald);
             }
             else
             {
                 PointF pos = this->pos();
-                pos.x += (std::rand() % 10) / 9.0f;
-                pos.y += (std::rand() % 10) / 9.0f;
-                scene()->newObject(new Emerald(scene(), RectF(pos.x, pos.y, 1.0f, 1.0f), 0));
+                //pos.x += std::rand() % 2;
+                //pos.y += std::rand() % 2;
+                //scene()->newObject(new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0));
+				Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
+				emerald->velAdd(Vec2Df(2, 2));
+				scene()->newObject(emerald);
             }
 
         }
+
+        //for (int i = 0; i < _howManyEmeralds; i++)
+        //{
+        //    PointF pos = this->pos();
+        //    pos.x += (i > _howManyEmeralds / 2) ? -(std::rand() % 2) : (std::rand() % 2);
+        //    pos.y += (i > _howManyEmeralds / 2) ? -(std::rand() % 2) : (std::rand() % 2);
+
+        //    Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
+        //    emerald->velAdd(Vec2Df(std::rand() % 2, std::rand() % 2));
+        //    scene()->newObject(emerald);
+        //}
 
 		std::cout << "Candlestick hit by Mario: " << _howManyEmeralds << std::endl;
 		_didMarioHitMe = false;

@@ -33,10 +33,10 @@ bool Emerald::collision(CollidableObject* with, bool begin, Direction fromDir) {
 	return false; 
 }
 
-//bool Emerald::collidableWith(CollidableObject* obj)
-//{
-//	return dynamic_cast<StaticObject*>(obj);
-//}
+bool Emerald::collidableWith(CollidableObject* obj)
+{
+	return dynamic_cast<Mario*>(obj);
+}
 
 
 
