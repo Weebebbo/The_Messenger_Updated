@@ -27,7 +27,16 @@ class agp::Mario : public DynamicObject
 		bool _invincible;
 		bool _dying;
 		bool _dead;
-		int _healthBar; 
+		
+		bool _healthBar[5]; 
+		int _iterator;
+
+		bool _hitFromLeft; 
+		bool _hitFromRight; 
+		bool _hitFromBottom;
+		bool _canMarioTakeDamage;
+		bool _prova;
+		Uint32 invincibilityStart = 0;
 		
 		bool _standingAttack1;
 		bool _standingAttack2;
@@ -68,11 +77,17 @@ class agp::Mario : public DynamicObject
 		bool get_canDescend() { return _canDescend; }
 		bool get_collisionWithLift() { return _collisionWithLift; }
 		Vec2Df get_prevVel() { return _prevVel; }
+		bool get_hitFromLeft() { return _hitFromLeft; }
+		bool get_hitFromRight() { return _hitFromRight; }
+		bool get_hitFromBottom() { return _hitFromBottom; }
+		bool get_canMarioTakeDamage() { return _canMarioTakeDamage; }
+
 		// Setter
 		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }
 		void set_climbingMovement(bool climbingMovement) { _climbingMovement = climbingMovement; }
 		void set_canDescend(bool canDescend) { _canDescend = canDescend; }
 		void set_collisionWithLift(bool collisionWithLift) { _collisionWithLift = collisionWithLift; }
+		void set_canMarioTakeDamage(bool canMarioTakeDamage) { _canMarioTakeDamage = canMarioTakeDamage; }
 
 		// extends game logic (+mario logic)
 		virtual void update(float dt) override;

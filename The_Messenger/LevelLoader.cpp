@@ -87,11 +87,11 @@ Scene* LevelLoader::load(const std::string& name)
 		new StaticObject(world, RectF(0, -13, 162, 19),  spriteLoader->get("terrain"), -2);
 	
 		// Enemies 
-		RangedKappa* rKappa1 = new RangedKappa(world, PointF(10, 1));
+		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(9, 1));
 		//RangedKappa* rKappa2 = new RangedKappa(world, PointF(13, 1));
 		//Bat* bat1 = new Bat(world, PointF(10, 0));
-		//GreenKappa* gKappa1 = new GreenKappa(world, PointF(10, 1)); 
-		//Skelouton* skl1 = new Skelouton(world, PointF(10, 1)); 
+		GreenKappa* gKappa1 = new GreenKappa(world, PointF(11, 1)); 
+		//Skelouton* skl1 = new Skelouton(world, PointF(12, 1)); 
 
 		// static lifts
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 

@@ -35,8 +35,8 @@ void Fireball::update(float dt)
 	/*if (!_throwing)
 		setPos(_thrower->rect().pos + PointF(2 / 16.0f, 0));*/
 
-	if (sceneCollider().pos.y > 50) 
-		_scene->killObject(this);
+	/*if (sceneCollider().pos.y > 50) 
+		_scene->killObject(this);*/
 }
 
 bool Fireball::collidableWith(CollidableObject* obj)
@@ -60,5 +60,4 @@ bool Fireball::collision(CollidableObject* with, bool begin, Direction fromDir) 
 void Fireball::smash() {
 	_sprite = SpriteFactory::instance()->get("smash");
 	_scene->killObject(this);
-	
 }
