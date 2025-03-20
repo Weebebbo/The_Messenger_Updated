@@ -34,7 +34,9 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 	Mario* mario = dynamic_cast<Mario*>(_player);
 	const Uint8* keyboard = SDL_GetKeyboardState(0);
 
-	if (keyboard[SDL_SCANCODE_RIGHT] && !keyboard[SDL_SCANCODE_LEFT])
+	if (mario->get_hitFromLeft() || mario->get_hitFromRight() || mario->get_hitFromBottom())
+		mario->move(Direction::NONE);
+	else if (keyboard[SDL_SCANCODE_RIGHT] && !keyboard[SDL_SCANCODE_LEFT])
 		mario->move(Direction::RIGHT);
 	else if (keyboard[SDL_SCANCODE_LEFT] && !keyboard[SDL_SCANCODE_RIGHT])
 		mario->move(Direction::LEFT);
@@ -42,14 +44,12 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		mario->move(Direction::NONE);
 	else
 		mario->move(Direction::NONE);
-	
-	//if (keyboard[SDL_SCANCODE_SPACE] && keyboard[SDL_SCANCODE_DOWN] && mario->get_collisionWithLift())
-	//	mario->jump(false);
-	//else 
-	//	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
-	//mario->descend(keyboard[SDL_SCANCODE_SPACE] && keyboard[SDL_SCANCODE_DOWN]);
 
-	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
+	if ((mario->get_hitFromLeft() || mario->get_hitFromRight() || mario->get_hitFromBottom()) && keyboard[SDL_SCANCODE_SPACE])
+		mario->jump(false);
+	else
+		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
+
 	mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
 	if (mario->get_crouch() && keyboard[SDL_SCANCODE_Z])
 	{

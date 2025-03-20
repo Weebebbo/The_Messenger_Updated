@@ -23,7 +23,7 @@ bool Enemy::collision(CollidableObject* with, bool begin, Direction fromDir)
 			smash();
 		else
 			mario->hurt();
-
+			
 		return true;
 	}
 

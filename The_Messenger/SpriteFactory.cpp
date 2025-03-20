@@ -94,6 +94,8 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][0][0]);
 	else if (id == "ninja_stationaryClimb")
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][12][3]);
+	else if (id == "ninja_take_damage")
+		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][9][2]);
 
 	// animated sprites
 	else if (id == "mario_walk")

@@ -16,8 +16,12 @@
 #include "Sword.h"
 #include "Scene.h"
 #include "StaticLift.h"
+#include "Enemy.h"
+#include "Fireball.h"
 
 using namespace agp;
+
+const Uint32 INVINCIBILITY_DURATION = 3000;
 
 //RectF(pos.x + 1 / 16.0f, pos.y - 2, 2, 2.69)
 Mario::Mario(Scene* scene, const PointF& pos)
@@ -30,7 +34,13 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_dying = false;
 	_dead = false;
 	_invincible = false;
-	_healthBar = 4;
+	//_compenetrable = false;
+	
+	_hitFromLeft = false; 
+	_hitFromRight = false;
+	_hitFromBottom = false;
+	_canMarioTakeDamage = true;
+	_prova = true;
 
 	// Attacco
 	_crouchAttack = false;
@@ -83,8 +93,16 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_sprites["standing_attack2"] = SpriteFactory::instance()->get("standing_attack2");
 	_sprites["crouch_attack"] = SpriteFactory::instance()->get("crouch_attack");
 
+	//Animazione danno
+	_sprites["damage"] = SpriteFactory::instance()->get("ninja_take_damage");
+
 	// Sprite predefinita
 	_sprite = _sprites["stand"];
+
+	_iterator = 4;
+	for (int i = 0; i < 5; i++) {
+		_healthBar[i] = true;
+	}
 }
 
 void Mario::update(float dt)
@@ -92,11 +110,18 @@ void Mario::update(float dt)
 	// physics
 	DynamicObject::update(dt);
 
+	/*std::cout << "hittato da sinistra:" << _hitFromLeft << std::endl;
+	std::cout << "hittato da destra:" << _hitFromRight << std::endl;
+	std::cout << "hittato da sotto:" << _hitFromBottom << std::endl;*/
+
+	//std::cout << "_canMarioTakeDamage: " << _canMarioTakeDamage << std::endl;
+	//std::cout << "_compenetrable: " << _compenetrable << std::endl;
+
 	// state logic
 	if ((_rise && grounded()) || (_fall && grounded())) {
 		_rise = false;
 		_fall = false;
-	}
+	}  
 	if (_vel.x != 0 && !_rise)
 		_xLastNonZeroVel = _vel.x;
 	_walking = _vel.x != 0;
@@ -111,6 +136,8 @@ void Mario::update(float dt)
 	// animations
 	if (_dying)
 		_sprite = _sprites["die"];
+	if (_hitFromLeft || _hitFromRight || _hitFromBottom)
+		_sprite = _sprites["damage"]; 
 	else if (_standingAttack1) {
 		if (_standingAttack2)
 			_sprite = _sprites["standing_attack1"];
@@ -141,17 +168,38 @@ void Mario::update(float dt)
 		_sprite = _sprites["stand"];
 
 	// x-mirroring
-	if (_vel.x < 0 || (_vel.x == 0 && _xLastNonZeroVel < 0))
-	{
-		_flip = SDL_FLIP_HORIZONTAL;
-		if(!_crouch)
-			_collider = { 0.35f, -0.1f, 1.3f, 2.4f };
+	if (!_hitFromLeft && !_hitFromRight && !_hitFromBottom) {
+		if (_vel.x < 0 || (_vel.x == 0 && _xLastNonZeroVel < 0))
+		{
+			_flip = SDL_FLIP_HORIZONTAL;
+			if (!_crouch)
+				_collider = { 0.35f, -0.1f, 1.3f, 2.4f };
+		}
+		else
+		{
+			_flip = SDL_FLIP_NONE;
+			if (!_crouch)
+				defaultCollider();
+		}
 	}
-	else
-	{
-		_flip = SDL_FLIP_NONE;
-		if (!_crouch)
-			defaultCollider();
+	else {
+		if (_hitFromLeft) {
+			_flip = SDL_FLIP_HORIZONTAL;
+		}
+		else if (_hitFromRight) {
+			_flip = SDL_FLIP_NONE;
+		}
+		else if (_hitFromBottom && vel().x < 0) {
+			_flip = SDL_FLIP_NONE;
+		}
+		else if (_hitFromBottom && vel().x > 0) {
+			_flip = SDL_FLIP_HORIZONTAL;
+		}
+	}
+
+	if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart > INVINCIBILITY_DURATION)) {
+		_canMarioTakeDamage = true;  // mario può tornare a prenderlo in culo 
+		std::cout << "danno riattivato" << std::endl;
 	}
 }
 
@@ -306,7 +354,7 @@ void Mario::die()
 	_dying = true;
 	_collidable = false;
 	_yGravityForce = 0;
-	_vel = { 0,0 };
+	_vel = { 0,0 };   
 	_xDir = Direction::NONE;
 	Audio::instance()->haltMusic();
 	Audio::instance()->playSound("death");
@@ -326,11 +374,56 @@ void Mario::die()
 
 void Mario::hurt()
 {
-	if (!_invincible)
-		_healthBar--; //quando arriva a 0 il ninja schiatta
-	
-	std::cout << _healthBar << std::endl;
+	if (!_invincible && _canMarioTakeDamage) {
+		
+		_healthBar[_iterator] = false; //le vite del bro sono gestite tramite un vettore di booleani
+		_iterator--; 
+		
+		std::cout << "Counter: " << _iterator << std::endl;
+		for (int i = 0; i < 5; i++)
+			std::cout << _healthBar[i] << " ";
 
-	if (_healthBar == 0)
-		die();
+		_canMarioTakeDamage = false;
+		invincibilityStart = SDL_GetTicks();
+
+		std::cout << "danno disattivato" << std::endl;
+
+		if (_facingDir == Direction::RIGHT) {
+			_hitFromRight = true;
+
+			if (midair()) {
+				velAdd(Vec2Df(0, -3000));
+			}
+
+			_xFrictionForce = 10;
+			velAdd(Vec2Df(-3000, 0));
+			schedule("right_off", 0.5f, [this] {
+				_hitFromRight = false;
+				_xFrictionForce = 50;
+				}, 0);
+		}
+		else if (_facingDir == Direction::LEFT) {
+			_hitFromLeft = true;
+
+			if (midair()) {
+				velAdd(Vec2Df(0, -3000));
+			}
+
+			_xFrictionForce = 10;
+			velAdd(Vec2Df(3000, 0));
+			schedule("left_off", 0.5f, [this] {
+				_hitFromLeft = false;
+				_xFrictionForce = 50;
+				}, 0);
+		}
+
+		if (_iterator < 0)
+			die();
+
+	}
+	else if (!_canMarioTakeDamage) {
+		std::cout << "il danno non e' attivo!" << std::endl;
+	}
 }
+
+

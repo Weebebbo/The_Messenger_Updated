@@ -5,9 +5,12 @@
 #include "Mario.h"
 #include "GreenKappa.h"
 #include "StaticObject.h"
+#include "Sword.h"
 #include <random>
 
 using namespace agp;
+
+const Uint32 INVINCIBILITY_DURATION_GREEN_KAPPA = 1000;
 
 GreenKappa::GreenKappa(Scene* scene, const PointF& pos)
 	: Enemy(scene, RectF(pos.x + 1 / 16.0f, pos.y - 2, 1.8f, 2.5f), SpriteFactory::instance()->get("green_kappa_walk"))
@@ -20,17 +23,23 @@ GreenKappa::GreenKappa(Scene* scene, const PointF& pos)
 
 	// default physics
 	_yGravityForce = 25;
-	_xMoveForce = 1000;
-	_xFrictionForce = 0;
+	_xMoveForce = 1;
+	_xFrictionForce = 10;
 	_xSkiddingForce = 1000;
 	_xVelMax = 1;
 	_xDir = Direction::LEFT;
 	_halfRangeX = 0.7f;
 	_changeDirection = false; //false = sinistra, true = destra
+
+	_healthBar = 2; //vita dello stronzo
+	_didSwordHitMe = false;
+	_prevDidSwordHitMe = false;
+	_hitFromRight = false; 
 }
 
 void GreenKappa::update(float dt)
 {
+	
 	Enemy::update(dt);
 
 	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
@@ -45,39 +54,78 @@ void GreenKappa::update(float dt)
 		_flip = SDL_FLIP_HORIZONTAL;
 	else
 		_flip = SDL_FLIP_NONE;
+
+	if (!_didSwordHitMe && (SDL_GetTicks() - invincibilityStartGreenKappa > INVINCIBILITY_DURATION_GREEN_KAPPA)) {
+		_didSwordHitMe = true;  // mario può tornare a prenderlo in culo 
+		std::cout << "danno riattivato" << std::endl;
+	}
+
 }
 
 bool GreenKappa::collision(CollidableObject* with, bool begin, Direction fromDir)
 {
 	CollidableObject* _with = dynamic_cast<CollidableObject*>(with);
 	Mario* mario = dynamic_cast<Mario*>(with);
+	Sword* sword = dynamic_cast<Sword*>(with); 
 
-	if (_with == mario) {
+	if (mario)
+	{
+		if (_smashable && mario->invincible())
+			smash();
+		else
+			mario->hurt();
 
-		if (mario)
+		return true;
+	}
+
+	if (!sword) {
+		if (_with && fromDir == Direction::LEFT)
 		{
-			if (_smashable && mario->invincible())
-				smash();
-			else
-				mario->hurt();
-
+			std::cout << "rilevata collisione a sinistra" << std::endl;
+			_changeDirection = true;
 			return true;
 		}
-
-		return false;
+		else if (_with && fromDir == Direction::RIGHT) {
+			std::cout << "rilevata collisione a destra" << std::endl;
+			_changeDirection = false;
+			return true;
+		}
 	}
 
-	if (_with && fromDir == Direction::LEFT)
-	{
-		std::cout << "rilevata collisione a sinistra" << std::endl;
-		_changeDirection = true;
-		return true;
+	if (sword) {
+		
+		if (fromDir == Direction::RIGHT) {
+			std::cout << "destra" << std::endl;
+			_xVelMax = 3000;
+			velAdd(Vec2Df(-10, 0)); 
+			schedule("prova", 0.1f, [this] {
+				_xVelMax = 1;
+				}); 
+		}
+		else if (fromDir == Direction::LEFT) {
+			std::cout << "sinistra" << std::endl;
+			_xVelMax = 3000;
+			velAdd(Vec2Df(50, 0));
+			schedule("prova", 0.1f, [this] {
+				_xVelMax = 1;
+				});
+		}
+		return true; 
 	}
-	else if (_with && fromDir == Direction::RIGHT) {
-		std::cout << "rilevata collisione a destra" << std::endl;
-		_changeDirection = false;
-		return true;
-	}
-
+		
 	return false;
+}
+
+void GreenKappa::smash() {
+
+	std::cout << "vita del GreenKappa: " << _healthBar << std::endl;
+
+	if (_didSwordHitMe) {
+		_healthBar--;
+		_didSwordHitMe = false;
+		invincibilityStartGreenKappa = SDL_GetTicks(); 
+	}
+
+	if (_healthBar < 0)
+		_scene->killObject(this); 
 }
