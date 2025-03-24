@@ -10,7 +10,7 @@
 
 using namespace agp;
 
-const Uint32 INVINCIBILITY_DURATION_GREEN_KAPPA = 1000;
+const Uint32 INVINCIBILITY_DURATION_GREEN_KAPPA = 300;
 
 GreenKappa::GreenKappa(Scene* scene, const PointF& pos)
 	: Enemy(scene, RectF(pos.x + 1 / 16.0f, pos.y - 2, 1.8f, 2.5f), SpriteFactory::instance()->get("green_kappa_walk"))
@@ -32,8 +32,9 @@ GreenKappa::GreenKappa(Scene* scene, const PointF& pos)
 	_changeDirection = false; //false = sinistra, true = destra
 
 	_healthBar = 2; //vita dello stronzo
-	_didSwordHitMe = false;
+	_canSwordHitMe = false;
 	_prevDidSwordHitMe = false;
+	_hitFromLeft = false;
 	_hitFromRight = false; 
 }
 
@@ -55,8 +56,15 @@ void GreenKappa::update(float dt)
 	else
 		_flip = SDL_FLIP_NONE;
 
-	if (!_didSwordHitMe && (SDL_GetTicks() - invincibilityStartGreenKappa > INVINCIBILITY_DURATION_GREEN_KAPPA)) {
-		_didSwordHitMe = true;  // mario può tornare a prenderlo in culo 
+	if (_hitFromLeft)
+		_flip = SDL_FLIP_NONE;
+	else if (_hitFromRight)
+		_flip = SDL_FLIP_HORIZONTAL; 
+
+	if (!_canSwordHitMe && (SDL_GetTicks() - invincibilityStartGreenKappa > INVINCIBILITY_DURATION_GREEN_KAPPA)) {
+		_canSwordHitMe = true;  // mario può tornare a prenderlo in culo 
+		_hitFromLeft = false; 
+		_hitFromRight = false;
 		std::cout << "danno riattivato" << std::endl;
 	}
 
@@ -92,22 +100,28 @@ bool GreenKappa::collision(CollidableObject* with, bool begin, Direction fromDir
 		}
 	}
 
-	if (sword) {
+	if (sword && !_canSwordHitMe) {
 		
 		if (fromDir == Direction::RIGHT) {
-			std::cout << "destra" << std::endl;
+			//std::cout << "destra" << std::endl;
+			_hitFromRight = true;
+			_xSkiddingForce = 10;
 			_xVelMax = 3000;
-			velAdd(Vec2Df(-10, 0)); 
+			velAdd(Vec2Df(-1, -0.5f)); 
 			schedule("prova", 0.1f, [this] {
 				_xVelMax = 1;
+				_xSkiddingForce = 1000;
 				}); 
 		}
 		else if (fromDir == Direction::LEFT) {
-			std::cout << "sinistra" << std::endl;
+			//std::cout << "sinistra" << std::endl;
+			_hitFromLeft = true;
+			_xSkiddingForce = 10;
 			_xVelMax = 3000;
-			velAdd(Vec2Df(50, 0));
+			velAdd(Vec2Df(1, -0.5f));
 			schedule("prova", 0.1f, [this] {
 				_xVelMax = 1;
+				_xSkiddingForce = 1000;
 				});
 		}
 		return true; 
@@ -118,11 +132,11 @@ bool GreenKappa::collision(CollidableObject* with, bool begin, Direction fromDir
 
 void GreenKappa::smash() {
 
-	std::cout << "vita del GreenKappa: " << _healthBar << std::endl;
+	//std::cout << "vita del GreenKappa: " << _healthBar << std::endl;
 
-	if (_didSwordHitMe) {
+	if (_canSwordHitMe) {
 		_healthBar--;
-		_didSwordHitMe = false;
+		_canSwordHitMe = false;
 		invincibilityStartGreenKappa = SDL_GetTicks(); 
 	}
 

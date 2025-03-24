@@ -22,8 +22,9 @@ class agp::GreenKappa : public Enemy
 {
 private: 
 	int _healthBar;
-	bool _didSwordHitMe;
+	bool _canSwordHitMe;
 	bool _prevDidSwordHitMe;
+	bool _hitFromLeft;
 	bool _hitFromRight; 
 	Uint32 invincibilityStartGreenKappa = 0;
 
