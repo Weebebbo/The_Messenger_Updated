@@ -35,8 +35,9 @@ class agp::Mario : public DynamicObject
 		bool _hitFromRight; 
 		bool _hitFromBottom;
 		bool _canMarioTakeDamage;
-		bool _prova;
 		Uint32 invincibilityStart = 0;
+		bool _damageSkid;
+		int _counter;
 		
 		bool _standingAttack1;
 		bool _standingAttack2;
@@ -81,6 +82,7 @@ class agp::Mario : public DynamicObject
 		bool get_hitFromRight() { return _hitFromRight; }
 		bool get_hitFromBottom() { return _hitFromBottom; }
 		bool get_canMarioTakeDamage() { return _canMarioTakeDamage; }
+		bool get_damageSkid() { return _damageSkid; }
 
 		// Setter
 		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }

@@ -36,6 +36,7 @@ GreenKappa::GreenKappa(Scene* scene, const PointF& pos)
 	_prevDidSwordHitMe = false;
 	_hitFromLeft = false;
 	_hitFromRight = false; 
+	_canMarioTakeDamage = false;
 }
 
 void GreenKappa::update(float dt)
@@ -44,6 +45,7 @@ void GreenKappa::update(float dt)
 	Enemy::update(dt);
 
 	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
+	_canMarioTakeDamage = mario->get_canMarioTakeDamage(); 
 
 	if (_changeDirection)
 		move(Direction::RIGHT);
