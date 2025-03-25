@@ -22,6 +22,7 @@
 using namespace agp;
 
 const Uint32 INVINCIBILITY_DURATION = 3000;
+const Uint32 DAMAGE_SKID_DURATION = 500;
 
 //RectF(pos.x + 1 / 16.0f, pos.y - 2, 2, 2.69)
 Mario::Mario(Scene* scene, const PointF& pos)
@@ -40,7 +41,8 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_hitFromRight = false;
 	_hitFromBottom = false;
 	_canMarioTakeDamage = true;
-	_prova = true;
+	_damageSkid = false;
+	_counter = 0;
 
 	// Attacco
 	_crouchAttack = false;
@@ -205,7 +207,20 @@ void Mario::update(float dt)
 	if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart > INVINCIBILITY_DURATION)) {
 		_canMarioTakeDamage = true;  // mario può tornare a prenderlo in culo 
 		std::cout << "danno riattivato" << std::endl;
+	} 
+	else if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart < INVINCIBILITY_DURATION))
+	{
+		if (SDL_GetTicks() - invincibilityStart > DAMAGE_SKID_DURATION)
+			_sprite = nullptr; 
+
+		std::cout << SDL_GetTicks() - invincibilityStart << std::endl;
 	}
+
+	if (_damageSkid && (SDL_GetTicks() - invincibilityStart > DAMAGE_SKID_DURATION)) {
+		_damageSkid = false;  // serve per non far attaccare mario mentre scivola
+	}
+
+	std::cout << SDL_GetTicks() << std::endl;
 }
 
 void Mario::move(Direction dir)
@@ -384,8 +399,9 @@ void Mario::hurt()
 			std::cout << _healthBar[i] << " ";
 
 		_canMarioTakeDamage = false;
+		_damageSkid = true;
 		invincibilityStart = SDL_GetTicks();
-
+		
 		std::cout << "danno disattivato" << std::endl;
 
 		if (_facingDir == Direction::RIGHT) {
