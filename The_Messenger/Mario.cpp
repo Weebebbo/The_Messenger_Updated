@@ -210,17 +210,18 @@ void Mario::update(float dt)
 	} 
 	else if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart < INVINCIBILITY_DURATION))
 	{
-		if (SDL_GetTicks() - invincibilityStart > DAMAGE_SKID_DURATION)
-			_sprite = nullptr; 
+		//implementazione del blinking (quando lo prende in culo mario lampeggia)
+		_counter++;
 
-		std::cout << SDL_GetTicks() - invincibilityStart << std::endl;
+		if (_counter == 40)
+			_counter = 0;
+		else if (_counter > 20)
+			_sprite = nullptr;
 	}
 
 	if (_damageSkid && (SDL_GetTicks() - invincibilityStart > DAMAGE_SKID_DURATION)) {
 		_damageSkid = false;  // serve per non far attaccare mario mentre scivola
 	}
-
-	std::cout << SDL_GetTicks() << std::endl;
 }
 
 void Mario::move(Direction dir)
