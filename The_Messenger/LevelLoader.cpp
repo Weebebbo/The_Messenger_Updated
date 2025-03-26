@@ -25,6 +25,8 @@
 #include "Emerald.h"
 #include "Crystal.h"
 #include "View.h"
+#include "NinjaLift.h"
+
 #include "json.hpp"
 #include "mathUtils.h"
 #include <iostream>
@@ -90,8 +92,10 @@ Scene* LevelLoader::load(const std::string& name)
 		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(9, 1));
 		//RangedKappa* rKappa2 = new RangedKappa(world, PointF(13, 1));
 		//Bat* bat1 = new Bat(world, PointF(10, 0));
-		GreenKappa* gKappa1 = new GreenKappa(world, PointF(11, 1)); 
+		//GreenKappa* gKappa1 = new GreenKappa(world, PointF(11, 1)); 
 		//Skelouton* skl1 = new Skelouton(world, PointF(12, 1)); 
+
+		NinjaLift* nLift1 = new NinjaLift(world, RectF(5, 2, 3, 3), spriteLoader->get("platform"), false, 3, 0); 
 
 		// static lifts
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 

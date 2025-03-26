@@ -140,8 +140,20 @@ void GreenKappa::smash() {
 		_healthBar--;
 		_canSwordHitMe = false;
 		invincibilityStartGreenKappa = SDL_GetTicks(); 
+		
+		_sprite = SpriteFactory::instance()->get("hit");
+		schedule("kill_object", 0.3f, [this] {
+			_sprite = SpriteFactory::instance()->get("green_kappa_walk");
+			});
+
+		//StaticObject* pippo = new StaticObject(_scene, rect(), nullptr);
+		//pippo->setSprite(SpriteFactory::instance()->get("hit"));
+		//schedule("kill_object", 0.3f, [pippo] {
+		//	pippo->kill(); 
+		//	});
 	}
 
-	if (_healthBar < 0)
-		_scene->killObject(this); 
+	if (_healthBar < 0) {
+		_scene->killObject(this);
+	}
 }
