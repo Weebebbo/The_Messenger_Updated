@@ -19,15 +19,36 @@ void Emerald::update(float dt)
 	CollidableObject::update(dt);
 }
 
+void Emerald::randomMove()
+{
+	int seed = std::rand() % 10;
+	if (seed > 5)
+	{
+		setVelX(20 - (std::rand() % 20));
+		setVelY(4 - (std::rand() % 4));
+	}
+	else
+	{
+		setVelX((std::rand() % 20) - 20);
+		setVelY((std::rand() % 4) - 4);
+	}
+
+	schedule("emerald stop", 0.4, [this]()
+		{
+			setVelX(0);
+			setVelY(0);
+		});
+}
+
 bool Emerald::collision(CollidableObject* with, bool begin, Direction fromDir) { 
 
 	if (dynamic_cast<Mario*>(with)) {
 		std::cout << "ninja prende la moneta" << std::endl;
 		this->kill();
-		return true; 
+		return true;
 	}
 	else
-		return false; 
+		return false;
 }
 
 bool Emerald::collidableWith(CollidableObject* obj)

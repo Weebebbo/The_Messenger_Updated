@@ -27,7 +27,7 @@ public:
     virtual std::string name() override {
         return strprintf("StaticObject[%d]", _id);
     }
-    
+
 	virtual bool collidableWith(CollidableObject* obj) override;
     virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
 };
