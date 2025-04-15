@@ -41,36 +41,24 @@ void Candlestick::update(float dt)
             if (i > _howManyEmeralds / 2)
             {
                 PointF pos = this->pos();
-                pos.x -= std::rand() % 2;
-                pos.y -= std::rand() % 2;
-                //scene()->newObject(new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0));
                 Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
-                emerald->velAdd(Vec2Df(2, 2));
                 scene()->newObject(emerald);
+				//int x = std::rand() % 20;
+				//int y = std::rand() % 6;
+                  //emerald->setVelX(x);
+                  //emerald->setVelY(y);
             }
             else
             {
                 PointF pos = this->pos();
-                //pos.x += std::rand() % 2;
-                //pos.y += std::rand() % 2;
-                //scene()->newObject(new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0));
-				Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
-				emerald->velAdd(Vec2Df(2, 2));
-				scene()->newObject(emerald);
+                Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
+                scene()->newObject(emerald);
+                //int x = -(std::rand() % 20);
+                //int y = -(std::rand() % 6);
+                //emerald->setVelX(x);
+                //emerald->setVelY(y);
             }
-
         }
-
-        //for (int i = 0; i < _howManyEmeralds; i++)
-        //{
-        //    PointF pos = this->pos();
-        //    pos.x += (i > _howManyEmeralds / 2) ? -(std::rand() % 2) : (std::rand() % 2);
-        //    pos.y += (i > _howManyEmeralds / 2) ? -(std::rand() % 2) : (std::rand() % 2);
-
-        //    Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
-        //    emerald->velAdd(Vec2Df(std::rand() % 2, std::rand() % 2));
-        //    scene()->newObject(emerald);
-        //}
 
 		std::cout << "Candlestick hit by Mario: " << _howManyEmeralds << std::endl;
 		_didMarioHitMe = false;

@@ -16,26 +16,24 @@ Emerald::Emerald(Scene* scene, const RectF& rect, int layer) :
 
 void Emerald::update(float dt)
 {
-	
 	CollidableObject::update(dt);
-
 }
 
-bool Emerald::collision(CollidableObject* with, bool begin, Direction fromDir) {
+bool Emerald::collision(CollidableObject* with, bool begin, Direction fromDir) { 
 
-	Mario* mario = dynamic_cast<Mario*>(with); 
-
-	if (mario) {
+	if (dynamic_cast<Mario*>(with)) {
 		std::cout << "ninja prende la moneta" << std::endl;
 		this->kill();
 		return true; 
 	}
-	return false; 
+	else
+		return false; 
 }
 
 bool Emerald::collidableWith(CollidableObject* obj)
 {
-	return dynamic_cast<Mario*>(obj);
+	if (dynamic_cast<Mario*>(obj))
+		return true;
 }
 
 
