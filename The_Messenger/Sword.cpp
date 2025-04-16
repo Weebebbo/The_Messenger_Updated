@@ -15,6 +15,7 @@
 #include "Candlestick.h"
 #include "Enemy.h"
 #include "Crystal.h"
+#include "PlatformerGameScene.h"
 
 using namespace agp;
 
@@ -58,9 +59,13 @@ bool Sword::collidableWith(CollidableObject* obj)
 bool Sword::collision(CollidableObject* with, bool begin, Direction fromDir)
 {
 	Enemy* enemy = dynamic_cast<Enemy*>(with);
+	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
 	
 	if (enemy)
 		enemy->smash();
+	
+	if (!mario->get_canMarioJumpAgain() && (enemy || dynamic_cast<Candlestick*>(with) || dynamic_cast<Crystal*>(with)))
+		mario->set_canMarioJumpAgain(true);
 
 	return true;
 }

@@ -43,8 +43,12 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		mario->move(Direction::NONE);
 	else
 		mario->move(Direction::NONE);
-
+	
+	// Salto
 	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
+	if (mario->get_canMarioJumpAgain())
+		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
+
 	mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
 	if (mario->get_crouch() && keyboard[SDL_SCANCODE_Z])
 	{

@@ -55,7 +55,8 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_rise = false;
 	_ball = false; 
 	_fall = false; 
-	
+	_canMarioJumpAgain = false,
+
 	_crouch = false; 
 	_prevCrouch = false;
 
@@ -178,8 +179,10 @@ void Mario::jump(bool on)
 	{
 		climb_stationary();
 	}
+
 	if (on && !midair() && !_wantsToClimb)
 	{
+		// Condizione per il doppio salto
 		velAdd(Vec2Df(0, -_yJumpImpulse));
 
 		if (std::abs(_vel.x) < 9)
@@ -209,6 +212,9 @@ void Mario::jump(bool on)
 	else if (!on && midair() && !_dying && !_wantsToClimb)
 	{
 		_yGravityForce = 90;
+
+		// Disattivazione stato per il doppio salto dopo collisione
+		_canMarioJumpAgain = false;
 
 		if (vel().y > 0) {
 			_ball = false;
