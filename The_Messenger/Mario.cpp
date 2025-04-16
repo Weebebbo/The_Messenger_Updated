@@ -176,12 +176,11 @@ void Mario::jump(bool on)
 		return;
 
 	if (_wantsToClimb)
-	{
 		climb_stationary();
-	}
 
 	if (on && !midair() && !_wantsToClimb)
 	{
+		prova:
 		// Condizione per il doppio salto
 		velAdd(Vec2Df(0, -_yJumpImpulse));
 
@@ -192,6 +191,7 @@ void Mario::jump(bool on)
 
 		_rise = true;
 		_wantsToClimb = false;
+		_canMarioJumpAgain = false;
 
 		schedule("jump_to_ball", 0.2f, [this]()
 			{
@@ -204,7 +204,6 @@ void Mario::jump(bool on)
 						_ball = false;
 					});
 				_fall = true;
-
 			});
 
 		Audio::instance()->playSound("jump-small");
@@ -213,14 +212,14 @@ void Mario::jump(bool on)
 	{
 		_yGravityForce = 90;
 
-		// Disattivazione stato per il doppio salto dopo collisione
-		_canMarioJumpAgain = false;
-
 		if (vel().y > 0) {
 			_ball = false;
 			_fall = true;
 		}
 	}
+
+	if (_canMarioJumpAgain && midair() && on)
+		goto prova;
 }
 
 void Mario::climb_stationary()

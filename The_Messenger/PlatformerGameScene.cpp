@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------
+ // ----------------------------------------------------------------
 // From "Algorithms and Game Programming" in C++ by Alessandro Bria
 // Copyright (C) 2024 Alessandro Bria (a.bria@unicas.it). 
 // All rights reserved.
@@ -45,9 +45,12 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		mario->move(Direction::NONE);
 	
 	// Salto
-	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
-	if (mario->get_canMarioJumpAgain())
+	if (mario->get_canMarioJumpAgain() && keyboard[SDL_SCANCODE_SPACE])
+	{
 		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
+		mario->set_canMarioJumpAgain(false);
+	}
+	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 
 	mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
 	if (mario->get_crouch() && keyboard[SDL_SCANCODE_Z])
