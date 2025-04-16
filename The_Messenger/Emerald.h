@@ -23,7 +23,11 @@ public:
 		return strprintf("Emerald[%d]", _id);
 	}
 
+	// Mi serve per quando li spawno dopo aver colpito il candelabro
+	// La funzione gli da delle velocità randomiche e poi li stoppa dopo qualche secondo
+	void randomMove();
+
 	//methods for collision 
 	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
-	//virtual bool collidableWith(CollidableObject* obj) override;
+	virtual bool collidableWith(CollidableObject* obj) override;
 };

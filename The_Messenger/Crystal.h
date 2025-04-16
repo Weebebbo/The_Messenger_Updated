@@ -25,5 +25,4 @@ public:
 
 	//methods for collision 
 	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
-
 };

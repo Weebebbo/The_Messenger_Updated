@@ -59,6 +59,10 @@ class agp::Mario : public DynamicObject
 		bool _prevCrouch;
 		bool _wantsToClimb;
 		bool _climbingMovement;
+		bool _finishedClimbableWallUpperLimit;
+		bool _finishedClimbableWallLowerLimit;
+		bool _canMarioJumpAgain;
+		bool _iWantToJumpAgain;
 		
 		std::map<std::string, Sprite*> _sprites;
 
@@ -77,6 +81,10 @@ class agp::Mario : public DynamicObject
 		bool get_fall() { return _fall; }
 		bool get_canDescend() { return _canDescend; }
 		bool get_collisionWithLift() { return _collisionWithLift; }
+		bool get_finishedClimbingWallUpperLimit() { return _finishedClimbableWallUpperLimit; }
+		bool get_finishedClimbingWallLowerLimit() { return _finishedClimbableWallLowerLimit; }
+		bool get_canMarioJumpAgain() { return _canMarioJumpAgain; }
+		bool get_iWantToJumpAgain() { return _iWantToJumpAgain; }
 		Vec2Df get_prevVel() { return _prevVel; }
 		bool get_hitFromLeft() { return _hitFromLeft; }
 		bool get_hitFromRight() { return _hitFromRight; }
@@ -89,6 +97,10 @@ class agp::Mario : public DynamicObject
 		void set_climbingMovement(bool climbingMovement) { _climbingMovement = climbingMovement; }
 		void set_canDescend(bool canDescend) { _canDescend = canDescend; }
 		void set_collisionWithLift(bool collisionWithLift) { _collisionWithLift = collisionWithLift; }
+		void set_finishedClimbingWallUpperLimit(bool finished) { _finishedClimbableWallUpperLimit = finished; }
+		void set_finishedClimbingWallLowerLimit(bool finished) { _finishedClimbableWallLowerLimit = finished; }
+		void set_canMarioJumpAgain(bool canJump) { _canMarioJumpAgain = canJump; }
+		void set_iWantToJumpAgain(bool iWantToJump) { _iWantToJumpAgain = iWantToJump; }
 		void set_canMarioTakeDamage(bool canMarioTakeDamage) { _canMarioTakeDamage = canMarioTakeDamage; }
 
 		// extends game logic (+mario logic)
@@ -99,6 +111,7 @@ class agp::Mario : public DynamicObject
 		virtual void jump(bool on = true);
 		void crouch(bool on = true);
 		void climb_stationary();
+		void climbing_movement();
 		void descend() { _canDescend = true; }
 
 		// scripted actions

@@ -19,14 +19,20 @@ class agp::ClimbableWalls : public CollidableObject
 {
 protected:
 
+	bool _didMarioHitMe;
+	//bool _isTheColliderFinished;
 
 public:
 
 	ClimbableWalls(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
 	virtual ~ClimbableWalls() {}
 
+	//Getters
+	//bool get_didMarioHitMe() { return _didMarioHitMe; }
+	//bool get_isTheColliderFinished() { return _isTheColliderFinished; }
+
 	// extends game logic (-physics, -collisions)
-	virtual void update(float dt) override { RenderableObject::update(dt); }
+	virtual void update(float dt) override; //{RenderableObject::update(dt);}
 
 	virtual std::string name() override {
 		return strprintf("StaticObject[%d]", _id);

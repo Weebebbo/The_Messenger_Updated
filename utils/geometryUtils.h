@@ -16,6 +16,7 @@
 #include <array>
 #include <limits>
 #include <vector>
+#include <cmath>
 #include "SDL.h"
 
 #ifdef BOX2D_UTILS

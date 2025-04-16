@@ -29,6 +29,7 @@
 
 #include "json.hpp"
 #include "mathUtils.h"
+#include "Candlestick.h"
 #include <iostream>
 #include <fstream>
 
@@ -86,9 +87,10 @@ Scene* LevelLoader::load(const std::string& name)
 		world->setBackgroundColor(Color(92, 148, 252));
 
 		// terrain
-		new StaticObject(world, RectF(0, -13, 162, 19),  spriteLoader->get("terrain"), -2);
+		new StaticObject(world, RectF(0, 0, 162, 19),  spriteLoader->get("terrain"), -2);
 	
 		// Enemies 
+		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(10, 1));
 		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(9, 1));
 		//RangedKappa* rKappa2 = new RangedKappa(world, PointF(13, 1));
 		//Bat* bat1 = new Bat(world, PointF(10, 0));
@@ -100,12 +102,15 @@ Scene* LevelLoader::load(const std::string& name)
 		// static lifts
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
 		//StaticObject* moneta = new StaticObject(world, RectF(4, 2, 1, 1), spriteLoader->get("money"));
+		Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
+		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform"));
 		//Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
 		//StaticObject* moneta = new StaticObject(world, RectF(4, 2, 1, 1), spriteLoader->get("money"));
 		//Emerald* emerald1 = new Emerald(world, RectF(6, 2, 1, 1));
 		//Emerald* emerald2 = new Emerald(world, RectF(8, 2, 1, 1));
 		//Emerald* emerald3 = new Emerald(world, RectF(12, 2, 1, 1));
+		Candlestick* cld1 = new Candlestick(world, RectF(4, 1.8f, 3, 0.5f));
 
 		// mario
 		Mario* mario = new Mario(world, PointF(2.5, 0));

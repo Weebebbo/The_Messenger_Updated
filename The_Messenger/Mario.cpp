@@ -11,6 +11,7 @@
 #include "SpriteFactory.h"
 #include "Audio.h"
 #include "AnimatedSprite.h"
+#include "ClimbableWalls.h"
 #include "PlatformerGame.h"
 #include "PlatformerGameScene.h"
 #include "Sword.h"
@@ -55,6 +56,8 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	//Scalata
 	_climbingMovement = false;
 	_wantsToClimb = false;
+	_finishedClimbableWallUpperLimit = false;
+	_finishedClimbableWallLowerLimit = false;
 
 	//Discesa
 	_canDescend = false; 
@@ -65,7 +68,9 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_rise = false;
 	_ball = false; 
 	_fall = false; 
-	
+	_canMarioJumpAgain = false;
+	_iWantToJumpAgain = false; // per il doppio salto
+
 	_crouch = false; 
 	_prevCrouch = false;
 
@@ -132,11 +137,10 @@ void Mario::update(float dt)
 	if (_fall || _rise || _ball)
 		climb_stationary();
 
-
 	if (_fall && _wantsToClimb)
 		_wantsToClimb = false;
 	
-	// Cosi' il coso quando è basso non può camminare con il collider basso
+	// Cosi' il coso quando ï¿½ basso non puï¿½ camminare con il collider basso
 	if (_crouch && _walking)
 		_crouch = false;
 
@@ -205,7 +209,7 @@ void Mario::update(float dt)
 	}
 
 	if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart > INVINCIBILITY_DURATION)) {
-		_canMarioTakeDamage = true;  // mario può tornare a prenderlo in culo 
+		_canMarioTakeDamage = true;  // mario puï¿½ tornare a prenderlo in culo 
 		std::cout << "danno riattivato" << std::endl;
 	} 
 	else if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart < INVINCIBILITY_DURATION))
@@ -238,12 +242,16 @@ void Mario::jump(bool on)
 		return;
 
 	if (_wantsToClimb)
-	{
 		climb_stationary();
-	}
-	if (on && !midair() && !_wantsToClimb)
+
+	if (on && !midair() && !_wantsToClimb || _canMarioJumpAgain)
 	{
-		velAdd(Vec2Df(0, -_yJumpImpulse));
+		// Mario ha bisogno di un impulso maggiore se stava giÃ  in aria prima
+		// Condiziona fatta in casa per far funzionare il doppio salto
+		if(_canMarioJumpAgain)
+			velAdd(Vec2Df(0, -(2*_yJumpImpulse)));
+		else
+			velAdd(Vec2Df(0, -_yJumpImpulse));
 
 		if (std::abs(_vel.x) < 9)
 			_yGravityForce = 25;
@@ -252,6 +260,7 @@ void Mario::jump(bool on)
 
 		_rise = true;
 		_wantsToClimb = false;
+		_canMarioJumpAgain = false;
 
 		schedule("jump_to_ball", 0.2f, [this]()
 			{
@@ -260,11 +269,9 @@ void Mario::jump(bool on)
 
 				schedule("ball_off", 0.3f, [this]()
 					{
-						std::cout << "ball off" << std::endl;
 						_ball = false;
 					});
 				_fall = true;
-
 			});
 
 		Audio::instance()->playSound("jump-small");
@@ -297,8 +304,16 @@ void Mario::climb_stationary()
 	else if (_walking && _wantsToClimb)
 	{
 		_wantsToClimb = false;
-		_fall = true;
 		_yGravityForce = 90;
+	}
+}
+
+void Mario::climbing_movement()
+{
+	if (_wantsToClimb)
+	{
+		_wantsToClimb = false;
+		_climbingMovement = true;
 	}
 }
 
@@ -306,7 +321,7 @@ void Mario::crouch(bool on) {
 	if (_dying || _dead)
 		return;
 	
-	if (on && !_walking && !midair())
+	if (on && !_walking && !midair() && !_wantsToClimb && !_climbingMovement)
 	{
 		_crouch = true;
 		if (_xLastNonZeroVel > 0)
@@ -390,6 +405,10 @@ void Mario::die()
 
 void Mario::hurt()
 {
+	// TODO: powerdown (e.g. if Mario is big, becomes small)
+	if(!_invincible)
+		die();
+
 	if (!_invincible && _canMarioTakeDamage) {
 		
 		_healthBar[_iterator] = false; //le vite del bro sono gestite tramite un vettore di booleani
@@ -442,5 +461,3 @@ void Mario::hurt()
 		std::cout << "il danno non e' attivo!" << std::endl;
 	}
 }
-
-

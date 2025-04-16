@@ -34,13 +34,10 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["effects"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja_effects.png", _autoTiles["effects"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["enemies2"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/nemici_del_messaggero.png", _autoTiles["enemies2"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
 
-	_spriteSheets["mario"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/mario.png", _autoTiles["mario"], {27, 89, 153}, { 147, 187, 236 });
-	_spriteSheets["enemies"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/enemies.png", _autoTiles["enemies"], { 27, 89, 153 }, { 147, 187, 236 }, 17);
-	_spriteSheets["hud"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "sprites/hud.png", { 147, 187, 236 });
-	_spriteSheets["tiles"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/stage_tiles.png", _autoTiles["tiles"], { 27, 89, 153 }, { 147, 187, 236 }, 5, true, false);
-	_spriteSheets["link"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/link.png", _autoTiles["link"], { 0, 128, 128 }, { 0, 64, 64 });
-	_spriteSheets["marco"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/marco.png", _autoTiles["marco"], { 255, 0, 255 }, { 0, 255, 0 });
 	_spriteSheets["hud1"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/hud1.png", _autoTiles["hud1"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
+	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/Items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
+	_spriteSheets["candlestick_on"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_on.png", _autoTiles["candlestick_on"], { 69, 67, 255 }, { 255, 13, 13 });
+	_spriteSheets["candlestick_off"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_off.png", _autoTiles["candlestick_off"], { 69, 67, 255 }, { 255, 1, 1 });
 	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/Items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 
 	//Prova di aggiunta mappa
@@ -152,6 +149,10 @@ Sprite* SpriteFactory::get(const std::string& id)
 	//Animazioni items
 	else if (id == "crystal")
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][0].begin(), _autoTiles["items"][0].begin() + 4 }, 6);
+	else if (id == "candlestick_off")
+		return new Sprite(_spriteSheets["candlestick_off"], _autoTiles["candlestick_off"][0][0]);
+	else if (id == "candlestick_on")
+		return new AnimatedSprite(_spriteSheets["candlestick_on"], { _autoTiles["candlestick_on"][0].begin(), _autoTiles["candlestick_on"][0].begin() + 4}, 6);
 	else if (id == "smash")
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][13].begin(), _autoTiles["items"][13].begin() + 4 }, 6);
 
