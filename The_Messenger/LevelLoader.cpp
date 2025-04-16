@@ -92,7 +92,7 @@ Scene* LevelLoader::load(const std::string& name)
 		// Enemies 
 		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(10, 1));
 		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(9, 1));
-		//RangedKappa* rKappa2 = new RangedKappa(world, PointF(13, 1));
+		RangedKappa* rKappa2 = new RangedKappa(world, PointF(13, 1));
 		//Bat* bat1 = new Bat(world, PointF(10, 0));
 		//GreenKappa* gKappa1 = new GreenKappa(world, PointF(11, 1)); 
 		//Skelouton* skl1 = new Skelouton(world, PointF(12, 1)); 
