@@ -45,7 +45,6 @@ void Candlestick::update(float dt)
             emerald->randomMove();
         }
 
-        std::cout << "Candlestick hit by Mario: " << _howManyEmeralds << std::endl;
         _didMarioHitMe = false;
         _wasIhitBefore = true;
     }
@@ -64,7 +63,6 @@ bool Candlestick::collision(CollidableObject* with, bool begin, Direction fromDi
 
     if (sword)
     {
-        std::cout<<"Candlestick hit by sword"<<std::endl;
         _didMarioHitMe = true;
 		_sprite = SpriteFactory::instance()->get("candlestick_off");
         return true;

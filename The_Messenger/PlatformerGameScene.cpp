@@ -45,13 +45,16 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		mario->move(Direction::NONE);
 	
 	// Salto
-	if (mario->get_canMarioJumpAgain() && keyboard[SDL_SCANCODE_SPACE])
+	if (mario->get_canMarioJumpAgain() && mario->get_iWantToJumpAgain())
 	{
 		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 		mario->set_canMarioJumpAgain(false);
 	}
-	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
-
+	else if (!mario->get_canMarioJumpAgain())
+	{
+		mario->set_iWantToJumpAgain(false);
+		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
+	}
 	mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
 	if (mario->get_crouch() && keyboard[SDL_SCANCODE_Z])
 	{
@@ -121,4 +124,7 @@ void PlatformerGameScene::event(SDL_Event& evt)
 		Game::instance()->pushScene(Menu::pauseMenu());
 	else if (evt.type == SDL_KEYDOWN && evt.key.keysym.scancode == SDL_SCANCODE_A)
 		mario->attack();
+
+	if (evt.type == SDL_KEYDOWN && evt.key.keysym.scancode == SDL_SCANCODE_SPACE && mario->get_canMarioJumpAgain())
+		mario->set_iWantToJumpAgain(true);
 }

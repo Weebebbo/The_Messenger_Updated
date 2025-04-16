@@ -43,7 +43,6 @@ void Emerald::randomMove()
 bool Emerald::collision(CollidableObject* with, bool begin, Direction fromDir) { 
 
 	if (dynamic_cast<Mario*>(with)) {
-		std::cout << "ninja prende la moneta" << std::endl;
 		this->kill();
 		return true;
 	}

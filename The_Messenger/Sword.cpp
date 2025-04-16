@@ -28,7 +28,7 @@ Sword::Sword(Mario* mario)
 	_CCD = false;
 
 	// Inizializzazione parametri del collider della spada
-	_collider = { 1.5f, 0.8f, 2.0f, 1.0f };
+	_collider = { 1.5f, 0.8f, 2.5f, 1.5f };
 }
 
 void Sword::update(float dt)
@@ -41,7 +41,7 @@ void Sword::update(float dt)
 		setPos(_link->pos() + PointF{  0, -7 / 16.0f });
 	}
 	else if (_facingDir == Direction::LEFT)
-		setPos(_link->pos() + PointF{ -42 / 16.0f, -7 / 16.0f });
+		setPos(_link->pos() + PointF{ -50 / 16.0f, -7 / 16.0f });
 
 	DynamicObject::update(dt);
 }

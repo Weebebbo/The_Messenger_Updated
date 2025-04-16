@@ -55,7 +55,8 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_rise = false;
 	_ball = false; 
 	_fall = false; 
-	_canMarioJumpAgain = false,
+	_canMarioJumpAgain = false;
+	_iWantToJumpAgain = false; // per il doppio salto
 
 	_crouch = false; 
 	_prevCrouch = false;
@@ -178,11 +179,14 @@ void Mario::jump(bool on)
 	if (_wantsToClimb)
 		climb_stationary();
 
-	if (on && !midair() && !_wantsToClimb)
+	if (on && !midair() && !_wantsToClimb || _canMarioJumpAgain)
 	{
-		prova:
-		// Condizione per il doppio salto
-		velAdd(Vec2Df(0, -_yJumpImpulse));
+		// Mario ha bisogno di un impulso maggiore se stava già in aria prima
+		// Condiziona fatta in casa per far funzionare il doppio salto
+		if(_canMarioJumpAgain)
+			velAdd(Vec2Df(0, -(2*_yJumpImpulse)));
+		else
+			velAdd(Vec2Df(0, -_yJumpImpulse));
 
 		if (std::abs(_vel.x) < 9)
 			_yGravityForce = 25;
@@ -200,7 +204,6 @@ void Mario::jump(bool on)
 
 				schedule("ball_off", 0.3f, [this]()
 					{
-						std::cout << "ball off" << std::endl;
 						_ball = false;
 					});
 				_fall = true;
@@ -217,9 +220,6 @@ void Mario::jump(bool on)
 			_fall = true;
 		}
 	}
-
-	if (_canMarioJumpAgain && midair() && on)
-		goto prova;
 }
 
 void Mario::climb_stationary()
@@ -239,7 +239,6 @@ void Mario::climb_stationary()
 	else if (_walking && _wantsToClimb)
 	{
 		_wantsToClimb = false;
-		_fall = true;
 		_yGravityForce = 90;
 	}
 }
