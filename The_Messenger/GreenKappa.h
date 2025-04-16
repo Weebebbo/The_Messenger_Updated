@@ -20,6 +20,15 @@ namespace agp
 
 class agp::GreenKappa : public Enemy
 {
+private: 
+	int _healthBar;
+	bool _canSwordHitMe;
+	bool _prevDidSwordHitMe;
+	bool _hitFromLeft;
+	bool _hitFromRight; 
+	bool _canMarioTakeDamage;
+	Uint32 invincibilityStartGreenKappa = 0;
+
 protected:
 
 	bool _throwing;			// throwing hammer
@@ -38,4 +47,5 @@ public:
 
 	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override; 
 	virtual std::string name() override { return strprintf("GreenKappa[%d]", _id); }
+	virtual void smash() override;
 };

@@ -28,6 +28,17 @@ class agp::Mario : public DynamicObject
 		bool _dying;
 		bool _dead;
 		
+		bool _healthBar[5]; 
+		int _iterator;
+
+		bool _hitFromLeft; 
+		bool _hitFromRight; 
+		bool _hitFromBottom;
+		bool _canMarioTakeDamage;
+		Uint32 invincibilityStart = 0;
+		bool _damageSkid;
+		int _counter;
+		
 		bool _standingAttack1;
 		bool _standingAttack2;
 		bool _runningAttack;
@@ -75,6 +86,12 @@ class agp::Mario : public DynamicObject
 		bool get_canMarioJumpAgain() { return _canMarioJumpAgain; }
 		bool get_iWantToJumpAgain() { return _iWantToJumpAgain; }
 		Vec2Df get_prevVel() { return _prevVel; }
+		bool get_hitFromLeft() { return _hitFromLeft; }
+		bool get_hitFromRight() { return _hitFromRight; }
+		bool get_hitFromBottom() { return _hitFromBottom; }
+		bool get_canMarioTakeDamage() { return _canMarioTakeDamage; }
+		bool get_damageSkid() { return _damageSkid; }
+
 		// Setter
 		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }
 		void set_climbingMovement(bool climbingMovement) { _climbingMovement = climbingMovement; }
@@ -84,6 +101,7 @@ class agp::Mario : public DynamicObject
 		void set_finishedClimbingWallLowerLimit(bool finished) { _finishedClimbableWallLowerLimit = finished; }
 		void set_canMarioJumpAgain(bool canJump) { _canMarioJumpAgain = canJump; }
 		void set_iWantToJumpAgain(bool iWantToJump) { _iWantToJumpAgain = iWantToJump; }
+		void set_canMarioTakeDamage(bool canMarioTakeDamage) { _canMarioTakeDamage = canMarioTakeDamage; }
 
 		// extends game logic (+mario logic)
 		virtual void update(float dt) override;
