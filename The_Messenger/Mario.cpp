@@ -405,10 +405,6 @@ void Mario::die()
 
 void Mario::hurt()
 {
-	// TODO: powerdown (e.g. if Mario is big, becomes small)
-	if(!_invincible)
-		die();
-
 	if (!_invincible && _canMarioTakeDamage) {
 		
 		_healthBar[_iterator] = false; //le vite del bro sono gestite tramite un vettore di booleani
