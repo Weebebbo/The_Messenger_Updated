@@ -33,7 +33,7 @@ void Emerald::randomMove()
 		setVelY((std::rand() % 4) - 4);
 	}
 
-	schedule("emerald stop", 0.4, [this]()
+	schedule("emerald stop", 0.3, [this]()
 		{
 			setVelX(0);
 			setVelY(0);

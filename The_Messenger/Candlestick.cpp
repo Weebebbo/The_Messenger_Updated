@@ -33,19 +33,16 @@ void Candlestick::update(float dt)
     RenderableObject::update(dt);
 
     //Genero un numero randomico di gemme per ogni candelabro diverso, compreso tra 1 e 7
-    _howManyEmeralds = (std::rand() % 8) + 2;
+    _howManyEmeralds = 1 + (std::rand() % 7);
 
     if (_didMarioHitMe && !_wasIhitBefore)
     {
         for (int i = 0; i < _howManyEmeralds; i++)
         {
-            if (i > _howManyEmeralds / 2)
-            {
-                PointF pos = this->pos();
-                Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
-                scene()->newObject(emerald);
-                emerald->randomMove();
-            }
+            PointF pos = this->pos();
+            Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
+            scene()->newObject(emerald);
+            emerald->randomMove();
         }
 
         std::cout << "Candlestick hit by Mario: " << _howManyEmeralds << std::endl;
