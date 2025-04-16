@@ -38,7 +38,6 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/Items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
 	_spriteSheets["candlestick_on"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_on.png", _autoTiles["candlestick_on"], { 69, 67, 255 }, { 255, 13, 13 });
 	_spriteSheets["candlestick_off"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_off.png", _autoTiles["candlestick_off"], { 69, 67, 255 }, { 255, 1, 1 });
-	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/Items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 
 	//Prova di aggiunta mappa
 	_spriteSheets["map"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room1.png");
@@ -58,22 +57,6 @@ Sprite* SpriteFactory::get(const std::string& id)
 	// single-frame sprites
 	if (id == "terrain")
 		return new FilledSprite(_spriteSheets["map"]);
-	else if (id == "brick")
-		return new Sprite(_spriteSheets["tiles"], _autoTiles["tiles"][5][1]);
-	else if (id == "wall")
-		return new Sprite(_spriteSheets["tiles"], _autoTiles["tiles"][5][2]);
-	else if (id == "block")
-		return new Sprite(_spriteSheets["tiles"], _autoTiles["tiles"][3][5]);
-	else if (id == "welcome")
-		return new Sprite(_spriteSheets["hud"], RectI(1, 2 + 16 * 2, 16 * 16, 13 * 16));
-	else if (id == "gameover")
-		return new Sprite(_spriteSheets["hud"], RectI(260, 253, 16 * 16, 15 * 16));
-	else if (id == "hammer")
-		return new Sprite(_spriteSheets["enemies"], _autoTiles["enemies"][0][25]);
-	else if (id == "hammer_brother_jump")
-		return new Sprite(_spriteSheets["enemies"], _autoTiles["enemies"][0][24]);
-	else if (id == "platform")
-		return new FilledSprite(_spriteSheets["tiles"], _autoTiles["tiles"][8][33]);
 	else if (id == "jump_rise")
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][1][0]);
 	else if (id == "jump_fall")
