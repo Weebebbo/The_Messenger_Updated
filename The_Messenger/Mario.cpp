@@ -244,7 +244,7 @@ void Mario::jump(bool on)
 	if (_wantsToClimb)
 		climb_stationary();
 
-	if (on && !midair() && !_wantsToClimb || _canMarioJumpAgain)
+	if (on && !midair() && !_wantsToClimb || _iWantToJumpAgain)
 	{
 		// Mario ha bisogno di un impulso maggiore se stava già in aria prima
 		// Condiziona fatta in casa per far funzionare il doppio salto

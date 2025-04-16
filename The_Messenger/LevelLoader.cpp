@@ -97,7 +97,7 @@ Scene* LevelLoader::load(const std::string& name)
 		//GreenKappa* gKappa1 = new GreenKappa(world, PointF(11, 1)); 
 		//Skelouton* skl1 = new Skelouton(world, PointF(12, 1)); 
 
-		NinjaLift* nLift1 = new NinjaLift(world, RectF(5, 2, 3, 3), spriteLoader->get("platform"), false, 3, 0); 
+		//NinjaLift* nLift1 = new NinjaLift(world, RectF(5, 2, 3, 3), spriteLoader->get("platform"), false, 3, 0); 
 
 		// static lifts
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
