@@ -103,7 +103,7 @@ Scene* LevelLoader::load(const std::string& name)
 		// static lifts
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
 		//StaticObject* moneta = new StaticObject(world, RectF(4, 2, 1, 1), spriteLoader->get("money"));
-		Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
+		//Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform"));
 		//Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
@@ -111,9 +111,7 @@ Scene* LevelLoader::load(const std::string& name)
 		//Emerald* emerald1 = new Emerald(world, RectF(6, 2, 1, 1));
 		//Emerald* emerald2 = new Emerald(world, RectF(8, 2, 1, 1));
 		//Emerald* emerald3 = new Emerald(world, RectF(12, 2, 1, 1));
-		Candlestick* cld1 = new Candlestick(world, RectF(4, 1.8f, 3, 0.5f));
-
-		Spikes* prova = new Spikes(world, RectF(4, 1.8f, 3, 0.5f));
+		//Candlestick* cld1 = new Candlestick(world, RectF(4, 1.8f, 3, 0.5f));
 
 		// mario
 		Mario* mario = new Mario(world, PointF(2.5, 0));
