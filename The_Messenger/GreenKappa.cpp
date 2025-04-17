@@ -16,6 +16,7 @@ GreenKappa::GreenKappa(Scene* scene, const PointF& pos)
 	: Enemy(scene, RectF(pos.x + 1 / 16.0f, pos.y - 2, 1.8f, 2.5f), SpriteFactory::instance()->get("green_kappa_walk"))
 {
 	_collider.adjust(0.1f, 0.4f, -0.1f, -1 / 16.0f);
+	_fit = false;
 
 	_pivot = pos;
 	_throwing = false;

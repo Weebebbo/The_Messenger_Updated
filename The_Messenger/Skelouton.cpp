@@ -15,7 +15,7 @@ Skelouton::Skelouton(Scene* scene, const PointF& pos)
 	//_collider.adjust(0.3f, -0.9f, 1.2f, -0.1f);
 	//_collider = { 0.2f, -0.5f, 1.5f, 2 };
 	_collider.adjust(0.1f, 0.4f, -0.1f, -1 / 16.0f);
-	
+	_fit = false;
 
 	_pivot = pos;
 	_throwing = false;
