@@ -38,6 +38,7 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/Items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
 	_spriteSheets["candlestick_on"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_on.png", _autoTiles["candlestick_on"], { 69, 67, 255 }, { 255, 13, 13 });
 	_spriteSheets["candlestick_off"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_off.png", _autoTiles["candlestick_off"], { 69, 67, 255 }, { 255, 1, 1 });
+	_spriteSheets["spikes"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/spikes.png", _autoTiles["spikes"], { 255, 1, 1 }, { 70, 67, 255 });
 
 	//Prova di aggiunta mappa
 	_spriteSheets["map"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room1.png");
@@ -76,6 +77,10 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][12][3]);
 	else if (id == "ninja_take_damage")
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][9][2]);
+	else if (id == "spikes_horizontal")
+		return new Sprite(_spriteSheets["spikes"], _autoTiles["spikes"][0][1]);
+	else if (id == "spikes_vertical")
+		return new Sprite(_spriteSheets["spikes"], _autoTiles["spikes"][0][0]);
 
 	// animated sprites
 	else if (id == "mario_walk")
