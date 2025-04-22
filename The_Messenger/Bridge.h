@@ -12,26 +12,28 @@
 
 namespace agp
 {
-	class StaticObject;
+	class Bridge;
 }
 
 // StaticObject class.
 // - provides base class for all objects that do not generally update physics
 //   nor detect/resolve collisions
-class agp::StaticObject : public CollidableObject
+class agp::Bridge : public CollidableObject
 {
-	protected:
+
+protected:
 
 
-	public:
+public:
 
-		StaticObject(Scene* scene, const RectF& rect, Sprite* sprite, bool comp = false, int layer = 0);
-		virtual ~StaticObject() {}
+	Bridge(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
+	virtual ~Bridge() {}
 
-		// extends game logic (-physics, -collisions)
-		virtual void update(float dt) override { RenderableObject::update(dt); }
+	// extends game logic (-physics, -collisions)
+	virtual void update(float dt) override { RenderableObject::update(dt); }
+	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
 
-		virtual std::string name() override {
-			return strprintf("StaticObject[%d]", _id);
-		}
+	virtual std::string name() override {
+		return strprintf("StaticLift[%d]", _id);
+	}
 };

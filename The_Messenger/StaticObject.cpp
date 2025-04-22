@@ -15,6 +15,6 @@ using namespace agp;
 StaticObject::StaticObject(Scene* scene, const RectF& rect, Sprite* sprite, bool comp, int layer) :
 	CollidableObject(scene, rect, sprite, layer)
 {	
-	if (comp)
+	if (comp == true)
 		_compenetrable = true;
 }

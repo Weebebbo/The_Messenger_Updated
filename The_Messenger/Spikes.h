@@ -14,7 +14,7 @@ class agp::Spikes : public CollidableObject
 private:
 
 public:
-    Spikes(Scene* scene, const RectF& rect, int layer = 0);
+    Spikes(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
     ~Spikes() {};
 
     virtual void update(float dt) override {RenderableObject::update(dt);}

@@ -13,7 +13,7 @@ Emerald::Emerald(Scene* scene, const RectF& rect, int layer) :
 	_yGravityForce = 0;
 	
 	_collider.adjust(0.1f, 0.1f, -0.1f, -0.1f);
-	_sprite = SpriteFactory::instance()->get("money");
+	_sprite = SpriteFactory::instance()->get("emerald");
 }
 
 void Emerald::update(float dt)

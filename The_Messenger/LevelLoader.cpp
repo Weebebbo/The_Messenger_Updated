@@ -21,12 +21,13 @@
 #include "Bat.h"
 #include "GreenKappa.h"
 #include "Skelouton.h"
-#include "StaticLift.h"
+#include "Bridge.h"
 #include "Emerald.h"
 #include "Crystal.h"
 #include "View.h"
 #include "NinjaLift.h"
 #include "Spikes.h"
+#include "InstaDeathBlock.h"
 
 #include "json.hpp"
 #include "mathUtils.h"
@@ -69,9 +70,15 @@ void LevelLoader::loadJson(
 			rect.yUp = jObj["rect"]["yUp"];
 			
 			if (_categories[category] == "Pavements")
-				new StaticObject(world, rect, nullptr, 1);
+				new StaticObject(world, rect, nullptr, false, 1);
 			else if (_categories[category] == "Climbable Walls")
 				new ClimbableWalls(world, rect, nullptr, 1);
+			else if (_categories[category] == "Spikes")
+				new Spikes(world, rect, nullptr, 1);
+			else if (_categories[category] == "Bridges")
+				new Bridge(world, rect, nullptr, 1);
+			else if (_categories[category] == "InstadeathBlock")
+				new InstaDeathBlock(world, rect, nullptr, 1);
 		}
 	}
 
@@ -89,13 +96,13 @@ Scene* LevelLoader::load(const std::string& name)
 		world->setBackgroundColor(Color(92, 148, 252));
 
 		// Room1
-		new StaticObject(world, RectF(0, 5, 162, 19), spriteLoader->get("room1"), false, -2);
+		new StaticObject(world, RectF(0, 5, 162, 19), spriteLoader->get("room1"), true, -2);
 		new Candlestick(world, RectF(25.6f, 15.5f, 2.5f, 2.5f));
 		new Candlestick(world, RectF(54, 8, 2.5f, 2.5f));
 		new Candlestick(world, RectF(75, 8.5f, 2.5f, 2.5f));
 		new Candlestick(world, RectF(82, 19, 2.5f, 2.5f));
 		new Candlestick(world, RectF(103, 13, 2.5f, 2.5f));
-		new Candlestick(world, RectF(123, 14, 2.5f, 2.5f));
+		new Candlestick(world, RectF(123, 16, 2.5f, 2.5f));
 		new Emerald(world, RectF(23, 17, 1.2f, 1.8f));
 		new Emerald(world, RectF(29.5f, 17, 1.2f, 1.8f));
 		new Emerald(world, RectF(21, 19, 1.2f, 1.8f));
@@ -189,7 +196,7 @@ Scene* LevelLoader::load(const std::string& name)
 		//NinjaLift* nLift1 = new NinjaLift(world, RectF(5, 2, 3, 3), spriteLoader->get("platform"), false, 3, 0); 
 
 		// static lifts
-		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
+		//Bridge* prova = new Bridge(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
 		//StaticObject* moneta = new StaticObject(world, RectF(4, 2, 1, 1), spriteLoader->get("money"));
 		//Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
 		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform"));

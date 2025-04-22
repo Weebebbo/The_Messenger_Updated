@@ -37,7 +37,7 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["enemies2"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/nemici_del_messaggero.png", _autoTiles["enemies2"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
 
 	_spriteSheets["hud1"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/hud1.png", _autoTiles["hud1"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
-	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/Items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
+	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
 	_spriteSheets["candlestick_on"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_on.png", _autoTiles["candlestick_on"], { 69, 67, 255 }, { 255, 13, 13 });
 	_spriteSheets["candlestick_off"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_off.png", _autoTiles["candlestick_off"], { 69, 67, 255 }, { 255, 1, 1 });
 	
@@ -106,9 +106,8 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new Sprite(_spriteSheets["enemies2"], _autoTiles["enemies2"][0][4]);
 	else if (id == "skelouton_stand")
 		return new Sprite(_spriteSheets["enemies2"], _autoTiles["enemies2"][10][0]);
-	else if (id == "money")
+	else if (id == "money_hud")
 		return new Sprite(_spriteSheets["hud1"], _autoTiles["hud1"][0][5]);
-	//prova ninja
 	else if (id == "ninja_stand")
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][0][0]);
 	else if (id == "ninja_stationaryClimb")
@@ -169,8 +168,10 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][10].begin(), _autoTiles["enemies2"][10].begin() + 4 }, 6);
 
 	//Animazioni items
+	else if (id == "emerald")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][10].begin(), _autoTiles["items"][10].begin() + 5 }, 6);
 	else if (id == "crystal")
-		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][0].begin(), _autoTiles["items"][0].begin() + 4 }, 6);
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][0].begin(), _autoTiles["items"][0].begin() + 4 }, 5);
 	else if (id == "candlestick_off")
 		return new Sprite(_spriteSheets["candlestick_off"], _autoTiles["candlestick_off"][0][0]);
 	else if (id == "candlestick_on")

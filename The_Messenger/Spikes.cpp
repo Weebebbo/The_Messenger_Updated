@@ -3,10 +3,10 @@
 
 using namespace agp;
 
-Spikes::Spikes (Scene* scene, const RectF& rect, int layer) :
-    CollidableObject(scene, rect, nullptr, layer)
+Spikes::Spikes (Scene* scene, const RectF& rect, Sprite* sprite, int layer) :
+    CollidableObject(scene, rect, sprite, layer)
 {
-    _fit = false;
+  
 }
 
 bool Spikes::collidableWith(CollidableObject* obj)

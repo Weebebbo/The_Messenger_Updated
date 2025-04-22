@@ -73,6 +73,7 @@ class agp::Mario : public DynamicObject
 		bool invincible() { return _invincible; }
 
 		// Getter 
+		bool get_walking() { return _walking; }
 		bool get_wantsToClimb() { return _wantsToClimb; }
 		bool get_climbingMovement() { return _climbingMovement; }
 		bool get_crouch() { return _crouch; }
