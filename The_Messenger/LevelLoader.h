@@ -38,4 +38,6 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 
 	public:
 		Scene* load(const std::string& name);
+		
+		void spawnEnemyRoom1(PlatformerGameScene* world);
 };

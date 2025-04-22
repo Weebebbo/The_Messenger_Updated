@@ -12,30 +12,28 @@
 
 namespace agp
 {
-	class ClimbableWalls;
+	class Bridge;
 }
 
-class agp::ClimbableWalls : public CollidableObject
+// StaticObject class.
+// - provides base class for all objects that do not generally update physics
+//   nor detect/resolve collisions
+class agp::Bridge : public CollidableObject
 {
+
 protected:
 
-	bool _didMarioHitMe;
 
 public:
 
-	ClimbableWalls(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
-	virtual ~ClimbableWalls() {}
-
-	//Getters
-	//bool get_didMarioHitMe() { return _didMarioHitMe; }
-	//bool get_isTheColliderFinished() { return _isTheColliderFinished; }
+	Bridge(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
+	virtual ~Bridge() {}
 
 	// extends game logic (-physics, -collisions)
-	virtual void update(float dt) override; //{RenderableObject::update(dt);}
+	virtual void update(float dt) override { RenderableObject::update(dt); }
+	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
 
 	virtual std::string name() override {
-		return strprintf("StaticObject[%d]", _id);
+		return strprintf("StaticLift[%d]", _id);
 	}
-
-	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
 };

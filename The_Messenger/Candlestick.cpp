@@ -22,10 +22,8 @@ Candlestick::Candlestick (Scene* scene, const RectF& rect, int layer) :
     _howManyEmeralds = 0;
 
     _sprite = SpriteFactory::instance()->get("candlestick_on");
-    
-    setRect(RectF(5.5f, 1.5f, 2.5f, 2.0f));
-    _collider.adjust(0.1f, 0.1f, -0.6f, 1.3f);
 
+    _collider.adjust(0.1f, 0.1f, -0.1f, -0.1f);
 }
 
 void Candlestick::update(float dt)

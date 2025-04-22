@@ -1,4 +1,4 @@
- // ----------------------------------------------------------------
+// ----------------------------------------------------------------
 // From "Algorithms and Game Programming" in C++ by Alessandro Bria
 // Copyright (C) 2024 Alessandro Bria (a.bria@unicas.it). 
 // All rights reserved.
@@ -16,7 +16,7 @@
 #include "HUD.h"
 #include "PlatformerGame.h"
 #include "geometryUtils.h"
-#include "StaticLift.h"
+#include "Bridge.h"
 
 using namespace agp;
 
@@ -45,7 +45,7 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		mario->move(Direction::NONE);
 	else
 		mario->move(Direction::NONE);
-	
+
 	// Salto
 	if (mario->get_canMarioJumpAgain() && mario->get_iWantToJumpAgain())
 	{
@@ -58,44 +58,51 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 	}
 
-	if ((mario->get_hitFromLeft() || mario->get_hitFromRight() || mario->get_hitFromBottom()) && keyboard[SDL_SCANCODE_SPACE])
-		mario->jump(false);
-	else
-		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
+	//if ((mario->get_hitFromLeft() || mario->get_hitFromRight() || mario->get_hitFromBottom()) && keyboard[SDL_SCANCODE_SPACE])
+	//	mario->jump(false);
+	//else
+	//	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 
 	mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
 	if (mario->get_crouch() && keyboard[SDL_SCANCODE_Z])
-	{
 		mario->descend();
-		mario->get_collisionWithLift();
-	}
 
 	if (mario->get_wantsToClimb() || (!mario->get_wantsToClimb() && mario->get_climbingMovement()))
 	{
-		if (keyboard[SDL_SCANCODE_UP] && !mario->get_finishedClimbingWallUpperLimit() && !mario->get_finishedClimbingWallLowerLimit())
+		if (!mario->get_finishedClimbingWallUpperLimit() && !mario->get_finishedClimbingWallLowerLimit())
 		{
-			mario->setVelY(-5);
-			mario->climbing_movement();
+			if (keyboard[SDL_SCANCODE_UP] && !keyboard[SDL_SCANCODE_SPACE])
+			{
+				mario->move(Direction::NONE);
+				mario->setVelY(-5);
+				mario->climbing_movement();
+			}
+			else if (keyboard[SDL_SCANCODE_DOWN] && !keyboard[SDL_SCANCODE_SPACE])
+			{
+				mario->move(Direction::NONE);
+				mario->setVelY(3);
+				mario->climbing_movement();
+			}
+			else
+				goto end;
 		}
-		else if (keyboard[SDL_SCANCODE_DOWN] && !mario->get_finishedClimbingWallUpperLimit() && !mario->get_finishedClimbingWallLowerLimit())
-		{
-			mario->setVelY(3);
-			mario->climbing_movement();
-		}
+
 		else if (mario->get_finishedClimbingWallUpperLimit())
 		{
 			if (keyboard[SDL_SCANCODE_UP])
 			{
+				mario->move(Direction::NONE);
 				mario->setVelY(-0.9f);
 				mario->climbing_movement();
 			}
-			else 
+			else
 				mario->set_finishedClimbingWallUpperLimit(false);
 		}
 		else if (mario->get_finishedClimbingWallLowerLimit())
 		{
 			if (keyboard[SDL_SCANCODE_DOWN])
 			{
+				mario->move(Direction::NONE);
 				mario->setVelY(-0.9f);
 				mario->climbing_movement();
 			}
@@ -104,6 +111,7 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		}
 		else
 		{
+		end:
 			mario->set_climbingMovement(false);
 			mario->set_wantsToClimb(true);
 		}
@@ -120,6 +128,7 @@ void PlatformerGameScene::updateCamera(float timeToSimulate)
 
 	Mario* mario = dynamic_cast<Mario*>(_player);
 	_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+	_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
 }
 
 void PlatformerGameScene::event(SDL_Event& evt)

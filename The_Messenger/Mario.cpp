@@ -16,7 +16,6 @@
 #include "PlatformerGameScene.h"
 #include "Sword.h"
 #include "Scene.h"
-#include "StaticLift.h"
 #include "Enemy.h"
 #include "Fireball.h"
 
@@ -116,13 +115,6 @@ void Mario::update(float dt)
 	// physics
 	DynamicObject::update(dt);
 
-	/*std::cout << "hittato da sinistra:" << _hitFromLeft << std::endl;
-	std::cout << "hittato da destra:" << _hitFromRight << std::endl;
-	std::cout << "hittato da sotto:" << _hitFromBottom << std::endl;*/
-
-	//std::cout << "_canMarioTakeDamage: " << _canMarioTakeDamage << std::endl;
-	//std::cout << "_compenetrable: " << _compenetrable << std::endl;
-
 	// state logic
 	if ((_rise && grounded()) || (_fall && grounded())) {
 		_rise = false;
@@ -208,8 +200,7 @@ void Mario::update(float dt)
 	}
 
 	if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart > INVINCIBILITY_DURATION)) {
-		_canMarioTakeDamage = true;  // mario pu� tornare a prenderlo in culo 
-		std::cout << "danno riattivato" << std::endl;
+		_canMarioTakeDamage = true;  // mario puo tornare a prenderlo in culo 
 	} 
 	else if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart < INVINCIBILITY_DURATION))
 	{
@@ -240,13 +231,13 @@ void Mario::jump(bool on)
 	if (_dying || _dead)
 		return;
 
-	if (_wantsToClimb)
+	if (_wantsToClimb || _climbingMovement)
 		climb_stationary();
 
-	if (on && !midair() && !_wantsToClimb || _iWantToJumpAgain)
+	if (on && !midair() && !_wantsToClimb  && !_climbingMovement || _iWantToJumpAgain)
 	{
 		// Mario ha bisogno di un impulso maggiore se stava già in aria prima
-		// Condiziona fatta in casa per far funzionare il doppio salto
+		// Condizione fatta in casa per far funzionare il doppio salto
 		if(_canMarioJumpAgain)
 			velAdd(Vec2Df(0, -(2*_yJumpImpulse)));
 		else
@@ -258,7 +249,6 @@ void Mario::jump(bool on)
 			_yGravityForce = 21;
 
 		_rise = true;
-		_wantsToClimb = false;
 		_canMarioJumpAgain = false;
 
 		schedule("jump_to_ball", 0.2f, [this]()
@@ -408,14 +398,10 @@ void Mario::hurt()
 		
 		_healthBar[_iterator] = false; //le vite del bro sono gestite tramite un vettore di booleani
 		_iterator--; 
-		
-		for (int i = 0; i < 5; i++)
-			std::cout << _healthBar[i] << " ";
 
 		_canMarioTakeDamage = false;
 		_damageSkid = true;
 		invincibilityStart = SDL_GetTicks();
-		
 
 		if (_facingDir == Direction::RIGHT) {
 			_hitFromRight = true;

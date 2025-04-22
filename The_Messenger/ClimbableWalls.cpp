@@ -25,7 +25,7 @@ void ClimbableWalls::update(float dt)
 			mario->set_finishedClimbingWallLowerLimit(true);
 	}
 
-	if ((mario->sceneCollider().right() < sceneCollider().left() || mario->sceneCollider().left() > sceneCollider().right()) && _didMarioHitMe)
+	if (mario->get_walking() && _didMarioHitMe)
 	{
 		_didMarioHitMe = false;
 		mario->set_finishedClimbingWallUpperLimit(false);
@@ -50,5 +50,7 @@ bool ClimbableWalls::collision(CollidableObject* with, bool begin, Direction fro
 		return true;
 	}
 	else
+	{
 		return false;
+	}
 }
