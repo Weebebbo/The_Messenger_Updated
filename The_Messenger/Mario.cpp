@@ -36,7 +36,6 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_dying = false;
 	_dead = false;
 	_invincible = false;
-	//_compenetrable = false;
 	
 	_hitFromLeft = false; 
 	_hitFromRight = false;
@@ -410,7 +409,6 @@ void Mario::hurt()
 		_healthBar[_iterator] = false; //le vite del bro sono gestite tramite un vettore di booleani
 		_iterator--; 
 		
-		std::cout << "Counter: " << _iterator << std::endl;
 		for (int i = 0; i < 5; i++)
 			std::cout << _healthBar[i] << " ";
 
@@ -418,7 +416,6 @@ void Mario::hurt()
 		_damageSkid = true;
 		invincibilityStart = SDL_GetTicks();
 		
-		std::cout << "danno disattivato" << std::endl;
 
 		if (_facingDir == Direction::RIGHT) {
 			_hitFromRight = true;
@@ -451,9 +448,5 @@ void Mario::hurt()
 
 		if (_iterator < 0)
 			die();
-
-	}
-	else if (!_canMarioTakeDamage) {
-		std::cout << "il danno non e' attivo!" << std::endl;
 	}
 }

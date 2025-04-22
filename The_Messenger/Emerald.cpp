@@ -8,6 +8,7 @@ Emerald::Emerald(Scene* scene, const RectF& rect, int layer) :
 	CollidableObject(scene, rect, nullptr, layer)
 {
 	_compenetrable = true;
+	_fit = false;
 
 	_yGravityForce = 0;
 	

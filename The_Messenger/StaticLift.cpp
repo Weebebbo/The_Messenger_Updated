@@ -18,7 +18,7 @@ using namespace agp;
 StaticLift::StaticLift(Scene* scene, const RectF& rect, Sprite* sprite, int layer) :
 	CollidableObject(scene, rect, sprite, layer)
 {
-
+	_fit = false;
 }
 
 void StaticLift::update(float dt) {

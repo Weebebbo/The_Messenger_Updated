@@ -6,6 +6,7 @@ NinjaLift::NinjaLift(Scene* scene, const RectF& rect, Sprite* sprite, bool verti
 	KinematicObject(scene, rect, sprite, layer)
 {
 	_compenetrable = false;
+	_fit = false;
 	_vertical = vertical;
 	_r0 = (_vertical ? pos().y : pos().x) - range / 2.0f;
 	_r1 = (_vertical ? pos().y : pos().x) + range / 2.0f;

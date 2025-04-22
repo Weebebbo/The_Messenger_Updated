@@ -10,6 +10,7 @@ Fireball::Fireball(Scene* scene, const PointF& pos, Enemy* thrower)
 	: Enemy(scene, RectF(pos.x, pos.y, 1, 1), SpriteFactory::instance()->get("fireball"))
 {
 	_collider.adjust(0.2f, 0.2f, -0.2f, -0.2f);
+	_fit = false;
 	_smashable = true;
 	_thrower = thrower;
 	_throwing = false;

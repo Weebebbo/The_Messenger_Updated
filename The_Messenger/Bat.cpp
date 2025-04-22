@@ -12,7 +12,7 @@ Bat::Bat(Scene* scene, const PointF& pos)
 	: Enemy(scene, RectF(pos.x + 1 / 16.0f, pos.y - 1, 1.5f, 1.5f), SpriteFactory::instance()->get("bat_stand"))
 {
 	_collider.adjust(0.1f, 0.4f, -0.1f, -1 / 16.0f);
-
+	_fit = false;
 	_sprites["flying"] = SpriteFactory::instance()->get("bat_flying");
 
 	_pivot = pos;

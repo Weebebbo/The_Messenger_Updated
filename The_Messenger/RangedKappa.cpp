@@ -14,6 +14,7 @@ RangedKappa::RangedKappa(Scene* scene, const PointF& pos)
 {
 	//_collider.adjust(0.1f, 0.4f, -0.1f, -1 / 16.0f);
 	_collider = { 0.25, 0.4, 2.05, 2.15 };
+	_fit = false;
 
 	_sprites["ranged_kappa_stand"] = SpriteFactory::instance()->get("ranged_kappa_stand");
 	_sprites["ranged_kappa_fireball"] = SpriteFactory::instance()->get("ranged_kappa_fireball");
