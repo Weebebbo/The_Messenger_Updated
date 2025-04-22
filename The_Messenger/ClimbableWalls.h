@@ -20,7 +20,6 @@ class agp::ClimbableWalls : public CollidableObject
 protected:
 
 	bool _didMarioHitMe;
-	//bool _isTheColliderFinished;
 
 public:
 

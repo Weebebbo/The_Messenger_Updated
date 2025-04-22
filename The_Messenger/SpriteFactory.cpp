@@ -41,8 +41,18 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["candlestick_on"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_on.png", _autoTiles["candlestick_on"], { 69, 67, 255 }, { 255, 13, 13 });
 	_spriteSheets["candlestick_off"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_off.png", _autoTiles["candlestick_off"], { 69, 67, 255 }, { 255, 1, 1 });
 	
-	//Prova di aggiunta mappa
-	_spriteSheets["map"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room1.png");
+	//Aggiunta mappe
+	_spriteSheets["room1"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room1.png");
+	_spriteSheets["room2"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room2.png");
+	_spriteSheets["room3"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room3.png");
+	_spriteSheets["room4"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room4.png");
+	_spriteSheets["room5"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room5.png");
+	_spriteSheets["room6"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room6.png");
+	_spriteSheets["room9"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room9.png");
+	_spriteSheets["room10"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room10.png");
+	_spriteSheets["room11"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room11.png");
+	_spriteSheets["room12"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room12.png");
+
 }
 
 // anchors
@@ -58,8 +68,26 @@ Sprite* SpriteFactory::get(const std::string& id)
 
 	// single-frame sprites
 	// MAPS
-	if (id == "terrain")
-		return new FilledSprite(_spriteSheets["map"]);
+	if (id == "room1")
+		return new FilledSprite(_spriteSheets["room1"]);
+	else if (id == "room2")
+		return new FilledSprite(_spriteSheets["room2"]);
+	else if (id == "room3")
+		return new FilledSprite(_spriteSheets["room3"]);
+	else if (id == "room4")
+		return new FilledSprite(_spriteSheets["room4"]);
+	else if (id == "room5")
+		return new FilledSprite(_spriteSheets["room5"]);
+	else if (id == "room6")
+		return new FilledSprite(_spriteSheets["room6"]);
+	else if (id == "room9")
+		return new FilledSprite(_spriteSheets["room9"]);
+	else if (id == "room10")
+		return new FilledSprite(_spriteSheets["room10"]);
+	else if (id == "room11")
+		return new FilledSprite(_spriteSheets["room11"]);
+	else if (id == "room12")
+		return new FilledSprite(_spriteSheets["room12"]);
 
 	// OLD Super Mario sprites
 	else if (id == "welcome")

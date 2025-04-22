@@ -12,8 +12,9 @@
 
 using namespace agp;
 
-StaticObject::StaticObject(Scene* scene, const RectF& rect, Sprite* sprite, int layer) :
+StaticObject::StaticObject(Scene* scene, const RectF& rect, Sprite* sprite, bool comp, int layer) :
 	CollidableObject(scene, rect, sprite, layer)
 {	
-
+	if (comp)
+		_compenetrable = true;
 }

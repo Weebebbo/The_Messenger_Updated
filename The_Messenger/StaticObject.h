@@ -25,7 +25,7 @@ class agp::StaticObject : public CollidableObject
 
 	public:
 
-		StaticObject(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
+		StaticObject(Scene* scene, const RectF& rect, Sprite* sprite, bool comp  = false, int layer = 0);
 		virtual ~StaticObject() {}
 
 		// extends game logic (-physics, -collisions)

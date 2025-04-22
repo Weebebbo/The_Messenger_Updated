@@ -12,8 +12,7 @@ Crystal::Crystal(Scene* scene, const RectF& rect, int layer) :
 	_compenetrable = true;
 	_fit = false; 
 	
-	setRect(RectF(12, -0.2f, 3.5f, 5.5f)); 
-	_collider.adjust(0.3f, 0.1f, 2.4f, 4.0f); 
+	_collider.adjust(0.1f, 0.1f, -0.1f, -0.3f); 
 
 	_sprite = SpriteFactory::instance()->get("crystal");
 
