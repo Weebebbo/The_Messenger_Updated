@@ -29,7 +29,9 @@ SpriteFactory::SpriteFactory()
 	}
 
 	SDL_Renderer* renderer = Game::instance()->window()->renderer();
-	
+	// OLD Super Mario hud 
+	_spriteSheets["hud"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "sprites/hud.png", { 147, 187, 236 });
+
 	_spriteSheets["ninja"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja.png", _autoTiles["ninja"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["effects"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja_effects.png", _autoTiles["effects"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["enemies2"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/nemici_del_messaggero.png", _autoTiles["enemies2"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
@@ -38,8 +40,7 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/Items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
 	_spriteSheets["candlestick_on"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_on.png", _autoTiles["candlestick_on"], { 69, 67, 255 }, { 255, 13, 13 });
 	_spriteSheets["candlestick_off"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_off.png", _autoTiles["candlestick_off"], { 69, 67, 255 }, { 255, 1, 1 });
-	_spriteSheets["spikes"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/spikes.png", _autoTiles["spikes"], { 255, 1, 1 }, { 70, 67, 255 }, 5, false, true, false);
-
+	
 	//Prova di aggiunta mappa
 	_spriteSheets["map"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room1.png");
 }
@@ -56,8 +57,17 @@ Sprite* SpriteFactory::get(const std::string& id)
 	std::vector< RectI> rects;
 
 	// single-frame sprites
+	// MAPS
 	if (id == "terrain")
 		return new FilledSprite(_spriteSheets["map"]);
+
+	// OLD Super Mario sprites
+	else if (id == "welcome")
+		return new Sprite(_spriteSheets["hud"], RectI(1, 2 + 16 * 2, 16 * 16, 13 * 16));
+	else if (id == "gameover")
+		return new Sprite(_spriteSheets["hud"], RectI(260, 253, 16 * 16, 15 * 16));
+
+	// NINJA Sprites
 	else if (id == "jump_rise")
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][1][0]);
 	else if (id == "jump_fall")
@@ -77,10 +87,6 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][12][3]);
 	else if (id == "ninja_take_damage")
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][9][2]);
-	else if (id == "spikes_horizontal")
-		return new Sprite(_spriteSheets["spikes"], _autoTiles["spikes"][0][1]);
-	else if (id == "spikes_vertical")
-		return new Sprite(_spriteSheets["spikes"], _autoTiles["spikes"][0][0]);
 
 	// animated sprites
 	else if (id == "mario_walk")
