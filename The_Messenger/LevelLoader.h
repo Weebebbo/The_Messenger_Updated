@@ -92,6 +92,27 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 		bool get_marioInRoom12() { return _marioInRoom12; }
 
 		bool get_room1StopCamera() { return _room1StopCamera; }
+		bool get_prevInRoom1() { return _prevInRoom1; }
+		bool get_prevInRoom2() { return _prevInRoom2; }
+		bool get_prevInRoom3() { return _prevInRoom3; }
+		bool get_prevInRoom4() { return _prevInRoom4; }
+		bool get_prevInRoom5() { return _prevInRoom5; }
+		bool get_prevInRoom6() { return _prevInRoom6; }
+		bool get_prevInRoom9() { return _prevInRoom9; }
+		bool get_prevInRoom10() { return _prevInRoom10; }
+		bool get_prevInRoom11() { return _prevInRoom11; }
+		bool get_prevInRoom12() { return _prevInRoom12; }
+
+		void set_prevInRoom1(bool b) { _prevInRoom1 = b; }
+		void set_prevInRoom2(bool b) { _prevInRoom2 = b; }
+		void set_prevInRoom3(bool b) { _prevInRoom3 = b; }
+		void set_prevInRoom4(bool b) { _prevInRoom4 = b; }
+		void set_prevInRoom5(bool b) { _prevInRoom5 = b; }
+		void set_prevInRoom6(bool b) { _prevInRoom6 = b; }
+		void set_prevInRoom9(bool b) { _prevInRoom9 = b; }
+		void set_prevInRoom10(bool b) { _prevInRoom10 = b; }
+		void set_prevInRoom11(bool b) { _prevInRoom11 = b; }
+		void set_prevInRoom12(bool b) { _prevInRoom12 = b; }
 
 		// Funzione per la generazione delle stanze
 		void fillRoom1(PlatformerGameScene* world);

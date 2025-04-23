@@ -205,6 +205,7 @@ Scene* LevelLoader::load(const std::string& name)
 				killRoom();
 
 				fillRoom2(world);
+				_prevInRoom1 = true;
 				_marioInRoom2 = true;
 			});
 		new Trigger(world, RectF(150, 6, 0.1f, 8), mario, [&, world]()
