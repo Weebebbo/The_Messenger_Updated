@@ -58,6 +58,8 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		mario->set_iWantToJumpAgain(false);
 		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 	}
+	else
+		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 
 	mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
 	if (mario->get_crouch() && keyboard[SDL_SCANCODE_Z])
@@ -123,8 +125,22 @@ void PlatformerGameScene::updateCamera(float timeToSimulate)
 	}
 
 	Mario* mario = dynamic_cast<Mario*>(_player);
-	_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
-	_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
+
+	// Movimento della camera in base a dove sta Mario nella stanza
+	if (LevelLoader::instance()->get_atSpawnPoint())
+		_view->setRect(RectF(0, 6, 20, 18));
+	else if (LevelLoader::instance()->get_marioInRoom1() && !LevelLoader::instance()->get_room1StopCamera())
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 2.5);
+	else if (LevelLoader::instance()->get_marioInRoom2())
+	{
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 2.5);
+		_view->setY(35);
+	}
+	else if (LevelLoader::instance()->get_room1StopCamera())
+		_view->setRect(RectF(141.5f, 6, 20, 18));
+
+	//_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+	//_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
 }
 
 void PlatformerGameScene::event(SDL_Event& evt)

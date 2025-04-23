@@ -38,7 +38,7 @@ using namespace agp;
 
 LevelLoader::LevelLoader()
 {
-
+	LLReset();
 }
 
 void LevelLoader::loadJson(
@@ -67,7 +67,7 @@ void LevelLoader::loadJson(
 			rect.size.x = jObj["rect"]["width"];
 			rect.size.y = jObj["rect"]["height"];
 			rect.yUp = jObj["rect"]["yUp"];
-			
+
 			if (_categories[category] == "Pavements")
 				new StaticObject(world, rect, nullptr, false, 1);
 			else if (_categories[category] == "Climbable Walls")
@@ -185,21 +185,41 @@ Scene* LevelLoader::load(const std::string& name)
 		new Candlestick(world, RectF(121, 136, 2.5f, 2.5f));
 
 		// Spawn point finale per Mario
-		Mario* mario = new Mario(world, PointF(0.7f, 6));
+		//Mario* mario = new Mario(world, PointF(0.7f, 6));
+		Mario* mario = new Mario(world, PointF(130, 16));
 		world->setPlayer(mario);
 
 		// Caricamento collider da file json
 		loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
 
 		// Trigger per lo spawn dei nemici, utilizzeremo anche le variabli marioInRoom per la gestione della camera
-		new Trigger(world, RectF(9.5, 15.5, 0.1, 7.5), mario, [&, world]()
-		{
-			if (!mario->get_marioInRoom1())
+		new Trigger(world, RectF(9.5f, 15.5f, 0.1f, 7.5f), mario, [&, world]()
 			{
-				mario->set_marioInRoom1(true);
+				_atSpawnPoint = false;
+				_marioInRoom1 = true;
 				fillRoom1(world);
-			}
-		});
+			});
+		new Trigger(world, RectF(127, 3.5f, 6, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom1 = false;
+				killRoom();
+
+				fillRoom2(world);
+				_marioInRoom2 = true;
+			});
+		new Trigger(world, RectF(150, 6, 0.1f, 8), mario, [&, world]()
+			{
+				_room1StopCamera = true;
+			});
+		new Trigger(world, RectF(153, 25, 7, 0.1f), mario, [&, world]()
+			{
+				_room1StopCamera = false;
+				_marioInRoom1 = false;
+				killRoom();
+
+				//fillRoom3(world);
+				_marioInRoom3 = true;
+			});
 
 		return world;
 	}
@@ -226,6 +246,8 @@ void LevelLoader::fillRoom1(PlatformerGameScene* world)
 	skeloutons = { {1, skl1}, {2, skl2}, {3, skl3}, {4, skl4} };
 	rangedKappas = { {1, rkappa1}, {2, rkappa2},  {3, rkappa3} };
 	greenKappas = { {1, gkappa1} };
+
+	return;
 }
 
 void LevelLoader::fillRoom2(PlatformerGameScene* world)
@@ -285,8 +307,44 @@ void LevelLoader::fillRoom12(PlatformerGameScene* world)
 
 void LevelLoader::killRoom()
 {
+	for (auto& p : rangedKappas)
+		p.second->kill();
+	for (auto& p : greenKappas)
+		p.second->kill();
+	for (auto& p : skeloutons)
+		p.second->kill();
+	for (auto& p : bats)
+		p.second->kill();
+
 	rangedKappas.clear();
 	greenKappas.clear();
 	skeloutons.clear();
 	bats.clear();
+}
+
+void LevelLoader::LLReset()
+{
+	_atSpawnPoint = false; //Da mettere a true a fine del debug
+	_marioInRoom1 = true;
+	_marioInRoom2 = false;
+	_marioInRoom3 = false;
+	_marioInRoom4 = false;
+	_marioInRoom5 = false;
+	_marioInRoom6 = false;
+	_marioInRoom9 = false;
+	_marioInRoom10 = false;
+	_marioInRoom11 = false;
+	_marioInRoom12 = false;
+
+	_room1StopCamera = false;
+	_prevInRoom1 = false;
+	_prevInRoom2 = false;
+	_prevInRoom3 = false;
+	_prevInRoom4 = false;
+	_prevInRoom5 = false;
+	_prevInRoom6 = false;
+	_prevInRoom9 = false;
+	_prevInRoom10 = false;
+	_prevInRoom11 = false;
+	_prevInRoom12 = false;
 }

@@ -15,6 +15,7 @@
 #include "Candlestick.h"
 #include "Enemy.h"
 #include "Crystal.h"
+#include "Fireball.h"
 #include "PlatformerGameScene.h"
 
 using namespace agp;
@@ -54,6 +55,10 @@ bool Sword::collidableWith(CollidableObject* obj)
 		return true;
 	else if (dynamic_cast<Candlestick*>(obj))
 		return true;
+	else if (dynamic_cast<Fireball*>(obj))
+		return true;
+	else
+		return false;
 }
 
 bool Sword::collision(CollidableObject* with, bool begin, Direction fromDir)

@@ -79,17 +79,6 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_xFrictionForce = 50;
 	_xMoveForce = 60;
 
-	_marioInRoom1 = false;
-	_marioInRoom2 = false;
-	_marioInRoom3 = false;
-	_marioInRoom4 = false;
-	_marioInRoom5 = false;
-	_marioInRoom6 = false;
-	_marioInRoom9 = false;
-	_marioInRoom10 = false;
-	_marioInRoom11 = false;
-	_marioInRoom12 = false;
-
 	// ANIMAZIONI
 	_sprites["stand"] = SpriteFactory::instance()->get("ninja_stand");
 	_sprites["walk"] = SpriteFactory::instance()->get("ninja_walk");
