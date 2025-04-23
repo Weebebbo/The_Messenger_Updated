@@ -18,6 +18,7 @@
 #include "Scene.h"
 #include "Enemy.h"
 #include "Fireball.h"
+#include "HUD.h"
 
 using namespace agp;
 
@@ -398,6 +399,7 @@ void Mario::hurt()
 		
 		_healthBar[_iterator] = false; //le vite del bro sono gestite tramite un vettore di booleani
 		_iterator--; 
+		dynamic_cast<PlatformerGame*>(Game::instance())->hud()->healthBar(_iterator);
 
 		_canMarioTakeDamage = false;
 		_damageSkid = true;
