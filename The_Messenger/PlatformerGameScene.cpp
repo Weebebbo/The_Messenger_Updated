@@ -17,6 +17,7 @@
 #include "PlatformerGame.h"
 #include "geometryUtils.h"
 #include "Bridge.h"
+#include "LevelLoader.h"
 
 using namespace agp;
 
@@ -57,11 +58,6 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		mario->set_iWantToJumpAgain(false);
 		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 	}
-
-	//if ((mario->get_hitFromLeft() || mario->get_hitFromRight() || mario->get_hitFromBottom()) && keyboard[SDL_SCANCODE_SPACE])
-	//	mario->jump(false);
-	//else
-	//	mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 
 	mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
 	if (mario->get_crouch() && keyboard[SDL_SCANCODE_Z])

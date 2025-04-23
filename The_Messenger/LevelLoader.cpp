@@ -14,7 +14,6 @@
 #include "ClimbableWalls.h"
 #include "PlatformerGameScene.h"
 #include "Mario.h"
-#include "HammerBrother.h"
 #include "Lift.h"
 #include "Trigger.h"
 #include "RangedKappa.h"
@@ -39,7 +38,7 @@ using namespace agp;
 
 LevelLoader::LevelLoader()
 {
-	// e.g. load level data from disk
+
 }
 
 void LevelLoader::loadJson(
@@ -185,35 +184,22 @@ Scene* LevelLoader::load(const std::string& name)
 		new Candlestick(world, RectF(106.5f, 136, 2.5f, 2.5f));
 		new Candlestick(world, RectF(121, 136, 2.5f, 2.5f));
 
-		// Enemies 
-		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(10, 1));
-		//RangedKappa* rKappa1 = new RangedKappa(world, PointF(9, 1));
-		//RangedKappa* rKappa2 = new RangedKappa(world, PointF(13, 1));
-		//Bat* bat1 = new Bat(world, PointF(10, 0));
-		//GreenKappa* gKappa1 = new GreenKappa(world, PointF(11, 1)); 
-		//Skelouton* skl1 = new Skelouton(world, PointF(12, 1)); 
-
-		//NinjaLift* nLift1 = new NinjaLift(world, RectF(5, 2, 3, 3), spriteLoader->get("platform"), false, 3, 0); 
-
-		// static lifts
-		//Bridge* prova = new Bridge(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
-		//StaticObject* moneta = new StaticObject(world, RectF(4, 2, 1, 1), spriteLoader->get("money"));
-		//Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
-		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform"));
-		//Crystal* crystal = new Crystal(world, RectF(12, 4, 1, 1), -1);
-		//StaticLift* prova = new StaticLift(world, RectF(4, 1.8f, 3, 0.5f), spriteLoader->get("platform")); 
-		//StaticObject* moneta = new StaticObject(world, RectF(4, 2, 1, 1), spriteLoader->get("money"));
-		//Emerald* emerald1 = new Emerald(world, RectF(6, 2, 1, 1));
-		//Emerald* emerald2 = new Emerald(world, RectF(8, 2, 1, 1));
-		//Emerald* emerald3 = new Emerald(world, RectF(12, 2, 1, 1));
-		//Candlestick* cld1 = new Candlestick(world, RectF(4, 1.8f, 3, 0.5f));
-
 		// Spawn point finale per Mario
 		Mario* mario = new Mario(world, PointF(0.7f, 6));
 		world->setPlayer(mario);
 
 		// Caricamento collider da file json
 		loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
+
+		// Trigger per lo spawn dei nemici, utilizzeremo anche le variabli marioInRoom per la gestione della camera
+		new Trigger(world, RectF(9.5, 15.5, 0.1, 7.5), mario, [&, world]()
+		{
+			if (!mario->get_marioInRoom1())
+			{
+				mario->set_marioInRoom1(true);
+				fillRoom1(world);
+			}
+		});
 
 		return world;
 	}
@@ -222,4 +208,85 @@ Scene* LevelLoader::load(const std::string& name)
 		std::cerr << "Unrecognized game scene name \"" << name << "\"\n";
 		return nullptr;
 	}
+}
+
+void LevelLoader::fillRoom1(PlatformerGameScene* world)
+{
+	Skelouton* skl1 = new Skelouton(world, PointF(52, 12));
+	Skelouton* skl2 = new Skelouton(world, PointF(75, 12));
+	Skelouton* skl3 = new Skelouton(world, PointF(89, 20));
+	Skelouton* skl4 = new Skelouton(world, PointF(124, 21));
+
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(90, 10));
+	RangedKappa* rkappa2 = new RangedKappa(world, PointF(143, 17));
+	RangedKappa* rkappa3 = new RangedKappa(world, PointF(139, 20));
+
+	GreenKappa* gkappa1 = new GreenKappa(world, PointF(104, 16));
+
+	skeloutons = { {1, skl1}, {2, skl2}, {3, skl3}, {4, skl4} };
+	rangedKappas = { {1, rkappa1}, {2, rkappa2},  {3, rkappa3} };
+	greenKappas = { {1, gkappa1} };
+}
+
+void LevelLoader::fillRoom2(PlatformerGameScene* world)
+{
+	Bat* bat1 = new Bat(world, PointF(80, 35));
+
+	bats = { {1, bat1} };
+}
+
+void LevelLoader::fillRoom3(PlatformerGameScene* world)
+{
+	Bat* bat1 = new Bat(world, PointF(7, 58));
+
+	bats = { {1, bat1} };
+}
+
+void LevelLoader::fillRoom6(PlatformerGameScene* world)
+{
+	Skelouton* skl1 = new Skelouton(world, PointF(175, 68));
+	Skelouton* skl2 = new Skelouton(world, PointF(184, 68));
+
+	Bat* bat1 = new Bat(world, PointF(194, 57));
+
+	GreenKappa* gkappa1 = new GreenKappa(world, PointF(162, 63));
+
+	skeloutons = { {1, skl1}, {2, skl2} };
+	bats = { {1, bat1} };
+	greenKappas = { {1, gkappa1} };
+}
+
+void LevelLoader::fillRoom9(PlatformerGameScene* world)
+{
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(47, 109));
+	RangedKappa* rkappa2 = new RangedKappa(world, PointF(94, 110));
+
+	rangedKappas = { {1, rkappa1}, {2, rkappa2} };
+}
+
+void LevelLoader::fillRoom11(PlatformerGameScene* world)
+{
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(48, 138));
+
+	rangedKappas = { {1, rkappa1} };
+}
+
+void LevelLoader::fillRoom12(PlatformerGameScene* world)
+{
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(98, 138));
+
+	Bat* bat1 = new Bat(world, PointF(109, 131));
+	Bat* bat2 = new Bat(world, PointF(119, 133));
+	Bat* bat3 = new Bat(world, PointF(130, 135));
+
+	rangedKappas = { {1, rkappa1} };
+	bats = { {1, bat1}, {2, bat2}, {3, bat3} };
+}
+
+void LevelLoader::killRoom()
+{
+	rangedKappas.clear();
+	greenKappas.clear();
+	skeloutons.clear();
+	bats.clear();
 }

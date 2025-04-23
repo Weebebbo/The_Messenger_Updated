@@ -63,6 +63,18 @@ class agp::Mario : public DynamicObject
 		bool _finishedClimbableWallLowerLimit;
 		bool _canMarioJumpAgain;
 		bool _iWantToJumpAgain;
+
+		// Roba per le stanze
+		bool _marioInRoom1;
+		bool _marioInRoom2;
+		bool _marioInRoom3;
+		bool _marioInRoom4;
+		bool _marioInRoom5;
+		bool _marioInRoom6;
+		bool _marioInRoom9;
+		bool _marioInRoom10;
+		bool _marioInRoom11;
+		bool _marioInRoom12;
 		
 		std::map<std::string, Sprite*> _sprites;
 
@@ -93,6 +105,18 @@ class agp::Mario : public DynamicObject
 		bool get_canMarioTakeDamage() { return _canMarioTakeDamage; }
 		bool get_damageSkid() { return _damageSkid; }
 
+		// Roba per le stanze
+		bool get_marioInRoom1() { return _marioInRoom1; }
+		bool get_marioInRoom2() { return _marioInRoom2; }
+		bool get_marioInRoom3() { return _marioInRoom3; }
+		bool get_marioInRoom4() { return _marioInRoom4; }
+		bool get_marioInRoom5() { return _marioInRoom5; }
+		bool get_marioInRoom6() { return _marioInRoom6; }
+		bool get_marioInRoom9() { return _marioInRoom9; }
+		bool get_marioInRoom10() { return _marioInRoom10; }
+		bool get_marioInRoom11() { return _marioInRoom11; }
+		bool get_marioInRoom12() { return _marioInRoom12; }
+
 		// Setter
 		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }
 		void set_climbingMovement(bool climbingMovement) { _climbingMovement = climbingMovement; }
@@ -103,6 +127,18 @@ class agp::Mario : public DynamicObject
 		void set_canMarioJumpAgain(bool canJump) { _canMarioJumpAgain = canJump; }
 		void set_iWantToJumpAgain(bool iWantToJump) { _iWantToJumpAgain = iWantToJump; }
 		void set_canMarioTakeDamage(bool canMarioTakeDamage) { _canMarioTakeDamage = canMarioTakeDamage; }
+
+		// Roba per le stanze
+		void set_marioInRoom1(bool isInRoom1) { _marioInRoom1 = isInRoom1; }
+		void set_marioInRoom2(bool isInRoom2) { _marioInRoom2 = isInRoom2; }
+		void set_marioInRoom3(bool isInRoom3) { _marioInRoom3 = isInRoom3; }
+		void set_marioInRoom4(bool isInRoom4) { _marioInRoom4 = isInRoom4; }
+		void set_marioInRoom5(bool isInRoom5) { _marioInRoom5 = isInRoom5; }
+		void set_marioInRoom6(bool isInRoom6) { _marioInRoom6 = isInRoom6; }
+		void set_marioInRoom9(bool isInRoom9) { _marioInRoom9 = isInRoom9; }
+		void set_marioInRoom10(bool isInRoom10) { _marioInRoom10 = isInRoom10; }
+		void set_marioInRoom11(bool isInRoom11) { _marioInRoom11 = isInRoom11; }
+		void set_marioInRoom12(bool isInRoom12) { _marioInRoom12 = isInRoom12; }
 
 		// extends game logic (+mario logic)
 		virtual void update(float dt) override;

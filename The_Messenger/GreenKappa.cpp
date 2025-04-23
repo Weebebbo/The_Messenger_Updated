@@ -65,7 +65,7 @@ void GreenKappa::update(float dt)
 		_flip = SDL_FLIP_HORIZONTAL; 
 
 	if (!_canSwordHitMe && (SDL_GetTicks() - invincibilityStartGreenKappa > INVINCIBILITY_DURATION_GREEN_KAPPA)) {
-		_canSwordHitMe = true;  // mario può tornare a prenderlo in culo 
+		_canSwordHitMe = true;  // mario puï¿½ tornare a prenderlo in culo 
 		_hitFromLeft = false; 
 		_hitFromRight = false;
 		std::cout << "danno riattivato" << std::endl;

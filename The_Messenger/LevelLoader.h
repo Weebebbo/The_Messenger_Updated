@@ -12,6 +12,11 @@
 #include <string>
 #include "PlatformerGameScene.h"
 #include "Singleton.h"
+#include "Bat.h"
+#include "Skelouton.h"
+#include "RangedKappa.h"
+#include "GreenKappa.h"
+#include <map>
 
 namespace agp
 {
@@ -36,8 +41,26 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 			const std::string& jsonPath,
 			Mario* mario);
 
+		// Map che contengono i nemici
+		// I nemici vengono messi dentro una map e poi tolti stanza per stanza
+		// Le funzioni che seguono andranno a fare quello
+		std::map<int, RangedKappa*> rangedKappas;
+		std::map<int, GreenKappa*> greenKappas;
+		std::map<int, Skelouton*> skeloutons;
+		std::map<int, Bat*> bats;
+
 	public:
 		Scene* load(const std::string& name);
-		
-		void spawnEnemyRoom1(PlatformerGameScene* world);
+
+		// Funzione per la generazione delle stanze
+		void fillRoom1(PlatformerGameScene* world);
+		void fillRoom2(PlatformerGameScene* world);
+		void fillRoom3(PlatformerGameScene* world);
+		void fillRoom6(PlatformerGameScene* world);
+		void fillRoom9(PlatformerGameScene* world);
+		void fillRoom11(PlatformerGameScene* world);
+		void fillRoom12(PlatformerGameScene* world);
+
+		// Despawn di tutti i nemici nella stanza
+		void killRoom();
 };
