@@ -95,131 +95,116 @@ Scene* LevelLoader::load(const std::string& name)
 		world->setBackgroundColor(Color(92, 148, 252));
 
 		// Room1
-		new StaticObject(world, RectF(0, 5, 162, 19), spriteLoader->get("room1"), true, -2);
-		new Candlestick(world, RectF(25.6f, 15.5f, 2.5f, 2.5f));
-		new Candlestick(world, RectF(54, 8, 2.5f, 2.5f));
-		new Candlestick(world, RectF(75, 8.5f, 2.5f, 2.5f));
-		new Candlestick(world, RectF(82, 19, 2.5f, 2.5f));
-		new Candlestick(world, RectF(103, 13, 2.5f, 2.5f));
-		new Candlestick(world, RectF(123, 16, 2.5f, 2.5f));
-		new Emerald(world, RectF(23, 17, 1.2f, 1.8f));
-		new Emerald(world, RectF(29.5f, 17, 1.2f, 1.8f));
-		new Emerald(world, RectF(21, 19, 1.2f, 1.8f));
-		new Emerald(world, RectF(31.6f, 19, 1.2f, 1.8f));
+		new StaticObject(world, RectF(0, 28, 162, 19), spriteLoader->get("room1"), true, -2);
+		new Candlestick(world, RectF(25.6f, 38.5f, 2.5f, 2.5f));
+		new Emerald(world, RectF(23, 40.5f, 1.2f, 1.8f));
+		new Emerald(world, RectF(29.5f, 40.5f, 1.2f, 1.8f));
+		new Emerald(world, RectF(21, 42.5f, 1.2f, 1.8f));
+		new Emerald(world, RectF(31.6f, 42.5f, 1.2f, 1.8f));
+		new Candlestick(world, RectF(54, 32, 2.5f, 2.5f));
+		new Candlestick(world, RectF(75.5f, 32, 2.5f, 2.5f));
+		new Candlestick(world, RectF(82, 42, 2.5f, 2.5f));
+		new Candlestick(world, RectF(103, 36, 2.5f, 2.5f));
+		new Candlestick(world, RectF(121.5f, 39, 2.5f, 2.5f));
+
 
 		// Room2
-		new StaticObject(world, RectF(0, 25, 101, 28), spriteLoader->get("room2"), true, -2);
-		new Candlestick(world, RectF(67, 40, 2.5f, 2.5f));
-		new Candlestick(world, RectF(78, 40, 2.5f, 2.5f));
-		new Candlestick(world, RectF(89, 40, 2.5f, 2.5f));
-		new Candlestick(world, RectF(9.5, 40, 2.5f, 2.5f));
-		new Candlestick(world, RectF(28.2, 40, 2.5f, 2.5f));
-		new Crystal(world, RectF(18, 40.9f, 4, 6.5f));
+		new StaticObject(world, RectF(67.3f, 0, 101, 28), spriteLoader->get("room2"), true, -2);
+		new Candlestick(world, RectF(136, 14, 2.5f, 2.5f));
+		new Candlestick(world, RectF(156, 14, 2.5f, 2.5f));
+		new Candlestick(world, RectF(146, 14, 2.5f, 2.5f));
+		new Candlestick(world, RectF(95.5f, 14, 2.5f, 2.5f));
+		new Candlestick(world, RectF(76.7f, 14, 2.5f, 2.5f));
+		new Crystal(world, RectF(85.8f, 15.9f, 4, 6.5f));
 
 		// Room3
-		new StaticObject(world, RectF(0, 54, 46, 22), spriteLoader->get("room3"), true, -2);
-		new Candlestick(world, RectF(37.7f, 61, 2.5f, 2.5f));
-		new Candlestick(world, RectF(37.7f, 68, 2.5f, 2.5f));
-		new Candlestick(world, RectF(14, 59, 2.5f, 2.5f));
-		new Candlestick(world, RectF(14, 68, 2.5f, 2.5f));
-		new Candlestick(world, RectF(7, 63.5f, 2.5f, 2.5f));
-		new Candlestick(world, RectF(21, 63.5f, 2.5f, 2.5f));
+		new StaticObject(world, RectF(117.3f, 47, 46, 22), spriteLoader->get("room3"), true, -2);
+		new Candlestick(world, RectF(131, 52, 2.5f, 2.5f));
+		new Candlestick(world, RectF(131, 62, 2.5f, 2.5f));
+		new Candlestick(world, RectF(126, 57, 2.5f, 2.5f));
+		new Candlestick(world, RectF(136, 57, 2.5f, 2.5f));
+		new Candlestick(world, RectF(155, 51, 2.5f, 2.5f));
+		new Candlestick(world, RectF(155, 57, 2.5f, 2.5f));
 
 		// Room4
-		new StaticObject(world, RectF(54, 54, 42, 21), spriteLoader->get("room4"), true, -2);
-		new Candlestick(world, RectF(57, 60, 2.5f, 2.5f));
-		new Candlestick(world, RectF(62, 60, 2.5f, 2.5f));
-		new Candlestick(world, RectF(86, 66, 2.5f, 2.5f));
-		new Candlestick(world, RectF(92, 66, 2.5f, 2.5f));
+		new StaticObject(world, RectF(163.2f, 48.01f, 42, 21), spriteLoader->get("room4"), true, -2);
+		new Candlestick(world, RectF(166.3f, 54, 2.5f, 2.5f));
+		new Candlestick(world, RectF(171.3f, 54, 2.5f, 2.5f));
+		new Candlestick(world, RectF(195.5f, 59, 2.5f, 2.5f));
+		new Candlestick(world, RectF(200.5f, 59, 2.5f, 2.5f));
 
 		// Room5
-		new StaticObject(world, RectF(99, 54, 47, 47), spriteLoader->get("room5"), true, -2);
+		new StaticObject(world, RectF(205, 46.8f, 47, 47), spriteLoader->get("room5"), true, -2);
 
 		// Room6
-		new StaticObject(world, RectF(149, 54, 64, 18), spriteLoader->get("room6"), true, -2);
-		new Candlestick(world, RectF(162, 60, 2.5f, 2.5f));
-		new Candlestick(world, RectF(174, 56.5F, 2.5f, 2.5f));
-		new Candlestick(world, RectF(182, 56.5F, 2.5f, 2.5f));
-		new Candlestick(world, RectF(195, 60, 2.5f, 2.5f));
-		new Candlestick(world, RectF(171, 66, 2.5f, 2.5f));
-		new Candlestick(world, RectF(187, 66, 2.5f, 2.5f));
-		new Emerald(world, RectF(207.3f, 69, 1.2f, 1.8f));
+		new StaticObject(world, RectF(252, 49.325f, 64, 18), spriteLoader->get("room6"), true, -2);
+		new Candlestick(world, RectF(262, 58, 2.5f, 2.5f));
+		new Candlestick(world, RectF(277, 51.8f, 2.5f, 2.5f));
+		new Candlestick(world, RectF(285, 51.8f, 2.5f, 2.5f));
+		new Candlestick(world, RectF(273.5f, 61.5f, 2.5f, 2.5f));
+		new Candlestick(world, RectF(290.5f, 62, 2.5f, 2.5f));
+		new Candlestick(world, RectF(303, 58, 2.5f, 2.5f));
+		new Emerald(world, RectF(310.3f, 65, 1.2f, 1.8f));
 
 		// Room9
-		new StaticObject(world, RectF(0, 103, 142, 24), spriteLoader->get("room9"), true, -2);
-		new Candlestick(world, RectF(99.5f, 107, 2.5f, 2.5f));
-		new Emerald(world, RectF(32.5f, 104, 1.2f, 1.8f));
-		new Emerald(world, RectF(32.5f, 107, 1.2f, 1.8f));
-		new Emerald(world, RectF(111, 115, 1.2f, 1.8f));
-		new Emerald(world, RectF(111, 118, 1.2f, 1.8f));
-		new Emerald(world, RectF(111, 121, 1.2f, 1.8f));
-		new Emerald(world, RectF(133.8f, 111, 1.2f, 1.8f));
-		new Emerald(world, RectF(133.8f, 114, 1.2f, 1.8f));
-		new Emerald(world, RectF(133.8f, 117, 1.2f, 1.8f));
-		new Emerald(world, RectF(60, 106, 1.2f, 1.8f));
-		new Emerald(world, RectF(62, 108, 1.2f, 1.8f));
-		new Emerald(world, RectF(56, 106, 1.2f, 1.8f));
-		new Emerald(world, RectF(58, 108, 1.2f, 1.8f));
-		new Emerald(world, RectF(52, 106, 1.2f, 1.8f));
-		new Emerald(world, RectF(54, 108, 1.2f, 1.8f));
-		new Emerald(world, RectF(79.5f, 108, 1.2f, 1.8f));
-		new Emerald(world, RectF(81.5f, 106, 1.2f, 1.8f));
-		new Emerald(world, RectF(83.5f, 108, 1.2f, 1.8f));
-		new Emerald(world, RectF(85.5f, 106, 1.2f, 1.8f));
-		new Emerald(world, RectF(87.5f, 108, 1.2f, 1.8f));
-		new Emerald(world, RectF(89.5f, 106, 1.2f, 1.8f));
+		new StaticObject(world, RectF(277.8f, 67.2f, 142, 24), spriteLoader->get("room9"), true, -2);
+		new Candlestick(world, RectF(377, 70, 2.5f, 2.5f));
+		new Emerald(world, RectF(310.3f, 69, 1.2f, 1.8f));
+		new Emerald(world, RectF(310.3f, 72, 1.2f, 1.8f));
+		new Emerald(world, RectF(388.5f, 80, 1.2f, 1.8f));
+		new Emerald(world, RectF(388.5f, 83, 1.2f, 1.8f));
+		new Emerald(world, RectF(388.5f, 86, 1.2f, 1.8f));
+		new Emerald(world, RectF(411.6f, 82, 1.2f, 1.8f));
+		new Emerald(world, RectF(411.6f, 79, 1.2f, 1.8f));
+		new Emerald(world, RectF(411.6f, 76, 1.2f, 1.8f));
+		new Emerald(world, RectF(330, 70, 1.2f, 1.8f));
+		new Emerald(world, RectF(331.5f, 72, 1.2f, 1.8f));
+		new Emerald(world, RectF(334, 70, 1.2f, 1.8f));
+		new Emerald(world, RectF(335.5f, 72, 1.2f, 1.8f));
+		new Emerald(world, RectF(338, 70, 1.2f, 1.8f));
+		new Emerald(world, RectF(339.5f, 72, 1.2f, 1.8f));
+		new Emerald(world, RectF(357.5f, 72, 1.2f, 1.8f));
+		new Emerald(world, RectF(359, 70, 1.2f, 1.8f));
+		new Emerald(world, RectF(361.5f, 72, 1.2f, 1.8f));
+		new Emerald(world, RectF(363, 70, 1.2f, 1.8f));
+		new Emerald(world, RectF(365.5f, 72, 1.2f, 1.8f));
+		new Emerald(world, RectF(367, 70, 1.2f, 1.8f));
 
 		// Room10
-		new StaticObject(world, RectF(0, 129, 43, 22), spriteLoader->get("room10"), true, -2);
-		new Candlestick(world, RectF(16, 142, 2.5f, 2.5f));
-		new Candlestick(world, RectF(24, 142, 2.5f, 2.5f));
-		new Candlestick(world, RectF(6.2f, 142, 2.5f, 2.5f));
-		new Candlestick(world, RectF(32.5f, 142, 2.5f, 2.5f));
+		new StaticObject(world, RectF(327.8f, 45.4f, 43, 22), spriteLoader->get("room10"), true, -2);
+		new Candlestick(world, RectF(334, 59, 2.5f, 2.5f));
+		new Candlestick(world, RectF(343.5f, 59, 2.5f, 2.5f));
+		new Candlestick(world, RectF(352.5f, 59, 2.5f, 2.5f));
+		new Candlestick(world, RectF(360.4f, 59, 2.5f, 2.5f));
 
 		// Room11
-		new StaticObject(world, RectF(46, 129, 41, 21), spriteLoader->get("room11"), true, -2);
+		new StaticObject(world, RectF(377.8f, 46.2f, 41, 21), spriteLoader->get("room11"), true, -2);
 
 		// Room12
-		new StaticObject(world, RectF(90, 129, 66, 17), spriteLoader->get("room12"), true, -2);
-		new Candlestick(world, RectF(106.5f, 136, 2.5f, 2.5f));
-		new Candlestick(world, RectF(121, 136, 2.5f, 2.5f));
+		new StaticObject(world, RectF(323.5f, 29.5f, 66, 17), spriteLoader->get("room12"), true, -2);
+		new Candlestick(world, RectF(354.5f, 37, 2.5f, 2.5f));
+		new Candlestick(world, RectF(340, 37, 2.5f, 2.5f));
 
 		// Spawn point finale per Mario
-		//Mario* mario = new Mario(world, PointF(0.7f, 6));
-		Mario* mario = new Mario(world, PointF(130, 16));
+		Mario* mario = new Mario(world, PointF(0.7f, 27));
+		//Mario* mario = new Mario(world, PointF(130, 16));
 		world->setPlayer(mario);
 
 		// Caricamento collider da file json
-		loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
+		//loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
 
 		// Trigger per lo spawn dei nemici, utilizzeremo anche le variabli marioInRoom per la gestione della camera
-		new Trigger(world, RectF(9.5f, 15.5f, 0.1f, 7.5f), mario, [&, world]()
+		new Trigger(world, RectF(10, 38, 0.1f, 8), mario, [&, world]()
 			{
-				_atSpawnPoint = false;
-				_marioInRoom1 = true;
-				fillRoom1(world);
+				if (_marioInRoom == 0)
+				{
+					_marioInRoom = 1;
+					fillRoom1(world);
+				}
 			});
-		new Trigger(world, RectF(127, 3.5f, 6, 0.1f), mario, [&, world]()
-			{
-				_marioInRoom1 = false;
-				killRoom();
-
-				fillRoom2(world);
-				_prevInRoom1 = true;
-				_marioInRoom2 = true;
-			});
-		new Trigger(world, RectF(150, 6, 0.1f, 8), mario, [&, world]()
+		new Trigger(world, RectF(150, 29, 0.1f, 8), mario, [&, world]()
 			{
 				_room1StopCamera = true;
-			});
-		new Trigger(world, RectF(153, 25, 7, 0.1f), mario, [&, world]()
-			{
-				_room1StopCamera = false;
-				_marioInRoom1 = false;
-				killRoom();
-
-				//fillRoom3(world);
-				_marioInRoom3 = true;
 			});
 
 		return world;
@@ -233,16 +218,16 @@ Scene* LevelLoader::load(const std::string& name)
 
 void LevelLoader::fillRoom1(PlatformerGameScene* world)
 {
-	Skelouton* skl1 = new Skelouton(world, PointF(52, 12));
-	Skelouton* skl2 = new Skelouton(world, PointF(75, 12));
-	Skelouton* skl3 = new Skelouton(world, PointF(89, 20));
-	Skelouton* skl4 = new Skelouton(world, PointF(124, 21));
+	Skelouton* skl1 = new Skelouton(world, PointF(54, 35));
+	Skelouton* skl2 = new Skelouton(world, PointF(75, 35));
+	Skelouton* skl3 = new Skelouton(world, PointF(89, 43));
+	Skelouton* skl4 = new Skelouton(world, PointF(124, 43));
 
-	RangedKappa* rkappa1 = new RangedKappa(world, PointF(90, 10));
-	RangedKappa* rkappa2 = new RangedKappa(world, PointF(143, 17));
-	RangedKappa* rkappa3 = new RangedKappa(world, PointF(139, 20));
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(90, 32));
+	RangedKappa* rkappa2 = new RangedKappa(world, PointF(143, 39));
+	RangedKappa* rkappa3 = new RangedKappa(world, PointF(139, 43));
 
-	GreenKappa* gkappa1 = new GreenKappa(world, PointF(104, 16));
+	GreenKappa* gkappa1 = new GreenKappa(world, PointF(104, 38));
 
 	skeloutons = { {1, skl1}, {2, skl2}, {3, skl3}, {4, skl4} };
 	rangedKappas = { {1, rkappa1}, {2, rkappa2},  {3, rkappa3} };
@@ -253,26 +238,25 @@ void LevelLoader::fillRoom1(PlatformerGameScene* world)
 
 void LevelLoader::fillRoom2(PlatformerGameScene* world)
 {
-	Bat* bat1 = new Bat(world, PointF(80, 35));
+	Bat* bat1 = new Bat(world, PointF(148, 10));
 
 	bats = { {1, bat1} };
 }
 
 void LevelLoader::fillRoom3(PlatformerGameScene* world)
 {
-	Bat* bat1 = new Bat(world, PointF(7, 58));
-
+	Bat* bat1 = new Bat(world, PointF(124, 51));
 	bats = { {1, bat1} };
 }
 
 void LevelLoader::fillRoom6(PlatformerGameScene* world)
 {
-	Skelouton* skl1 = new Skelouton(world, PointF(175, 68));
-	Skelouton* skl2 = new Skelouton(world, PointF(184, 68));
+	Skelouton* skl1 = new Skelouton(world, PointF(278, 63));
+	Skelouton* skl2 = new Skelouton(world, PointF(287, 63));
 
-	Bat* bat1 = new Bat(world, PointF(194, 57));
+	Bat* bat1 = new Bat(world, PointF(297, 52));
 
-	GreenKappa* gkappa1 = new GreenKappa(world, PointF(162, 63));
+	GreenKappa* gkappa1 = new GreenKappa(world, PointF(265, 58));
 
 	skeloutons = { {1, skl1}, {2, skl2} };
 	bats = { {1, bat1} };
@@ -281,29 +265,32 @@ void LevelLoader::fillRoom6(PlatformerGameScene* world)
 
 void LevelLoader::fillRoom9(PlatformerGameScene* world)
 {
-	RangedKappa* rkappa1 = new RangedKappa(world, PointF(47, 109));
-	RangedKappa* rkappa2 = new RangedKappa(world, PointF(94, 110));
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(324, 73));
+	RangedKappa* rkappa2 = new RangedKappa(world, PointF(371, 74));
 
 	rangedKappas = { {1, rkappa1}, {2, rkappa2} };
 }
 
 void LevelLoader::fillRoom11(PlatformerGameScene* world)
 {
-	RangedKappa* rkappa1 = new RangedKappa(world, PointF(48, 138));
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(380, 55));
 
 	rangedKappas = { {1, rkappa1} };
 }
 
 void LevelLoader::fillRoom12(PlatformerGameScene* world)
 {
-	RangedKappa* rkappa1 = new RangedKappa(world, PointF(98, 138));
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(332, 38));
 
-	Bat* bat1 = new Bat(world, PointF(109, 131));
-	Bat* bat2 = new Bat(world, PointF(119, 133));
-	Bat* bat3 = new Bat(world, PointF(130, 135));
+	Skelouton* skl1 = new Skelouton(world, PointF(362, 38));
+
+	Bat* bat1 = new Bat(world, PointF(343, 32));
+	Bat* bat2 = new Bat(world, PointF(356, 32));
+	Bat* bat3 = new Bat(world, PointF(364.5f, 35));
 
 	rangedKappas = { {1, rkappa1} };
 	bats = { {1, bat1}, {2, bat2}, {3, bat3} };
+	skeloutons = { {1, skl1} };
 }
 
 void LevelLoader::killRoom()
@@ -325,27 +312,8 @@ void LevelLoader::killRoom()
 
 void LevelLoader::LLReset()
 {
-	_atSpawnPoint = false; //Da mettere a true a fine del debug
-	_marioInRoom1 = true;
-	_marioInRoom2 = false;
-	_marioInRoom3 = false;
-	_marioInRoom4 = false;
-	_marioInRoom5 = false;
-	_marioInRoom6 = false;
-	_marioInRoom9 = false;
-	_marioInRoom10 = false;
-	_marioInRoom11 = false;
-	_marioInRoom12 = false;
+	_marioInRoom = 0;
+	_prevRoom = 0;
 
 	_room1StopCamera = false;
-	_prevInRoom1 = false;
-	_prevInRoom2 = false;
-	_prevInRoom3 = false;
-	_prevInRoom4 = false;
-	_prevInRoom5 = false;
-	_prevInRoom6 = false;
-	_prevInRoom9 = false;
-	_prevInRoom10 = false;
-	_prevInRoom11 = false;
-	_prevInRoom12 = false;
 }
