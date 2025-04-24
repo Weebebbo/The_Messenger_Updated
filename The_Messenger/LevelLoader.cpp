@@ -186,8 +186,8 @@ Scene* LevelLoader::load(const std::string& name)
 		new Candlestick(world, RectF(340, 37, 2.5f, 2.5f));
 
 		// Spawn point finale per Mario
-		Mario* mario = new Mario(world, PointF(0.7f, 27));
-		//Mario* mario = new Mario(world, PointF(130, 16));
+		//Mario* mario = new Mario(world, PointF(0.7f, 27));
+		Mario* mario = new Mario(world, PointF(141, 31));
 		world->setPlayer(mario);
 
 		// Caricamento collider da file json
@@ -199,12 +199,14 @@ Scene* LevelLoader::load(const std::string& name)
 				if (_marioInRoom == 0)
 				{
 					_marioInRoom = 1;
-					fillRoom1(world);
+					//fillRoom1(world);
 				}
 			});
 		new Trigger(world, RectF(150, 29, 0.1f, 8), mario, [&, world]()
 			{
-				_room1StopCamera = true;
+				_iWantToQuitRoom = true;
+				if (_iWantToQuitRoom)
+					_room1StopCamera = true;
 			});
 
 		return world;
@@ -314,6 +316,7 @@ void LevelLoader::LLReset()
 {
 	_marioInRoom = 0;
 	_prevRoom = 0;
+	_iWantToQuitRoom = false;
 
 	_room1StopCamera = false;
 }

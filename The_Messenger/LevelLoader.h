@@ -43,6 +43,7 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 
 		int _marioInRoom;
 		int _prevRoom;
+		bool _iWantToQuitRoom,
 
 
 		// Boleani necessari per il movimento della camera
@@ -63,7 +64,11 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 		int get_marioInRoom() {return _marioInRoom; }
 		void set_marioInRoom(int a) {_marioInRoom = a; }
 
+		bool get_iWantToQuitRoom() {return _iWantToQuitRoom; }
+		void set_iWantToQuitRoom(bool b) {_iWantToQuitRoom = b; }
+
 		bool get_room1StopCamera() { return _room1StopCamera; }
+		void set_room1StopCamera(bool a) {_room1StopCamera = a; }
 
 		// Funzione per la generazione delle stanze
 		void fillRoom1(PlatformerGameScene* world);

@@ -126,18 +126,21 @@ void PlatformerGameScene::updateCamera(float timeToSimulate)
 
 	Mario* mario = dynamic_cast<Mario*>(_player);
 
+	_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+	_view->setY(28.8f);
+
 	// Movimento della camera in base a dove sta Mario nella stanza
-	if (LevelLoader::instance()->get_marioInRoom() == 0)
-		_view->setRect(RectF(0, 6, 20, 18));
-	else if (LevelLoader::instance()->get_marioInRoom() == 1 && !LevelLoader::instance()->get_room1StopCamera())
-		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 2.5);
-	else if (LevelLoader::instance()->get_marioInRoom() == 2)
+	//default == 0
+	if (LevelLoader::instance()->get_marioInRoom() == 1)
+		_view->setRect(RectF(0, 28.8f, 20, 18));
+	// default == 1
+	else if (LevelLoader::instance()->get_marioInRoom() == 0 && !LevelLoader::instance()->get_room1StopCamera())
 	{
 		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 2.5);
-		_view->setY(35);
+		LevelLoader::instance()->set_room1StopCamera(false);
 	}
 	else if (LevelLoader::instance()->get_room1StopCamera())
-		_view->setRect(RectF(141.5f, 6, 20, 18));
+		_view->setRect(RectF(140.7f, 28.8f, 20, 18));
 
 	//_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
 	//_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
