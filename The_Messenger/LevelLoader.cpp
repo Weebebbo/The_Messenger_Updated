@@ -191,7 +191,7 @@ Scene* LevelLoader::load(const std::string& name)
 		world->setPlayer(mario);
 
 		// Caricamento collider da file json
-		//loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
+		loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
 
 		// Trigger per lo spawn dei nemici, utilizzeremo anche le variabli marioInRoom per la gestione della camera
 		new Trigger(world, RectF(10, 38, 0.1f, 8), mario, [&, world]()
