@@ -14,6 +14,7 @@
 namespace agp
 {
 	class HUD;
+	class PlatformerGameScene;
 }
 
 // HUD
@@ -38,15 +39,27 @@ class agp::HUD : public UIScene
 		RenderableObject* _levelObj;
 		RenderableObject* _timeObj;
 		RenderableObject* _fpsObj;
+		RenderableObject* _healthBar[5]; 
 
 	public:
-
+		
 		HUD();
 		virtual ~HUD() {};
-
+		
 		// getters/setters (to be completed)
 		void setFPS(int fps);
 
 		// extends update logic (+time management)
 		virtual void update(float timeToSimulate) override;
+
+		// get and set methods
+		int get_coins() { return _coins; }
+		void set_coins(int coins) { _coins = coins; }
+
+		// add coin method
+		void addCoin(); 
+
+		// health bar method
+		void healthBar(int iterator);
+		
 };

@@ -115,6 +115,14 @@ Sprite* SpriteFactory::get(const std::string& id)
 	else if (id == "ninja_take_damage")
 		return new Sprite(_spriteSheets["ninja"], _autoTiles["ninja"][9][2]);
 
+	//roba dell'HUD
+	else if (id == "hud_gem")
+		return new Sprite(_spriteSheets["hud1"], _autoTiles["hud1"][0][5]);
+	else if (id == "hud_health_bar")
+		return new Sprite(_spriteSheets["hud1"], _autoTiles["hud1"][0][1]);
+	else if (id == "hud_health_bar2")
+		return new Sprite(_spriteSheets["hud1"], _autoTiles["hud1"][0][2]);
+
 	// animated sprites
 	else if (id == "mario_walk")
 		return new AnimatedSprite(_spriteSheets["mario"], { _autoTiles["mario"][0].begin() + 2, _autoTiles["mario"][0].begin() + 5 }, 10);
