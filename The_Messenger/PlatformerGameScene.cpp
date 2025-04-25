@@ -125,25 +125,124 @@ void PlatformerGameScene::updateCamera(float timeToSimulate)
 	}
 
 	Mario* mario = dynamic_cast<Mario*>(_player);
-
-	_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
-	_view->setY(28.8f);
-
 	// Movimento della camera in base a dove sta Mario nella stanza
-	//default == 0
 	if (LevelLoader::instance()->get_marioInRoom() == 1)
-		_view->setRect(RectF(0, 28.8f, 20, 18));
-	// default == 1
-	else if (LevelLoader::instance()->get_marioInRoom() == 0 && !LevelLoader::instance()->get_room1StopCamera())
 	{
-		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 2.5);
-		LevelLoader::instance()->set_room1StopCamera(false);
-	}
-	else if (LevelLoader::instance()->get_room1StopCamera())
-		_view->setRect(RectF(140.7f, 28.8f, 20, 18));
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+		_view->setY(28.8f);
 
-	//_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
-	//_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
+		if (_view->rect().left() < 0)
+			_view->setX(0);
+		else if (_view->rect().left() > 140.7f)
+			_view->setX(140.7f);
+	}
+	else if (LevelLoader::instance()->get_marioInRoom() == 2)
+	{
+		_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+
+		if (_view->rect().top() > 9.9f)
+			_view->setY(9.9f);
+		else if (_view->rect().top() < 6)
+			_view->setY(6);
+
+		if (_view->rect().left() > 147.4f)
+			_view->setX(147.4f);
+		else if (_view->rect().left() < 68)
+			_view->setX(68);
+	}
+	else if (LevelLoader::instance()->get_marioInRoom() == 3)
+	{
+		_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+		if (_view->rect().top() > 51)
+			_view->setY(51);
+		if (_view->rect().left() > 144.5f)
+			_view->setX(144.5f);
+
+		if (LevelLoader::instance()->get_room3MoveCamera())
+		{
+			if (_view->rect().left() < 119)
+				_view->setX(119);
+			if (_view->rect().top() < 47)
+				_view->setY(47);
+		}
+	}
+	else if (LevelLoader::instance()->get_marioInRoom() == 4)
+	{
+		_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+
+		if (_view->rect().top() > 51)
+			_view->setY(51);
+		else if (_view->rect().top() < 48)
+			_view->setY(48);
+
+		if (_view->rect().left() < 164)
+			_view->setX(164);
+		else if (_view->rect().left() > 185)
+			_view->setX(185);
+	}
+	else if (LevelLoader::instance()->get_marioInRoom() == 5)
+	{
+		_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+
+		if (_view->rect().top() < 47)
+			_view->setY(47);
+		else if (_view->rect().top() > 75)
+			_view->setY(75);
+
+		if (_view->rect().left() < 205)
+			_view->setX(205);
+		else if (_view->rect().left() > 232)
+			_view->setX(232);
+	}
+	else if (LevelLoader::instance()->get_marioInRoom() == 6)
+	{
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+		_view->setY(49.5f);
+		
+		if (_view->rect().left() < 252)
+			_view->setX(252);
+		else if (_view->rect().left() > 296)
+			_view->setX(296);
+	}
+	else if (LevelLoader::instance()->get_marioInRoom() == 9)
+	{
+		_view->setY(mario->rect().pos.y - _view->rect().size.y / 2 + 1.5);
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+
+		if (_view->rect().top() < 67.2f)
+			_view->setY(67.2f);
+		else if (_view->rect().top() > 73)
+			_view->setY(73);
+
+		if (_view->rect().left() < 302)
+			_view->setX(302);
+		else if (_view->rect().left() > 398.6f)
+			_view->setX(398.6f);
+	}
+	else if (LevelLoader::instance()->get_marioInRoom() == 10)
+	{
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+		_view->setY(46.5f);
+		
+		if (_view->rect().left() < 378)
+			_view->setX(378);
+		else if (_view->rect().left() > 398.6f)
+			_view->setX(398.6f);
+	}
+	else if (LevelLoader::instance()->get_marioInRoom() == 11)
+	{
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+		_view->setY(28.3f);
+		
+		if (_view->rect().left() < 324)
+			_view->setX(324);
+		else if (_view->rect().left() > 369.4f)
+			_view->setX(369.4f);
+	}
 }
 
 void PlatformerGameScene::event(SDL_Event& evt)

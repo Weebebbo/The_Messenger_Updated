@@ -42,12 +42,9 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 			Mario* mario);
 
 		int _marioInRoom;
-		int _prevRoom;
-		bool _iWantToQuitRoom,
-
 
 		// Boleani necessari per il movimento della camera
-		bool _room1StopCamera;
+		bool _room3Movecamera;
 
 		// Map che contengono i nemici
 		// I nemici vengono messi dentro una map e poi tolti stanza per stanza
@@ -61,14 +58,8 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 		Scene* load(const std::string& name);
 
 		// Getter
-		int get_marioInRoom() {return _marioInRoom; }
-		void set_marioInRoom(int a) {_marioInRoom = a; }
-
-		bool get_iWantToQuitRoom() {return _iWantToQuitRoom; }
-		void set_iWantToQuitRoom(bool b) {_iWantToQuitRoom = b; }
-
-		bool get_room1StopCamera() { return _room1StopCamera; }
-		void set_room1StopCamera(bool a) {_room1StopCamera = a; }
+		int get_marioInRoom() { return _marioInRoom; }
+		bool get_room3MoveCamera() { return _room3Movecamera; }
 
 		// Funzione per la generazione delle stanze
 		void fillRoom1(PlatformerGameScene* world);
@@ -76,8 +67,8 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 		void fillRoom3(PlatformerGameScene* world);
 		void fillRoom6(PlatformerGameScene* world);
 		void fillRoom9(PlatformerGameScene* world);
+		void fillRoom10(PlatformerGameScene* world);
 		void fillRoom11(PlatformerGameScene* world);
-		void fillRoom12(PlatformerGameScene* world);
 
 		// Despawn di tutti i nemici nella stanza
 		void killRoom();

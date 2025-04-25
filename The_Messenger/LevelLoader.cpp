@@ -92,7 +92,7 @@ Scene* LevelLoader::load(const std::string& name)
 	if (name == "overworld")
 	{
 		PlatformerGameScene* world = new PlatformerGameScene(RectF(0, -12, 224, 15), { 16,16 }, 1 / 100.0f);
-		world->setBackgroundColor(Color(92, 148, 252));
+		world->setBackgroundColor(Color(0, 0, 0));
 
 		// Room1
 		new StaticObject(world, RectF(0, 28, 162, 19), spriteLoader->get("room1"), true, -2);
@@ -185,28 +185,131 @@ Scene* LevelLoader::load(const std::string& name)
 		new Candlestick(world, RectF(354.5f, 37, 2.5f, 2.5f));
 		new Candlestick(world, RectF(340, 37, 2.5f, 2.5f));
 
-		// Spawn point finale per Mario
-		//Mario* mario = new Mario(world, PointF(0.7f, 27));
-		Mario* mario = new Mario(world, PointF(141, 31));
+		Mario* mario = new Mario(world, PointF(0.7f, 27));	
 		world->setPlayer(mario);
 
-		// Caricamento collider da file json
 		loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
-
-		// Trigger per lo spawn dei nemici, utilizzeremo anche le variabli marioInRoom per la gestione della camera
-		new Trigger(world, RectF(10, 38, 0.1f, 8), mario, [&, world]()
+		new Trigger(world, RectF(8, 38, 0.1f, 8), mario, [&, world]()
 			{
-				if (_marioInRoom == 0)
-				{
-					_marioInRoom = 1;
-					//fillRoom1(world);
-				}
+				_marioInRoom = 1;
+				killRoom();
+				fillRoom1(world);
 			});
-		new Trigger(world, RectF(150, 29, 0.1f, 8), mario, [&, world]()
+		//from roo1 to room2
+		new Trigger(world, RectF(127, 27, 5, 0.1f), mario, [&, world]()
 			{
-				_iWantToQuitRoom = true;
-				if (_iWantToQuitRoom)
-					_room1StopCamera = true;
+				_marioInRoom = 2;
+				killRoom();
+				fillRoom2(world);
+			});
+		//from room2 to room1
+		new Trigger(world, RectF(127, 28.5f, 5, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom = 1;
+				killRoom();
+				fillRoom1(world);
+			});
+		//from room1 to room3
+		new Trigger(world, RectF(153.5f, 47, 6, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom = 3;
+				killRoom();
+				fillRoom3(world);
+			});
+		//in room3
+		new Trigger(world, RectF(144, 64, 0.1f, 4), mario, [&, world]()
+			{
+				_room3Movecamera = true;
+			});
+		new Trigger(world, RectF(146.5f, 64, 0.1f, 4), mario, [&, world]()
+			{
+				_room3Movecamera = false;
+			});
+		//from room3 to room1
+		new Trigger(world, RectF(153, 45, 6, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom = 1;
+				killRoom();
+				fillRoom1(world);
+			});
+		//from room3 to room4
+		new Trigger(world, RectF(164, 62, 0.1f, 6.5f), mario, [&, world]()
+			{
+				_marioInRoom = 4;
+			});
+		//from room4 to room3
+		new Trigger(world, RectF(162, 62, 0.1f, 6.5f), mario, [&, world]()
+			{
+				_marioInRoom = 3;
+				killRoom();
+				fillRoom3(world);
+			});
+		//from room4 to room5
+		new Trigger(world, RectF(206.5f, 48, 0.1f, 6.5f), mario, [&, world]()
+			{
+				_marioInRoom = 5;
+				killRoom();
+			});
+		//from room5 to room4
+		new Trigger(world, RectF(203.5f, 49, 0.1f, 6.5f), mario, [&, world]()
+			{
+				_marioInRoom = 4;
+				killRoom();
+			});
+		//from room5 to room6
+		new Trigger(world, RectF(253.5f, 49, 0.1f, 6.5f), mario, [&, world]()
+			{
+				_marioInRoom = 6;
+				killRoom();
+				fillRoom6(world);
+			});
+		//from room6 to room5
+		new Trigger(world, RectF(250.5f, 49, 0.1f, 6.5f), mario, [&, world]()
+			{
+				_marioInRoom = 5;
+				killRoom();
+			});
+		//from room6 to room9
+		new Trigger(world, RectF(307, 69, 7, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom = 9;
+				killRoom();
+				fillRoom9(world);
+			});
+		//from room9 tom room6
+		new Trigger(world, RectF(307, 66, 7, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom = 6;
+				killRoom();
+				fillRoom6(world);
+			});
+		//from room 9 to room10
+		new Trigger(world, RectF(409, 65.7, 7, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom = 10;
+				killRoom();
+				fillRoom10(world);
+			});
+		//from room10 to room9
+		new Trigger(world, RectF(409, 68.7, 7, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom = 9;
+				killRoom();
+				fillRoom9(world);
+			});
+		//from room10 to room11
+		new Trigger(world, RectF(381, 44.8f, 7, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom = 11;
+				killRoom();
+				fillRoom11(world);
+			});
+		//from room11 to room10 	
+		new Trigger(world, RectF(381, 47.8f, 7, 0.1f), mario, [&, world]()
+			{
+				_marioInRoom = 10;
+				killRoom();
+				fillRoom10(world);
 			});
 
 		return world;
@@ -273,14 +376,14 @@ void LevelLoader::fillRoom9(PlatformerGameScene* world)
 	rangedKappas = { {1, rkappa1}, {2, rkappa2} };
 }
 
-void LevelLoader::fillRoom11(PlatformerGameScene* world)
+void LevelLoader::fillRoom10(PlatformerGameScene* world)
 {
 	RangedKappa* rkappa1 = new RangedKappa(world, PointF(380, 55));
 
 	rangedKappas = { {1, rkappa1} };
 }
 
-void LevelLoader::fillRoom12(PlatformerGameScene* world)
+void LevelLoader::fillRoom11(PlatformerGameScene* world)
 {
 	RangedKappa* rkappa1 = new RangedKappa(world, PointF(332, 38));
 
@@ -314,9 +417,7 @@ void LevelLoader::killRoom()
 
 void LevelLoader::LLReset()
 {
-	_marioInRoom = 0;
-	_prevRoom = 0;
-	_iWantToQuitRoom = false;
+	_marioInRoom = 1;
 
-	_room1StopCamera = false;
+	_room3Movecamera = false;
 }

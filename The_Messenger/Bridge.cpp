@@ -45,7 +45,7 @@ bool Bridge::collision(CollidableObject* with, bool begin, Direction fromDir) {
 			if (mario->get_canDescend()) {
 				_compenetrable = true;
 
-				schedule("compenetrable_off", 0.4f, [this] {
+				schedule("compenetrable_off", 0.2f, [this] {
 					_compenetrable = false;
 					}, 0);
 

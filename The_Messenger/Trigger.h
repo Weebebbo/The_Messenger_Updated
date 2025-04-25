@@ -25,12 +25,14 @@ class agp::Trigger : public CollidableObject
 		std::function<void()> _task;
 		CollidableObject* _watched;
 
+		bool _transitioning;
+
 	public:
 
 		Trigger(Scene* scene, const RectF& rect, CollidableObject* watched, std::function<void()> task);
-
+			
 		// extends game logic (-physics, -collisions)
-		virtual void update(float dt) override { RenderableObject::update(dt); }
+		virtual void update(float dt) override;
 
 		// extends logic collision (+trigger behavior)
 		virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;

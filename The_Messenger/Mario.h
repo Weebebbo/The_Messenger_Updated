@@ -92,7 +92,6 @@ class agp::Mario : public DynamicObject
 		bool get_hitFromBottom() { return _hitFromBottom; }
 		bool get_canMarioTakeDamage() { return _canMarioTakeDamage; }
 		bool get_damageSkid() { return _damageSkid; }
-		float upperThreshold() { return sceneCollider().top() + ((sceneCollider().bottom() - sceneCollider().top()) / 2); }
 
 		// Setter
 		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }

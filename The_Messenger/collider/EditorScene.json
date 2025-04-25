@@ -4956,6 +4956,28 @@
             "height": 1.0,
             "yUp": false
          }
+      },
+      {
+         "category": 3,
+         "name": "",
+         "rect": {
+            "x": 221.25,
+            "y": 84.25,
+            "width": 14.75,
+            "height": 1.0,
+            "yUp": false
+         }
+      },
+      {
+         "category": 3,
+         "name": "",
+         "rect": {
+            "x": 224.875,
+            "y": 89.125,
+            "width": 7.375,
+            "height": 1.0,
+            "yUp": false
+         }
       }
    ]
 }
