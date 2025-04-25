@@ -185,9 +185,11 @@ Scene* LevelLoader::load(const std::string& name)
 		new Candlestick(world, RectF(354.5f, 37, 2.5f, 2.5f));
 		new Candlestick(world, RectF(340, 37, 2.5f, 2.5f));
 
+		//Player
 		Mario* mario = new Mario(world, PointF(0.7f, 27));	
 		world->setPlayer(mario);
 
+		//World
 		loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
 		new Trigger(world, RectF(8, 38, 0.1f, 8), mario, [&, world]()
 			{
@@ -417,6 +419,7 @@ void LevelLoader::killRoom()
 
 void LevelLoader::LLReset()
 {
+	killRoom();
 	_marioInRoom = 1;
 
 	_room3Movecamera = false;
