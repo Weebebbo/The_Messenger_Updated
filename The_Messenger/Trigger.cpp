@@ -8,6 +8,8 @@
 // ----------------------------------------------------------------
 
 #include "Trigger.h"
+#include "Mario.h"
+#include "PLatformerGameScene.h"
 
 using namespace agp;
 
@@ -17,16 +19,36 @@ Trigger::Trigger(Scene* scene, const RectF& rect, CollidableObject* watched, std
 	_task = task;
 	_watched = watched;
 	_compenetrable = true;
+
+	_transitioning = false;
+}
+
+void Trigger::update(float dt)
+{
+	RenderableObject::update(dt);
+
+	//NOTA: LO SPESSORE DEI TRIGGER DEVE NECESSARIAMENTE ESSERE DI 0.1F, SIA VERTICALE SIA ORIZZONTALE
+	//ALTRIMENTI QUA NON FUNZIONA PIÙ NIENTE
+	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
+	if (this->distance(mario) > 2.5f)
+	{
+		_transitioning = false;
+	}
 }
 
 // extends logic collision (+trigger behavior)
 bool Trigger::collision(CollidableObject* with, bool begin, Direction fromDir)
 {
-	if (with == _watched)
 	{
-		_task();
-		return true;
+		if (with == _watched && !_transitioning)
+		{
+			_task();
+			_transitioning = true;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
-	else
-		return false;
 }

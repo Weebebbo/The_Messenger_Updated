@@ -13,6 +13,7 @@
 #include "Game.h"
 #include "Window.h"
 #include "Audio.h"
+#include "LevelLoader.h"
 
 using namespace agp;
 
@@ -158,6 +159,7 @@ Menu* Menu::pauseMenu()
 	menu->addItem("Reset", []()
 		{
 			Game::instance()->reset();
+			LevelLoader::instance()->LLReset();
 		});
 	menu->addItem("Quit", []() {Game::instance()->quit(); });
 

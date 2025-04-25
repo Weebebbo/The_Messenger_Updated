@@ -49,8 +49,8 @@ bool ClimbableWalls::collision(CollidableObject* with, bool begin, Direction fro
 
 		return true;
 	}
+	else if (fromDir == Direction::UP || fromDir == Direction::DOWN)
+		return true;
 	else
-	{
 		return false;
-	}
 }

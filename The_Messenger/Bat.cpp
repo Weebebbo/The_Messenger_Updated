@@ -21,7 +21,7 @@ Bat::Bat(Scene* scene, const PointF& pos)
 	_chasing = false;
 
 	// default physics
-	_yGravityForce = -1000;
+	_yGravityForce = 0;
 	_xMoveForce = 0;
 	_xFrictionForce = 1000;
 	_xSkiddingForce = 1000;

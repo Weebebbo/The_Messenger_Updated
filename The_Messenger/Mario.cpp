@@ -124,6 +124,11 @@ void Mario::update(float dt)
 		_xLastNonZeroVel = _vel.x;
 	_walking = _vel.x != 0;
 
+	if (_fall && _vel.y == 0 && !midair())
+	{
+		_fall = false;
+		_ball = false;
+	}
 	// Funzione per la scalata, nell'update mette false a _wantsToClimb
 	if (_fall || _rise || _ball)
 		climb_stationary();

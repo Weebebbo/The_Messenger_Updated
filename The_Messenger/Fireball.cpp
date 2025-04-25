@@ -3,6 +3,7 @@
 #include "Mario.h"
 #include "Fireball.h"
 #include "Scene.h"
+#include "Sword.h"
 
 using namespace agp;
 
@@ -42,7 +43,12 @@ void Fireball::update(float dt)
 
 bool Fireball::collidableWith(CollidableObject* obj)
 {
-	return dynamic_cast<Mario*>(obj);
+	if (dynamic_cast<Mario*>(obj))
+		return true;
+	else if (dynamic_cast<Sword*>(obj))
+		return true;
+	else
+		return false;
 }
 
 bool Fireball::collision(CollidableObject* with, bool begin, Direction fromDir) {
@@ -54,11 +60,13 @@ bool Fireball::collision(CollidableObject* with, bool begin, Direction fromDir) 
 		mario->hurt();
 		return true;
 	}
-
-	return false;
+	else if (dynamic_cast<Sword*>(with))
+		return true;
+	else
+		return false;
 }
 
 void Fireball::smash() {
-	_sprite = SpriteFactory::instance()->get("smash");
+	//_sprite = SpriteFactory::instance()->get("smash");
 	_scene->killObject(this);
 }
