@@ -1,6 +1,8 @@
 #include "Emerald.h"
 #include "StaticObject.h"
 #include "SpriteFactory.h"
+#include "PlatformerGame.h"
+#include "HUD.h"
 
 using namespace agp;
 
@@ -45,6 +47,7 @@ void Emerald::randomMove()
 bool Emerald::collision(CollidableObject* with, bool begin, Direction fromDir) { 
 
 	if (dynamic_cast<Mario*>(with)) {
+		dynamic_cast<PlatformerGame*>(Game::instance())->hud()->addCoin();
 		this->kill();
 		return true;
 	}

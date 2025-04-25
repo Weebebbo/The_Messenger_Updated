@@ -27,6 +27,7 @@ class agp::Mario : public DynamicObject
 		bool _invincible;
 		bool _dying;
 		bool _dead;
+		int _coins;
 		
 		bool _healthBar[5]; 
 		int _iterator;
@@ -92,6 +93,7 @@ class agp::Mario : public DynamicObject
 		bool get_hitFromBottom() { return _hitFromBottom; }
 		bool get_canMarioTakeDamage() { return _canMarioTakeDamage; }
 		bool get_damageSkid() { return _damageSkid; }
+		int get_coins() { return _coins; }
 
 		// Setter
 		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }
@@ -120,6 +122,6 @@ class agp::Mario : public DynamicObject
 		virtual void die();
 		virtual void hurt();
 
-		virtual std::string name() override { return strprintf("Mario[%d]", _id); }
-		virtual void defaultCollider() override { _collider = { 0.6f, -0.1f, 1.3f, 2.4f }; };
+		virtual std::string name() override { return strprintf("Mario[%d]", _id); } 
+		virtual void defaultCollider() override { _collider = { 0.6f, -0.1f, 1.3f, 2.4f }; }; 
 };
