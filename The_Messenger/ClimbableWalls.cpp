@@ -36,7 +36,7 @@ bool ClimbableWalls::collision(CollidableObject* with, bool begin, Direction fro
 {
 	Mario* mario = dynamic_cast<Mario*>(with);
 
-	if (mario != nullptr && (mario->get_ball() || mario->get_fall() || mario->get_rise()) && (fromDir == Direction::LEFT || fromDir == Direction::RIGHT))
+	if (mario != nullptr && (mario->get_ball() || mario->get_fall() || mario->get_rise() || mario->get_isSwimming()) && (fromDir == Direction::LEFT || fromDir == Direction::RIGHT))
 	{
 		// Descrizione della azioni da fare se la collisione succede
 		if (!mario->get_wantsToClimb())
