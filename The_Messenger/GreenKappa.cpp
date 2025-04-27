@@ -92,12 +92,10 @@ bool GreenKappa::collision(CollidableObject* with, bool begin, Direction fromDir
 	if (!sword) {
 		if (_with && fromDir == Direction::LEFT)
 		{
-			std::cout << "rilevata collisione a sinistra" << std::endl;
 			_changeDirection = true;
 			return true;
 		}
 		else if (_with && fromDir == Direction::RIGHT) {
-			std::cout << "rilevata collisione a destra" << std::endl;
 			_changeDirection = false;
 			return true;
 		}
@@ -106,7 +104,6 @@ bool GreenKappa::collision(CollidableObject* with, bool begin, Direction fromDir
 	if (sword && !_canSwordHitMe) {
 		
 		if (fromDir == Direction::RIGHT) {
-			//std::cout << "destra" << std::endl;
 			_hitFromRight = true;
 			_xSkiddingForce = 10;
 			_xVelMax = 3000;
@@ -117,7 +114,6 @@ bool GreenKappa::collision(CollidableObject* with, bool begin, Direction fromDir
 				}); 
 		}
 		else if (fromDir == Direction::LEFT) {
-			//std::cout << "sinistra" << std::endl;
 			_hitFromLeft = true;
 			_xSkiddingForce = 10;
 			_xVelMax = 3000;

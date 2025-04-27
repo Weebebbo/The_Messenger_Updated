@@ -3,18 +3,22 @@
 
 namespace agp
 {
-	class Crystal;
+	class Saw;
 }
 
-class agp::Crystal : public CollidableObject
+class agp::Saw : public CollidableObject
 {
-
 private:
+
+	//Path
+	RectF _path;
+	int _vertice;
 
 public:
 
-	Crystal(Scene* scene, const RectF& rect, int layer = 0);
-	~Crystal() {};
+	//I vertici si contano da in basso a sinistra in senso antiorario
+	Saw(Scene* scene, const RectF& rect, Sprite* sprite, RectF& path, int vertice = 1, int layer = 0);
+	~Saw() {};
 
 	virtual void update(float dt) override;
 
@@ -23,5 +27,6 @@ public:
 	}
 
 	//methods for collision 
+	bool collidableWith(CollidableObject* obj) override;
 	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
 };

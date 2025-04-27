@@ -61,10 +61,13 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 	else
 		mario->jump(keyboard[SDL_SCANCODE_SPACE]);
 
-	mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
+	// Crouch
+	if(!mario->get_isSwimming())
+		mario->crouch(keyboard[SDL_SCANCODE_DOWN]);
 	if (mario->get_crouch() && keyboard[SDL_SCANCODE_Z])
 		mario->descend();
 
+	// Scalata
 	if (mario->get_wantsToClimb() || (!mario->get_wantsToClimb() && mario->get_climbingMovement()))
 	{
 		if (!mario->get_finishedClimbingWallUpperLimit() && !mario->get_finishedClimbingWallLowerLimit())
@@ -226,6 +229,16 @@ void PlatformerGameScene::updateCamera(float timeToSimulate)
 	else if (LevelLoader::instance()->get_marioInRoom() == 10)
 	{
 		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
+		_view->setY(49.5f);
+
+		if (_view->rect().left() < 328)
+			_view->setX(328);
+		else if(_view->rect().left() > 350.8f)
+			_view->setX(350.8f);
+	}
+	else if (LevelLoader::instance()->get_marioInRoom() == 11)
+	{
+		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
 		_view->setY(46.5f);
 		
 		if (_view->rect().left() < 378)
@@ -233,7 +246,7 @@ void PlatformerGameScene::updateCamera(float timeToSimulate)
 		else if (_view->rect().left() > 398.6f)
 			_view->setX(398.6f);
 	}
-	else if (LevelLoader::instance()->get_marioInRoom() == 11)
+	else if (LevelLoader::instance()->get_marioInRoom() == 12)
 	{
 		_view->setX(mario->rect().pos.x - _view->rect().size.x / 2 + 1.5);
 		_view->setY(28.3f);
@@ -258,4 +271,14 @@ void PlatformerGameScene::event(SDL_Event& evt)
 
 	if (evt.type == SDL_KEYDOWN && evt.key.keysym.scancode == SDL_SCANCODE_SPACE && mario->get_canMarioJumpAgain())
 		mario->set_iWantToJumpAgain(true);
+
+	// Nuoto
+	if (mario->get_isSwimming())
+	{
+		mario->swimming();
+		if (evt.type == SDL_KEYDOWN && evt.key.keysym.scancode == SDL_SCANCODE_SPACE)
+		{
+			mario->setVelY(-5);
+		}
+	}
 }

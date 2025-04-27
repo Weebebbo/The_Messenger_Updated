@@ -18,6 +18,7 @@
 #include "Scene.h"
 #include "Enemy.h"
 #include "Fireball.h"
+#include "Water.h"
 #include "HUD.h"
 
 using namespace agp;
@@ -44,7 +45,6 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_damageSkid = false;
 	_counter = 0;
 
-	// Attacco
 	_crouchAttack = false;
 	_standingAttack1 = false;
 	_standingAttack2 = false; 
@@ -52,18 +52,15 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_jumpingAttack = false;
 	_sword = nullptr; 
 	
-	//Scalata
 	_climbingMovement = false;
 	_wantsToClimb = false;
 	_finishedClimbableWallUpperLimit = false;
 	_finishedClimbableWallLowerLimit = false;
 
-	//Discesa
 	_canDescend = false; 
 	_collisionWithLift = false;
 	_canCrouch = true;
 
-	//stati del salto 
 	_rise = false;
 	_ball = false; 
 	_fall = false; 
@@ -72,6 +69,8 @@ Mario::Mario(Scene* scene, const PointF& pos)
 
 	_crouch = false; 
 	_prevCrouch = false;
+
+	_isSwimming = false;
 
 	_xLastNonZeroVel = 0; 
 	
@@ -91,15 +90,14 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_sprites["crouch"] = SpriteFactory::instance()->get("ninja_crouch");
 	_sprites["stationary_climb"] = SpriteFactory::instance()->get("ninja_stationaryClimb");
 	_sprites["climbMovement"] = SpriteFactory::instance()->get("ninja_climbMovement");
+	_sprites["swimming"] = SpriteFactory::instance()->get("ninja_swimming");
 
-	//Animazioni degli attacchi
 	_sprites["running_attack"] = SpriteFactory::instance()->get("running_attack");
 	_sprites["jump_attack"] = SpriteFactory::instance()->get("jump_attack");
 	_sprites["standing_attack1"] = SpriteFactory::instance()->get("standing_attack1");
 	_sprites["standing_attack2"] = SpriteFactory::instance()->get("standing_attack2");
 	_sprites["crouch_attack"] = SpriteFactory::instance()->get("crouch_attack");
 
-	//Animazione danno
 	_sprites["damage"] = SpriteFactory::instance()->get("ninja_take_damage");
 
 	// Sprite predefinita
@@ -123,21 +121,21 @@ void Mario::update(float dt)
 	}  
 	if (_vel.x != 0 && !_rise)
 		_xLastNonZeroVel = _vel.x;
-	_walking = _vel.x != 0;
+	if(!_isSwimming)
+		_walking = _vel.x != 0;
 
 	if (_fall && _vel.y == 0 && !midair())
 	{
 		_fall = false;
 		_ball = false;
 	}
-	// Funzione per la scalata, nell'update mette false a _wantsToClimb
+	
 	if (_fall || _rise || _ball)
 		climb_stationary();
 
 	if (_fall && _wantsToClimb)
 		_wantsToClimb = false;
 	
-	// Cosi' il coso quando � basso non pu� camminare con il collider basso
 	if (_crouch && _walking)
 		_crouch = false;
 
@@ -145,7 +143,7 @@ void Mario::update(float dt)
 	if (_dying)
 		_sprite = _sprites["die"];
 	if (_hitFromLeft || _hitFromRight || _hitFromBottom)
-		_sprite = _sprites["damage"]; 
+		_sprite = _sprites["damage"];
 	else if (_standingAttack1) {
 		if (_standingAttack2)
 			_sprite = _sprites["standing_attack1"];
@@ -162,6 +160,8 @@ void Mario::update(float dt)
 		_sprite = _sprites["stationary_climb"];
 	else if (_climbingMovement)
 		_sprite = _sprites["climbMovement"];
+	else if (_isSwimming)
+		_sprite = _sprites["swimming"];
 	else if (_rise)
 		_sprite = _sprites["rise"];
 	else if (_ball)
@@ -180,14 +180,19 @@ void Mario::update(float dt)
 		if (_vel.x < 0 || (_vel.x == 0 && _xLastNonZeroVel < 0))
 		{
 			_flip = SDL_FLIP_HORIZONTAL;
-			if (!_crouch)
+			if (!_crouch && !_isSwimming)
 				_collider = { 0.35f, -0.1f, 1.3f, 2.4f };
+			else if (_isSwimming)
+				_collider = { -1, 1.2f, 2.9f, 1.3f };
+
 		}
 		else
 		{
 			_flip = SDL_FLIP_NONE;
-			if (!_crouch)
+			if (!_crouch && !_isSwimming)
 				defaultCollider();
+			else if (_isSwimming)
+				_collider = { 0.3f, 1.2f, 2.9f, 1.3f };
 		}
 	}
 	else {
@@ -206,11 +211,10 @@ void Mario::update(float dt)
 	}
 
 	if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart > INVINCIBILITY_DURATION)) {
-		_canMarioTakeDamage = true;  // mario puo tornare a prenderlo in culo 
+		_canMarioTakeDamage = true;  
 	} 
 	else if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart < INVINCIBILITY_DURATION))
 	{
-		//implementazione del blinking (quando lo prende in culo mario lampeggia)
 		_counter++;
 
 		if (_counter == 40)
@@ -240,7 +244,7 @@ void Mario::jump(bool on)
 	if (_wantsToClimb || _climbingMovement)
 		climb_stationary();
 
-	if (on && !midair() && !_wantsToClimb  && !_climbingMovement || _iWantToJumpAgain)
+	if (on && !midair() && !_wantsToClimb  && !_climbingMovement && !_isSwimming || _iWantToJumpAgain)
 	{
 		// Mario ha bisogno di un impulso maggiore se stava già in aria prima
 		// Condizione fatta in casa per far funzionare il doppio salto
@@ -271,7 +275,7 @@ void Mario::jump(bool on)
 
 		Audio::instance()->playSound("jump-small");
 	}
-	else if (!on && midair() && !_dying && !_wantsToClimb)
+	else if (!on && midair() && !_dying && !_wantsToClimb && !_isSwimming)
 	{
 		_yGravityForce = 90;
 
@@ -280,6 +284,15 @@ void Mario::jump(bool on)
 			_fall = true;
 		}
 	}
+}
+
+void Mario::swimming()
+{
+	_walking = false;
+	_fall = false; 
+	_ball = false;
+
+	_yGravityForce = 8;
 }
 
 void Mario::climb_stationary()
@@ -386,23 +399,16 @@ void Mario::die()
 	Audio::instance()->playSound("death");
 	dynamic_cast<PlatformerGame*>(Game::instance())->freeze(true);
 
-	schedule("dying", 0.5f, [this]()
-		{
-			_yGravityForce = 25;
-			velAdd(Vec2Df(0, -_yJumpImpulse));
-			schedule("die", 3, [this]()
-				{
-					_dead = true;
-					dynamic_cast<PlatformerGame*>(Game::instance())->gameover();
-				});
-		});
+	// DA MODIFICARE PER RENDERLO PIÙ GRADEVOLE
+	_dead = true;
+	dynamic_cast<PlatformerGame*>(Game::instance())->gameover();
 }
 
 void Mario::hurt()
 {
 	if (!_invincible && _canMarioTakeDamage) {
 		
-		_healthBar[_iterator] = false; //le vite del bro sono gestite tramite un vettore di booleani
+		_healthBar[_iterator] = false; 
 		_iterator--; 
 		dynamic_cast<PlatformerGame*>(Game::instance())->hud()->healthBar(_iterator);
 

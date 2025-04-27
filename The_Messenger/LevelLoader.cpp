@@ -27,6 +27,8 @@
 #include "NinjaLift.h"
 #include "Spikes.h"
 #include "InstaDeathBlock.h"
+#include "Water.h"
+#include "Saw.h"
 
 #include "json.hpp"
 #include "mathUtils.h"
@@ -78,6 +80,8 @@ void LevelLoader::loadJson(
 				new Bridge(world, rect, nullptr, 1);
 			else if (_categories[category] == "InstadeathBlock")
 				new InstaDeathBlock(world, rect, nullptr, 1);
+			else if (_categories[category] == "Water")
+				new Water(world, rect, nullptr, 1);
 		}
 	}
 
@@ -93,7 +97,7 @@ Scene* LevelLoader::load(const std::string& name)
 	{
 		PlatformerGameScene* world = new PlatformerGameScene(RectF(0, -12, 224, 15), { 16,16 }, 1 / 100.0f);
 		world->setBackgroundColor(Color(0, 0, 0));
-
+	
 		// Room1
 		new StaticObject(world, RectF(0, 28, 162, 19), spriteLoader->get("room1"), true, -2);
 		new Candlestick(world, RectF(25.6f, 38.5f, 2.5f, 2.5f));
@@ -169,6 +173,8 @@ Scene* LevelLoader::load(const std::string& name)
 		new Emerald(world, RectF(363, 70, 1.2f, 1.8f));
 		new Emerald(world, RectF(365.5f, 72, 1.2f, 1.8f));
 		new Emerald(world, RectF(367, 70, 1.2f, 1.8f));
+		new Saw(world, RectF(313, 81.3f, 3.5f, 3.5f), spriteLoader->get("saw"), RectF(313, 81.3f, 14.7f, 8.4f), 4);
+		new Saw(world, RectF(324.f, 86.2f, 3.5f, 3.5f), spriteLoader->get("saw"), RectF(313, 81.3f, 14.7f, 8.4f), 2);
 
 		// Room10
 		new StaticObject(world, RectF(327.8f, 45.4f, 43, 22), spriteLoader->get("room10"), true, -2);
@@ -186,7 +192,8 @@ Scene* LevelLoader::load(const std::string& name)
 		new Candlestick(world, RectF(340, 37, 2.5f, 2.5f));
 
 		//Player
-		Mario* mario = new Mario(world, PointF(0.7f, 27));	
+		//Mario* mario = new Mario(world, PointF(0.7f, 27));	
+		Mario* mario = new Mario(world, PointF(310, 77));
 		world->setPlayer(mario);
 
 		//World
@@ -198,25 +205,34 @@ Scene* LevelLoader::load(const std::string& name)
 				fillRoom1(world);
 			});
 		//from roo1 to room2
-		new Trigger(world, RectF(127, 27, 5, 0.1f), mario, [&, world]()
+		new Trigger(world, RectF(127, 26.5f, 5, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 2;
-				killRoom();
-				fillRoom2(world);
+				if (_marioInRoom == 1)
+				{
+					_marioInRoom = 2;
+					killRoom();
+					fillRoom2(world);
+				}
 			});
 		//from room2 to room1
-		new Trigger(world, RectF(127, 28.5f, 5, 0.1f), mario, [&, world]()
+		new Trigger(world, RectF(127, 29.5f, 5, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 1;
-				killRoom();
-				fillRoom1(world);
+				if (_marioInRoom == 2)
+				{
+					_marioInRoom = 1;
+					killRoom();
+					fillRoom1(world);
+				}
 			});
 		//from room1 to room3
-		new Trigger(world, RectF(153.5f, 47, 6, 0.1f), mario, [&, world]()
+		new Trigger(world, RectF(153.5f, 47.5f, 6, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 3;
-				killRoom();
-				fillRoom3(world);
+				if (_marioInRoom == 1)
+				{
+					_marioInRoom = 3;
+					killRoom();
+					fillRoom3(world);
+				}
 			});
 		//in room3
 		new Trigger(world, RectF(144, 64, 0.1f, 4), mario, [&, world]()
@@ -230,88 +246,147 @@ Scene* LevelLoader::load(const std::string& name)
 		//from room3 to room1
 		new Trigger(world, RectF(153, 45, 6, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 1;
-				killRoom();
-				fillRoom1(world);
+				if (_marioInRoom == 3)
+				{
+					_marioInRoom = 1;
+					killRoom();
+					fillRoom1(world);
+				}
 			});
 		//from room3 to room4
 		new Trigger(world, RectF(164, 62, 0.1f, 6.5f), mario, [&, world]()
 			{
-				_marioInRoom = 4;
+				if (_marioInRoom == 3)
+				{
+					_marioInRoom = 4;
+					killRoom();
+				}
 			});
 		//from room4 to room3
 		new Trigger(world, RectF(162, 62, 0.1f, 6.5f), mario, [&, world]()
 			{
-				_marioInRoom = 3;
-				killRoom();
-				fillRoom3(world);
+				if (_marioInRoom == 4)
+				{
+					_marioInRoom = 3;
+					killRoom();
+					fillRoom3(world);
+				}
 			});
 		//from room4 to room5
 		new Trigger(world, RectF(206.5f, 48, 0.1f, 6.5f), mario, [&, world]()
 			{
-				_marioInRoom = 5;
-				killRoom();
+				if (_marioInRoom == 4)
+				{
+					_marioInRoom = 5;
+					killRoom();
+				}
 			});
 		//from room5 to room4
 		new Trigger(world, RectF(203.5f, 49, 0.1f, 6.5f), mario, [&, world]()
 			{
-				_marioInRoom = 4;
-				killRoom();
+				if (_marioInRoom == 5)
+				{
+					_marioInRoom = 4;
+					killRoom();
+				}
 			});
 		//from room5 to room6
 		new Trigger(world, RectF(253.5f, 49, 0.1f, 6.5f), mario, [&, world]()
 			{
-				_marioInRoom = 6;
-				killRoom();
-				fillRoom6(world);
+				if (_marioInRoom == 5)
+				{
+					_marioInRoom = 6;
+					killRoom();
+					fillRoom6(world);
+				}
 			});
 		//from room6 to room5
 		new Trigger(world, RectF(250.5f, 49, 0.1f, 6.5f), mario, [&, world]()
 			{
-				_marioInRoom = 5;
-				killRoom();
+				if (_marioInRoom == 6)
+				{
+					_marioInRoom = 5;
+					killRoom();
+				}
 			});
 		//from room6 to room9
 		new Trigger(world, RectF(307, 69, 7, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 9;
-				killRoom();
-				fillRoom9(world);
+				if (_marioInRoom == 6)
+				{
+					_marioInRoom = 9;
+					killRoom();
+					fillRoom9(world);
+				}
 			});
 		//from room9 tom room6
 		new Trigger(world, RectF(307, 66, 7, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 6;
-				killRoom();
-				fillRoom6(world);
+				if (_marioInRoom == 9)
+				{
+					_marioInRoom = 6;
+					killRoom();
+					fillRoom6(world);
+				}
 			});
-		//from room 9 to room10
+		//from room 9 to room11
 		new Trigger(world, RectF(409, 65.7, 7, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 10;
-				killRoom();
-				fillRoom10(world);
+				if (_marioInRoom == 9)
+				{
+					_marioInRoom = 11;
+					killRoom();
+					fillRoom11(world);
+				}
 			});
-		//from room10 to room9
+		//from room11 to room9
 		new Trigger(world, RectF(409, 68.7, 7, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 9;
-				killRoom();
-				fillRoom9(world);
+				if (_marioInRoom == 11)
+				{
+					_marioInRoom = 9;
+					killRoom();
+					fillRoom9(world);
+				}
 			});
-		//from room10 to room11
+		//from room9 to room10
+		new Trigger(world, RectF(346, 65.8, 7, 0.1f), mario, [&, world]()
+			{
+				if (_marioInRoom == 9)
+				{
+					_marioInRoom = 10;
+					killRoom();
+				}
+			});
+		//from room10 to room9
+		new Trigger(world, RectF(346, 68.8, 7, 0.1f), mario, [&, world]()
+			{
+				if (_marioInRoom == 10)
+				{
+					_marioInRoom = 9;
+					killRoom();
+					fillRoom9(world);
+				}
+			});
+		//from room11 to room12
 		new Trigger(world, RectF(381, 44.8f, 7, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 11;
-				killRoom();
-				fillRoom11(world);
+				if (_marioInRoom == 11)
+				{
+					_marioInRoom = 12;
+					killRoom();
+					fillRoom12(world);
+				}
 			});
-		//from room11 to room10 	
+		//from room12 to room11	
 		new Trigger(world, RectF(381, 47.8f, 7, 0.1f), mario, [&, world]()
 			{
-				_marioInRoom = 10;
-				killRoom();
-				fillRoom10(world);
+				if (_marioInRoom == 12)
+				{
+					_marioInRoom = 11;
+					killRoom();
+					fillRoom11(world);
+				}
 			});
 
 		return world;
@@ -378,14 +453,14 @@ void LevelLoader::fillRoom9(PlatformerGameScene* world)
 	rangedKappas = { {1, rkappa1}, {2, rkappa2} };
 }
 
-void LevelLoader::fillRoom10(PlatformerGameScene* world)
+void LevelLoader::fillRoom11(PlatformerGameScene* world)
 {
 	RangedKappa* rkappa1 = new RangedKappa(world, PointF(380, 55));
 
 	rangedKappas = { {1, rkappa1} };
 }
 
-void LevelLoader::fillRoom11(PlatformerGameScene* world)
+void LevelLoader::fillRoom12(PlatformerGameScene* world)
 {
 	RangedKappa* rkappa1 = new RangedKappa(world, PointF(332, 38));
 
@@ -403,13 +478,17 @@ void LevelLoader::fillRoom11(PlatformerGameScene* world)
 void LevelLoader::killRoom()
 {
 	for (auto& p : rangedKappas)
-		p.second->kill();
+		if (!p.second->get_killed())
+			p.second->kill();
 	for (auto& p : greenKappas)
-		p.second->kill();
+		if (!p.second->get_killed())
+			p.second->kill();
 	for (auto& p : skeloutons)
-		p.second->kill();
+		if (!p.second->get_killed())
+			p.second->kill();
 	for (auto& p : bats)
-		p.second->kill();
+		if (!p.second->get_killed())
+			p.second->kill();
 
 	rangedKappas.clear();
 	greenKappas.clear();
@@ -420,7 +499,7 @@ void LevelLoader::killRoom()
 void LevelLoader::LLReset()
 {
 	killRoom();
-	_marioInRoom = 1;
+	_marioInRoom = 9;
 
 	_room3Movecamera = false;
 }
