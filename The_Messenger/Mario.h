@@ -50,6 +50,8 @@ class agp::Mario : public DynamicObject
 		bool _collisionWithLift;
 		bool _canCrouch;
 
+		bool _isSwimming;
+
 		double _xLastNonZeroVel;
 		Sword* _sword;
 
@@ -94,6 +96,7 @@ class agp::Mario : public DynamicObject
 		bool get_canMarioTakeDamage() { return _canMarioTakeDamage; }
 		bool get_damageSkid() { return _damageSkid; }
 		int get_coins() { return _coins; }
+		bool get_isSwimming() { return _isSwimming; }
 
 		// Setter
 		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }
@@ -105,6 +108,8 @@ class agp::Mario : public DynamicObject
 		void set_canMarioJumpAgain(bool canJump) { _canMarioJumpAgain = canJump; }
 		void set_iWantToJumpAgain(bool iWantToJump) { _iWantToJumpAgain = iWantToJump; }
 		void set_canMarioTakeDamage(bool canMarioTakeDamage) { _canMarioTakeDamage = canMarioTakeDamage; }
+		void set_isSwimming(bool is) { _isSwimming = is; }
+		void set_rise(bool rise) { _rise = rise; }
 
 		// extends game logic (+mario logic)
 		virtual void update(float dt) override;
@@ -116,6 +121,7 @@ class agp::Mario : public DynamicObject
 		void climb_stationary();
 		void climbing_movement();
 		void descend() { _canDescend = true; }
+		void swimming();
 
 		// scripted actions
 		virtual void attack(); 

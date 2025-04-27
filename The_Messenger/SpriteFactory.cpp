@@ -35,12 +35,14 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["ninja"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja.png", _autoTiles["ninja"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["effects"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja_effects.png", _autoTiles["effects"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["enemies2"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/nemici_del_messaggero.png", _autoTiles["enemies2"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
+	_spriteSheets["saw"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/saw.png", _autoTiles["saw"], { 63, 72, 204 }, { 237, 28, 36 });
+
 
 	_spriteSheets["hud1"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/hud1.png", _autoTiles["hud1"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
 	_spriteSheets["candlestick_on"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_on.png", _autoTiles["candlestick_on"], { 69, 67, 255 }, { 255, 13, 13 });
 	_spriteSheets["candlestick_off"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_off.png", _autoTiles["candlestick_off"], { 69, 67, 255 }, { 255, 1, 1 });
-	
+
 	//Aggiunta mappe
 	_spriteSheets["room1"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room1.png");
 	_spriteSheets["room2"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room2.png");
@@ -52,7 +54,6 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["room10"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room10.png");
 	_spriteSheets["room11"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room11.png");
 	_spriteSheets["room12"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "levels/room12.png");
-
 }
 
 // anchors
@@ -158,6 +159,8 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][5].begin(), _autoTiles["ninja"][5].begin() + 4 }, 12);
 	else if (id == "crouch_attack")
 		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][11].begin(), _autoTiles["ninja"][11].begin() + 4 }, 12);
+	else if (id == "ninja_swimming")
+		return new AnimatedSprite(_spriteSheets["ninja"], { _autoTiles["ninja"][15].begin(), _autoTiles["ninja"][15].begin() + 4 }, 8);
 	
 	//Animazioni dei nemici
 	else if (id == "ranged_kappa_stand")
@@ -174,6 +177,8 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][9].begin(), _autoTiles["enemies2"][9].begin() + 4 }, 6);
 	else if (id == "skelouton_walk_on")
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][10].begin(), _autoTiles["enemies2"][10].begin() + 4 }, 6);
+	else if (id == "saw")
+		return new AnimatedSprite(_spriteSheets["saw"], { _autoTiles["saw"][0].begin(), _autoTiles["saw"][0].begin() + 4 }, 6);
 
 	//Animazioni items
 	else if (id == "emerald")

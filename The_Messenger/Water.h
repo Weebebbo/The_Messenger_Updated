@@ -12,10 +12,10 @@
 
 namespace agp
 {
-	class ClimbableWalls;
+	class Water;
 }
 
-class agp::ClimbableWalls : public CollidableObject
+class agp::Water : public CollidableObject
 {
 protected:
 
@@ -23,11 +23,11 @@ protected:
 
 public:
 
-	ClimbableWalls(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
-	virtual ~ClimbableWalls() {}
+	Water(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
+	virtual ~Water() {}
 
 	// extends game logic (-physics, -collisions)
-	virtual void update(float dt) override; //{RenderableObject::update(dt);}
+	virtual void update(float dt) override;
 
 	virtual std::string name() override {
 		return strprintf("StaticObject[%d]", _id);

@@ -67,8 +67,8 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 		void fillRoom3(PlatformerGameScene* world);
 		void fillRoom6(PlatformerGameScene* world);
 		void fillRoom9(PlatformerGameScene* world);
-		void fillRoom10(PlatformerGameScene* world);
 		void fillRoom11(PlatformerGameScene* world);
+		void fillRoom12(PlatformerGameScene* world);
 
 		// Despawn di tutti i nemici nella stanza
 		void killRoom();
