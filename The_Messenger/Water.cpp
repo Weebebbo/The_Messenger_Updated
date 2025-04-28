@@ -21,6 +21,7 @@ void Water::update(float dt)
 		mario->set_isSwimming(false);
 		mario->set_rise(true);
 		mario->setVelY(-20);
+		mario->set_gravity(90);
 		_didMarioHitMe = false;
 	}
 }

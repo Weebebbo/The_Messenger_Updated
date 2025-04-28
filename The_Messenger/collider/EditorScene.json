@@ -3154,28 +3154,6 @@
          }
       },
       {
-         "category": 1,
-         "name": "",
-         "rect": {
-            "x": 312.875,
-            "y": 62.875,
-            "width": 0.625,
-            "height": 16.75,
-            "yUp": false
-         }
-      },
-      {
-         "category": 1,
-         "name": "",
-         "rect": {
-            "x": 308.375,
-            "y": 62.875,
-            "width": 0.625,
-            "height": 16.875,
-            "yUp": false
-         }
-      },
-      {
          "category": 3,
          "name": "",
          "rect": {
@@ -3212,43 +3190,10 @@
          "category": 0,
          "name": "",
          "rect": {
-            "x": 312.875,
-            "y": 79.625,
-            "width": 14.875,
-            "height": 1.25,
-            "yUp": false
-         }
-      },
-      {
-         "category": 0,
-         "name": "",
-         "rect": {
-            "x": 308.125,
-            "y": 79.75,
-            "width": 0.875,
-            "height": 10.75,
-            "yUp": false
-         }
-      },
-      {
-         "category": 0,
-         "name": "",
-         "rect": {
             "x": 309.0,
             "y": 89.75,
             "width": 25.25,
             "height": 0.875,
-            "yUp": false
-         }
-      },
-      {
-         "category": 0,
-         "name": "",
-         "rect": {
-            "x": 334.125,
-            "y": 79.625,
-            "width": 0.875,
-            "height": 11.125,
             "yUp": false
          }
       },
@@ -3469,28 +3414,6 @@
             "y": 72.25,
             "width": 0.625,
             "height": 3.75,
-            "yUp": false
-         }
-      },
-      {
-         "category": 1,
-         "name": "",
-         "rect": {
-            "x": 327.0,
-            "y": 76.0,
-            "width": 0.75,
-            "height": 3.625,
-            "yUp": false
-         }
-      },
-      {
-         "category": 1,
-         "name": "",
-         "rect": {
-            "x": 334.125,
-            "y": 77.25,
-            "width": 0.5,
-            "height": 2.375,
             "yUp": false
          }
       },
@@ -4855,6 +4778,83 @@
             "y": 73.75,
             "width": 3.25,
             "height": 0.5,
+            "yUp": false
+         }
+      },
+      {
+         "category": 1,
+         "name": "",
+         "rect": {
+            "x": 312.875,
+            "y": 62.875,
+            "width": 0.625,
+            "height": 18.0,
+            "yUp": false
+         }
+      },
+      {
+         "category": 1,
+         "name": "",
+         "rect": {
+            "x": 308.375,
+            "y": 62.875,
+            "width": 0.625,
+            "height": 27.625,
+            "yUp": false
+         }
+      },
+      {
+         "category": 0,
+         "name": "",
+         "rect": {
+            "x": 312.875,
+            "y": 62.875,
+            "width": 0.625,
+            "height": 0.125,
+            "yUp": false
+         }
+      },
+      {
+         "category": 0,
+         "name": "",
+         "rect": {
+            "x": 308.375,
+            "y": 62.875,
+            "width": 0.625,
+            "height": 0.125,
+            "yUp": false
+         }
+      },
+      {
+         "category": 0,
+         "name": "",
+         "rect": {
+            "x": 312.875,
+            "y": 80.625,
+            "width": 14.875,
+            "height": 0.25,
+            "yUp": false
+         }
+      },
+      {
+         "category": 1,
+         "name": "",
+         "rect": {
+            "x": 326.875,
+            "y": 76.0,
+            "width": 0.875,
+            "height": 4.625,
+            "yUp": false
+         }
+      },
+      {
+         "category": 1,
+         "name": "",
+         "rect": {
+            "x": 334.125,
+            "y": 77.25,
+            "width": 0.375,
+            "height": 14.0,
             "yUp": false
          }
       }

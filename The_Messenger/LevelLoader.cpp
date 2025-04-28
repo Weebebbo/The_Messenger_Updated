@@ -14,7 +14,6 @@
 #include "ClimbableWalls.h"
 #include "PlatformerGameScene.h"
 #include "Mario.h"
-#include "Lift.h"
 #include "Trigger.h"
 #include "RangedKappa.h"
 #include "Bat.h"
@@ -29,6 +28,7 @@
 #include "InstaDeathBlock.h"
 #include "Water.h"
 #include "Saw.h"
+#include "FallingBridge.h"
 
 #include "json.hpp"
 #include "mathUtils.h"
@@ -175,6 +175,7 @@ Scene* LevelLoader::load(const std::string& name)
 		new Emerald(world, RectF(367, 70, 1.2f, 1.8f));
 		new Saw(world, RectF(313, 81.3f, 3.5f, 3.5f), spriteLoader->get("saw"), RectF(313, 81.3f, 14.7f, 8.4f), 4);
 		new Saw(world, RectF(324.f, 86.2f, 3.5f, 3.5f), spriteLoader->get("saw"), RectF(313, 81.3f, 14.7f, 8.4f), 2);
+		new FallingBridge(world, RectF(310, 75, 2, 2), nullptr);
 
 		// Room10
 		new StaticObject(world, RectF(327.8f, 45.4f, 43, 22), spriteLoader->get("room10"), true, -2);

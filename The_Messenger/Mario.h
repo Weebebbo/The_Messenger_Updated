@@ -110,6 +110,7 @@ class agp::Mario : public DynamicObject
 		void set_canMarioTakeDamage(bool canMarioTakeDamage) { _canMarioTakeDamage = canMarioTakeDamage; }
 		void set_isSwimming(bool is) { _isSwimming = is; }
 		void set_rise(bool rise) { _rise = rise; }
+		void set_gravity(float g) { _yGravityForce = g; }
 
 		// extends game logic (+mario logic)
 		virtual void update(float dt) override;
