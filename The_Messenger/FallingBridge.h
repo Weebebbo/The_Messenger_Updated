@@ -19,7 +19,7 @@ protected:
 
 public:
 
-    FallingBridge(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
+    FallingBridge(Scene* scene, const RectF& rect, int layer = 0);
     virtual ~FallingBridge() {}
 
     // extends game logic (-physics, -collisions)

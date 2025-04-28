@@ -36,7 +36,7 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["effects"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja_effects.png", _autoTiles["effects"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["enemies2"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/nemici_del_messaggero.png", _autoTiles["enemies2"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
 	_spriteSheets["saw"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/saw.png", _autoTiles["saw"], { 63, 72, 204 }, { 237, 28, 36 });
-
+	_spriteSheets["fallingBridge"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/fallingBridge.png", _autoTiles["fallingBridge"], { 255, 1, 1 }, { 70, 67, 255 });
 
 	_spriteSheets["hud1"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/hud1.png", _autoTiles["hud1"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
@@ -89,6 +89,8 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new FilledSprite(_spriteSheets["room11"]);
 	else if (id == "room12")
 		return new FilledSprite(_spriteSheets["room12"]);
+	else if (id == "fallingBridge")
+		return new Sprite(_spriteSheets["fallingBridge"], _autoTiles["fallingBridge"][0][0]);
 
 	// OLD Super Mario sprites
 	else if (id == "welcome")

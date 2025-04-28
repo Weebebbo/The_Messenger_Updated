@@ -36,6 +36,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "FilledSprite.h"
+
 using namespace agp;
 
 LevelLoader::LevelLoader()
@@ -175,7 +177,6 @@ Scene* LevelLoader::load(const std::string& name)
 		new Emerald(world, RectF(367, 70, 1.2f, 1.8f));
 		new Saw(world, RectF(313, 81.3f, 3.5f, 3.5f), spriteLoader->get("saw"), RectF(313, 81.3f, 14.7f, 8.4f), 4);
 		new Saw(world, RectF(324.f, 86.2f, 3.5f, 3.5f), spriteLoader->get("saw"), RectF(313, 81.3f, 14.7f, 8.4f), 2);
-		new FallingBridge(world, RectF(310, 75, 2, 2), nullptr);
 
 		// Room10
 		new StaticObject(world, RectF(327.8f, 45.4f, 43, 22), spriteLoader->get("room10"), true, -2);
@@ -450,7 +451,21 @@ void LevelLoader::fillRoom9(PlatformerGameScene* world)
 {
 	RangedKappa* rkappa1 = new RangedKappa(world, PointF(324, 73));
 	RangedKappa* rkappa2 = new RangedKappa(world, PointF(371, 74));
+	FallingBridge* fb1 = new FallingBridge(world, RectF(331, 75, 3, 0.8f));
+	FallingBridge* fb2 = new FallingBridge(world, RectF(334, 75, 3, 0.8f));
+	FallingBridge* fb3 = new FallingBridge(world, RectF(337, 75, 3, 0.8f));
+	FallingBridge* fb4 = new FallingBridge(world, RectF(340, 75, 3, 0.8f));
+	FallingBridge* fb5 = new FallingBridge(world, RectF(343, 75, 3, 0.8f));
+	FallingBridge* fb6 = new FallingBridge(world, RectF(346, 75, 3, 0.8f));
+	FallingBridge* fb7 = new FallingBridge(world, RectF(349, 75, 3, 0.8f));
+	FallingBridge* fb8 = new FallingBridge(world, RectF(352, 75, 3, 0.8f));
+	FallingBridge* fb9 = new FallingBridge(world, RectF(355, 75, 3, 0.8f));
+	FallingBridge* fb10 = new FallingBridge(world, RectF(358, 75, 3, 0.8f));
+	FallingBridge* fb11 = new FallingBridge(world, RectF(361, 75, 3, 0.8f));
+	FallingBridge* fb12 = new FallingBridge(world, RectF(364, 75, 3, 0.8f));
 
+	fallinBridges = { {1, fb1}, {2, fb2}, {3, fb3}, {4, fb4}, {5, fb5}, {6, fb6}, {7, fb7},
+						{8, fb8}, {9, fb9}, {10, fb10}, {11, fb11}, {12, fb12}};
 	rangedKappas = { {1, rkappa1}, {2, rkappa2} };
 }
 
@@ -490,11 +505,15 @@ void LevelLoader::killRoom()
 	for (auto& p : bats)
 		if (!p.second->get_killed())
 			p.second->kill();
+	for (auto& p : fallinBridges)
+		if (!p.second->get_killed())
+			p.second->kill();
 
 	rangedKappas.clear();
 	greenKappas.clear();
 	skeloutons.clear();
 	bats.clear();
+	fallinBridges.clear();
 }
 
 void LevelLoader::LLReset()

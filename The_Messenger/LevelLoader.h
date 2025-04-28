@@ -16,6 +16,8 @@
 #include "Skelouton.h"
 #include "RangedKappa.h"
 #include "GreenKappa.h"
+#include "SpriteFactory.h"
+#include "FallingBridge.h"
 #include <map>
 
 namespace agp
@@ -53,6 +55,7 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 		std::map<int, GreenKappa*> greenKappas;
 		std::map<int, Skelouton*> skeloutons;
 		std::map<int, Bat*> bats;
+		std::map<int, FallingBridge*> fallinBridges; ;
 
 	public:
 		Scene* load(const std::string& name);
