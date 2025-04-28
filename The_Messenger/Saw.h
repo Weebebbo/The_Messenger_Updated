@@ -17,7 +17,7 @@ private:
 public:
 
 	//I vertici si contano da in basso a sinistra in senso antiorario
-	Saw(Scene* scene, const RectF& rect, Sprite* sprite, RectF& path, int vertice = 1, int layer = 0);
+	Saw(Scene* scene, const RectF& rect, Sprite* sprite, const RectF& path, int vertice = 1, int layer = 0);
 	~Saw() {};
 
 	virtual void update(float dt) override;

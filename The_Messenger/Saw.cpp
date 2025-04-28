@@ -3,7 +3,7 @@
 
 using namespace agp;
 
-Saw::Saw(Scene* scene, const RectF& rect, Sprite* sprite, RectF& path, int vertice, int layer) :
+Saw::Saw(Scene* scene, const RectF& rect, Sprite* sprite, const RectF& path, int vertice, int layer) :
 	CollidableObject(scene, rect, sprite, layer)
 {
 	_fit = false;

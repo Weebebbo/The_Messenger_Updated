@@ -9,7 +9,7 @@
 
 #include "Trigger.h"
 #include "Mario.h"
-#include "PLatformerGameScene.h"
+#include "PlatformerGameScene.h"
 
 using namespace agp;
 
@@ -28,7 +28,7 @@ void Trigger::update(float dt)
 	RenderableObject::update(dt);
 
 	//NOTA: LO SPESSORE DEI TRIGGER DEVE NECESSARIAMENTE ESSERE DI 0.1F, SIA VERTICALE SIA ORIZZONTALE
-	//ALTRIMENTI QUA NON FUNZIONA PIÙ NIENTE
+	//ALTRIMENTI QUA NON FUNZIONA PIï¿½ NIENTE
 	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
 	if (this->distance(mario) > 2.5f)
 	{
