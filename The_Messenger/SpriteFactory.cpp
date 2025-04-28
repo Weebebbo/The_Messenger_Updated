@@ -187,6 +187,15 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][10].begin(), _autoTiles["items"][10].begin() + 5 }, 6);
 	else if (id == "crystal")
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][0].begin(), _autoTiles["items"][0].begin() + 4 }, 5);
+	else if (id == "crystal_meh")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][1].begin(), _autoTiles["items"][1].begin() + 4 }, 5);
+	else if (id == "crystal_almost")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][2].begin(), _autoTiles["items"][2].begin() + 4 }, 5);
+	else if (id == "crystal_killed")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][3].begin(), _autoTiles["items"][3].begin() + 4 }, 5);
+	else if (id == "crystal_effect")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][4].begin(), _autoTiles["items"][4].begin() + 4 }, 5);
+
 	else if (id == "candlestick_off")
 		return new Sprite(_spriteSheets["candlestick_off"], _autoTiles["candlestick_off"][0][0]);
 	else if (id == "candlestick_on")
@@ -195,6 +204,7 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][13].begin(), _autoTiles["items"][13].begin() + 4 }, 6);
 
 	//Animazione danno nemici (prova)
+	//Morte di Mario
 	else if (id == "hit")
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][11].begin(), _autoTiles["enemies2"][11].begin() + 4 }, 6);
 
