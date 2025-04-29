@@ -124,7 +124,7 @@ Menu* Menu::mainMenu()
 	menu->addItem("New Game", []() 
 	{
 		Game::instance()->popSceneLater();
-		//Audio::instance()->playMusic("overworld");
+		Audio::instance()->playMusic("mainTheme");
 	});
 	menu->addItem("Options", [menu]()
 	{
