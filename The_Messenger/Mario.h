@@ -27,9 +27,9 @@ private:
 	bool _invincible;
 	bool _dying;
 	bool _dead;
+	bool _didMarioHitPotion;
 	int _coins;
 
-	bool _healthBar[5];
 	int _iterator;
 
 	bool _hitFromLeft;
@@ -51,8 +51,6 @@ private:
 	bool _canCrouch;
 
 	bool _isSwimming;
-
-	bool _didMarioHitPotion;
 
 	double _xLastNonZeroVel;
 	Sword* _sword;
@@ -99,6 +97,7 @@ public:
 	bool get_damageSkid() { return _damageSkid; }
 	int get_coins() { return _coins; }
 	bool get_isSwimming() { return _isSwimming; }
+	int get_iterator() { return _iterator; }
 	bool get_didMarioHitPotion() { return _didMarioHitPotion; }
 
 	// Setter
@@ -114,8 +113,7 @@ public:
 	void set_isSwimming(bool is) { _isSwimming = is; }
 	void set_rise(bool rise) { _rise = rise; }
 	void set_gravity(float g) { _yGravityForce = g; }
-	void set_didMarioHitPotion( bool potion ){ _didMarioHitPotion = potion; }
-	void iteratop1Up() { _iterator++; }
+	void set_didMarioHitPotion(bool did) { _didMarioHitPotion = did; }
 
 	// extends game logic (+mario logic)
 	virtual void update(float dt) override;

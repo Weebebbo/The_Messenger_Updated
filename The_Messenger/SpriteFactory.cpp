@@ -200,6 +200,10 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new Sprite(_spriteSheets["candlestick_off"], _autoTiles["candlestick_off"][0][0]);
 	else if (id == "candlestick_on")
 		return new AnimatedSprite(_spriteSheets["candlestick_on"], { _autoTiles["candlestick_on"][0].begin(), _autoTiles["candlestick_on"][0].begin() + 4}, 6);
+	else if (id == "potion")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][6].begin(), _autoTiles["items"][6].begin() + 11 }, 5);
+	else if (id == "potion_effect")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][8].begin(), _autoTiles["items"][8].begin() + 3 }, 5);
 	else if (id == "smash")
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][13].begin(), _autoTiles["items"][13].begin() + 4 }, 6);
 

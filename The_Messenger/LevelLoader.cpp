@@ -199,16 +199,13 @@ Scene* LevelLoader::load(const std::string& name)
 		//Mario* mario = new Mario(world, PointF(310, 77));
 		world->setPlayer(mario);
 
-		Potion* pot = new Potion(world, PointF(4, 40));
-		Spikes* meh = new Spikes(world, RectF(10, 45, 2, 2), nullptr);
-
 		//World
 		loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);
 		new Trigger(world, RectF(8, 38, 0.1f, 8), mario, [&, world]()
 			{
 				_marioInRoom = 1;
 				killRoom();
-				fillRoom1(world);
+				//fillRoom1(world);
 			});
 		//from roo1 to room2
 		new Trigger(world, RectF(127, 26.5f, 5, 0.1f), mario, [&, world]()

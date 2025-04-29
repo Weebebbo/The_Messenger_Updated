@@ -37,6 +37,7 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_dying = false;
 	_dead = false;
 	_invincible = false;
+	_didMarioHitPotion = false;
 	
 	_hitFromLeft = false; 
 	_hitFromRight = false;
@@ -72,8 +73,6 @@ Mario::Mario(Scene* scene, const PointF& pos)
 
 	_isSwimming = false;
 
-	_didMarioHitPotion = false;
-
 	_xLastNonZeroVel = 0; 
 	
 	//rimozione di skid e attrito, aggiunta partenza senza transitorio
@@ -106,9 +105,6 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_sprite = _sprites["stand"];
 
 	_iterator = 4;
-	for (int i = 0; i < 5; i++) {
-		_healthBar[i] = true;
-	}
 }
 
 void Mario::update(float dt)
@@ -288,15 +284,6 @@ void Mario::jump(bool on)
 	}
 }
 
-void Mario::heal()
-{
-	if (_healthBar[4] == false)
-	{
-		_healthBar[_iterator] = true;
-		dynamic_cast<PlatformerGame*>(Game::instance())->hud()->healthBar(_iterator, this);
-	}
-}
-
 void Mario::swimming()
 {
 	_walking = false;
@@ -419,13 +406,17 @@ void Mario::die()
 		});
 }
 
+void Mario::heal()
+{
+	_iterator++;
+}
+
 void Mario::hurt()
 {
-	if (!_invincible && _canMarioTakeDamage) {
-
-		_healthBar[_iterator] = false;
+	if (!_invincible && _canMarioTakeDamage) 
+	{
 		_iterator--;
-		dynamic_cast<PlatformerGame*>(Game::instance())->hud()->healthBar(_iterator, this);
+		dynamic_cast<PlatformerGame*>(Game::instance())->hud()->healthBarDown(_iterator);
 
 		_canMarioTakeDamage = false;
 		_damageSkid = true;

@@ -61,6 +61,6 @@ class agp::HUD : public UIScene
 		void addCoin(); 
 
 		// health bar method
-		void healthBar(int& iterator, Mario* mario);
-		
+		void healthBarDown(int& iterator);
+		void healthBarUp(int& iterator, Mario* mario);	
 };
