@@ -36,7 +36,7 @@ SpriteFactory::SpriteFactory()
 	_spriteSheets["effects"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja_effects.png", _autoTiles["effects"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["enemies2"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/nemici_del_messaggero.png", _autoTiles["enemies2"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
 	_spriteSheets["saw"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/saw.png", _autoTiles["saw"], { 63, 72, 204 }, { 237, 28, 36 });
-
+	_spriteSheets["fallingBridge"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/fallingBridge.png", _autoTiles["fallingBridge"], { 255, 1, 1 }, { 70, 67, 255 });
 
 	_spriteSheets["hud1"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/hud1.png", _autoTiles["hud1"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
@@ -89,6 +89,8 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new FilledSprite(_spriteSheets["room11"]);
 	else if (id == "room12")
 		return new FilledSprite(_spriteSheets["room12"]);
+	else if (id == "fallingBridge")
+		return new Sprite(_spriteSheets["fallingBridge"], _autoTiles["fallingBridge"][0][0]);
 
 	// OLD Super Mario sprites
 	else if (id == "welcome")
@@ -185,14 +187,28 @@ Sprite* SpriteFactory::get(const std::string& id)
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][10].begin(), _autoTiles["items"][10].begin() + 5 }, 6);
 	else if (id == "crystal")
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][0].begin(), _autoTiles["items"][0].begin() + 4 }, 5);
+	else if (id == "crystal_meh")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][1].begin(), _autoTiles["items"][1].begin() + 4 }, 5);
+	else if (id == "crystal_almost")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][2].begin(), _autoTiles["items"][2].begin() + 4 }, 5);
+	else if (id == "crystal_killed")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][3].begin(), _autoTiles["items"][3].begin() + 4 }, 5);
+	else if (id == "crystal_effect")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][4].begin(), _autoTiles["items"][4].begin() + 4 }, 5);
+
 	else if (id == "candlestick_off")
 		return new Sprite(_spriteSheets["candlestick_off"], _autoTiles["candlestick_off"][0][0]);
 	else if (id == "candlestick_on")
 		return new AnimatedSprite(_spriteSheets["candlestick_on"], { _autoTiles["candlestick_on"][0].begin(), _autoTiles["candlestick_on"][0].begin() + 4}, 6);
+	else if (id == "potion")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][6].begin(), _autoTiles["items"][6].begin() + 11 }, 5);
+	else if (id == "potion_effect")
+		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][8].begin(), _autoTiles["items"][8].begin() + 3 }, 5);
 	else if (id == "smash")
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][13].begin(), _autoTiles["items"][13].begin() + 4 }, 6);
 
 	//Animazione danno nemici (prova)
+	//Morte di Mario
 	else if (id == "hit")
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][11].begin(), _autoTiles["enemies2"][11].begin() + 4 }, 6);
 

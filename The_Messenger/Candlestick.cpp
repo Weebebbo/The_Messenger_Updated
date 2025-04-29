@@ -1,12 +1,12 @@
 //
 // Created by webubbu on 17/03/25.
 //
-
 #include "Candlestick.h"
 #include "SpriteFactory.h"
 #include "Sword.h"
 #include "Emerald.h"
 #include "PlatformerGameScene.h"
+#include "Potion.h"
 
 using namespace agp;
 
@@ -33,6 +33,9 @@ void Candlestick::update(float dt)
     //Genero un numero randomico di gemme per ogni candelabro diverso, compreso tra 1 e 7
     _howManyEmeralds = 1 + (std::rand() % 7);
 
+    //seed per generare le pozioni
+    int seed = std::rand() % 8;
+
     if (_didMarioHitMe && !_wasIhitBefore)
     {
         for (int i = 0; i < _howManyEmeralds; i++)
@@ -41,6 +44,12 @@ void Candlestick::update(float dt)
             Emerald* emerald = new Emerald(scene(), RectF(pos.x + 0.8, pos.y + 0.8, 1.0f, 1.0f), 0);
             scene()->newObject(emerald);
             emerald->randomMove();
+        }
+
+        if(seed % 3 == 0)
+        {
+            Potion* potion = new Potion(scene(), _rect.center());
+            scene()->newObject(potion);
         }
 
         _didMarioHitMe = false;

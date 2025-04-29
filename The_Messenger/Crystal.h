@@ -11,6 +11,10 @@ class agp::Crystal : public CollidableObject
 
 private:
 
+	int _health;
+	bool _didMarioHitMe;
+	bool _inLoop;
+
 public:
 
 	Crystal(Scene* scene, const RectF& rect, int layer = 0);

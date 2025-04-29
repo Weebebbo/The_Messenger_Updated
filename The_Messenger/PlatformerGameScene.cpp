@@ -281,4 +281,7 @@ void PlatformerGameScene::event(SDL_Event& evt)
 			mario->setVelY(-5);
 		}
 	}
+
+	if (evt.type == SDL_KEYDOWN && evt.key.keysym.scancode == SDL_SCANCODE_U)
+		mario->die();
 }

@@ -14,7 +14,6 @@
 #include "ClimbableWalls.h"
 #include "PlatformerGameScene.h"
 #include "Mario.h"
-#include "Lift.h"
 #include "Trigger.h"
 #include "RangedKappa.h"
 #include "Bat.h"
@@ -24,17 +23,21 @@
 #include "Emerald.h"
 #include "Crystal.h"
 #include "View.h"
-#include "NinjaLift.h"
 #include "Spikes.h"
 #include "InstaDeathBlock.h"
 #include "Water.h"
 #include "Saw.h"
+#include "FallingBridge.h"
+#include "FilledSprite.h"
+#include "Potion.h"
 
 #include "json.hpp"
 #include "mathUtils.h"
 #include "Candlestick.h"
 #include <iostream>
 #include <fstream>
+
+
 
 using namespace agp;
 
@@ -192,8 +195,8 @@ Scene* LevelLoader::load(const std::string& name)
 		new Candlestick(world, RectF(340, 37, 2.5f, 2.5f));
 
 		//Player
-		//Mario* mario = new Mario(world, PointF(0.7f, 27));	
-		Mario* mario = new Mario(world, PointF(310, 77));
+		Mario* mario = new Mario(world, PointF(0.7f, 27));	
+		//Mario* mario = new Mario(world, PointF(310, 77));
 		world->setPlayer(mario);
 
 		//World
@@ -202,7 +205,7 @@ Scene* LevelLoader::load(const std::string& name)
 			{
 				_marioInRoom = 1;
 				killRoom();
-				fillRoom1(world);
+				//fillRoom1(world);
 			});
 		//from roo1 to room2
 		new Trigger(world, RectF(127, 26.5f, 5, 0.1f), mario, [&, world]()
@@ -449,7 +452,21 @@ void LevelLoader::fillRoom9(PlatformerGameScene* world)
 {
 	RangedKappa* rkappa1 = new RangedKappa(world, PointF(324, 73));
 	RangedKappa* rkappa2 = new RangedKappa(world, PointF(371, 74));
+	FallingBridge* fb1 = new FallingBridge(world, RectF(331, 75, 3, 0.8f));
+	FallingBridge* fb2 = new FallingBridge(world, RectF(334, 75, 3, 0.8f));
+	FallingBridge* fb3 = new FallingBridge(world, RectF(337, 75, 3, 0.8f));
+	FallingBridge* fb4 = new FallingBridge(world, RectF(340, 75, 3, 0.8f));
+	FallingBridge* fb5 = new FallingBridge(world, RectF(343, 75, 3, 0.8f));
+	FallingBridge* fb6 = new FallingBridge(world, RectF(346, 75, 3, 0.8f));
+	FallingBridge* fb7 = new FallingBridge(world, RectF(349, 75, 3, 0.8f));
+	FallingBridge* fb8 = new FallingBridge(world, RectF(352, 75, 3, 0.8f));
+	FallingBridge* fb9 = new FallingBridge(world, RectF(355, 75, 3, 0.8f));
+	FallingBridge* fb10 = new FallingBridge(world, RectF(358, 75, 3, 0.8f));
+	FallingBridge* fb11 = new FallingBridge(world, RectF(361, 75, 3, 0.8f));
+	FallingBridge* fb12 = new FallingBridge(world, RectF(364, 75, 3, 0.8f));
 
+	fallinBridges = { {1, fb1}, {2, fb2}, {3, fb3}, {4, fb4}, {5, fb5}, {6, fb6}, {7, fb7},
+						{8, fb8}, {9, fb9}, {10, fb10}, {11, fb11}, {12, fb12} };
 	rangedKappas = { {1, rkappa1}, {2, rkappa2} };
 }
 
@@ -489,17 +506,21 @@ void LevelLoader::killRoom()
 	for (auto& p : bats)
 		if (!p.second->get_killed())
 			p.second->kill();
+	for (auto& p : fallinBridges)
+		if (!p.second->get_killed())
+			p.second->kill();
 
 	rangedKappas.clear();
 	greenKappas.clear();
 	skeloutons.clear();
 	bats.clear();
+	fallinBridges.clear();
 }
 
 void LevelLoader::LLReset()
 {
 	killRoom();
-	_marioInRoom = 9;
+	_marioInRoom = 1;
 
 	_room3Movecamera = false;
 }

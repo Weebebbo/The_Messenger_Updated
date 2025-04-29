@@ -124,13 +124,17 @@ Menu* Menu::mainMenu()
 	menu->addItem("New Game", []() 
 	{
 		Game::instance()->popSceneLater();
-		//Audio::instance()->playMusic("overworld");
+		Audio::instance()->playMusic("mainTheme");
 	});
 	menu->addItem("Options", [menu]()
 	{
 		Menu* nestedMenu = new Menu(menu);
+		// esce la schermata coi comandi, tasti da prendere dal png in sprites
 		nestedMenu->addItem("Commands", []() {printf("Commands pressed\n"); });
+		// Da mettere che muta
 		nestedMenu->addItem("Volume", []() {printf("Volume pressed\n"); });
+		//DA AGGIUNGERE SANO
+		// Mettere cheat per l'invincibilità e aggiungere punto di spawn per stanza a mario
 
 		SDL_RendererInfo info;
 		SDL_GetRendererInfo(Game::instance()->window()->renderer(), &info);

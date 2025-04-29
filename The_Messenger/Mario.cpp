@@ -37,6 +37,7 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_dying = false;
 	_dead = false;
 	_invincible = false;
+	_didMarioHitPotion = false;
 	
 	_hitFromLeft = false; 
 	_hitFromRight = false;
@@ -82,7 +83,7 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	// ANIMAZIONI
 	_sprites["stand"] = SpriteFactory::instance()->get("ninja_stand");
 	_sprites["walk"] = SpriteFactory::instance()->get("ninja_walk");
-	_sprites["die"] = SpriteFactory::instance()->get("mario_die");
+	_sprites["die"] = SpriteFactory::instance()->get("hit");
 
 	_sprites["rise"] = SpriteFactory::instance()->get("jump_rise");
 	_sprites["ball"] = SpriteFactory::instance()->get("jump_ball");
@@ -104,9 +105,6 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_sprite = _sprites["stand"];
 
 	_iterator = 4;
-	for (int i = 0; i < 5; i++) {
-		_healthBar[i] = true;
-	}
 }
 
 void Mario::update(float dt)
@@ -141,7 +139,7 @@ void Mario::update(float dt)
 
 	// animations
 	if (_dying)
-		_sprite = _sprites["die"];
+		_sprite = _sprites["ninja_take_damage"];
 	if (_hitFromLeft || _hitFromRight || _hitFromBottom)
 		_sprite = _sprites["damage"];
 	else if (_standingAttack1) {
@@ -397,20 +395,28 @@ void Mario::die()
 	_xDir = Direction::NONE;
 	Audio::instance()->haltMusic();
 	Audio::instance()->playSound("death");
-	dynamic_cast<PlatformerGame*>(Game::instance())->freeze(true);
+
+	RenderableObject* effect = new RenderableObject(scene(), _rect, SpriteFactory::instance()->get("hit"), 0, false);
 
 	// DA MODIFICARE PER RENDERLO PIÙ GRADEVOLE
-	_dead = true;
-	dynamic_cast<PlatformerGame*>(Game::instance())->gameover();
+	schedule("gameover", dynamic_cast<AnimatedSprite*>(effect->sprite())->duration(), [this]()
+		{
+			_dead = true;
+			dynamic_cast<PlatformerGame*>(Game::instance())->gameover();
+		});
+}
+
+void Mario::heal()
+{
+	_iterator++;
 }
 
 void Mario::hurt()
 {
-	if (!_invincible && _canMarioTakeDamage) {
-		
-		_healthBar[_iterator] = false; 
-		_iterator--; 
-		dynamic_cast<PlatformerGame*>(Game::instance())->hud()->healthBar(_iterator);
+	if (!_invincible && _canMarioTakeDamage) 
+	{
+		_iterator--;
+		dynamic_cast<PlatformerGame*>(Game::instance())->hud()->healthBarDown(_iterator);
 
 		_canMarioTakeDamage = false;
 		_damageSkid = true;
