@@ -29,6 +29,7 @@
 #include "Saw.h"
 #include "FallingBridge.h"
 #include "FilledSprite.h"
+#include "Potion.h"
 
 #include "json.hpp"
 #include "mathUtils.h"
@@ -197,6 +198,9 @@ Scene* LevelLoader::load(const std::string& name)
 		Mario* mario = new Mario(world, PointF(0.7f, 27));	
 		//Mario* mario = new Mario(world, PointF(310, 77));
 		world->setPlayer(mario);
+
+		Potion* pot = new Potion(world, PointF(4, 40));
+		Spikes* meh = new Spikes(world, RectF(10, 45, 2, 2), nullptr);
 
 		//World
 		loadJson(world, std::string(SDL_GetBasePath()) + "collider/EditorScene.json", mario);

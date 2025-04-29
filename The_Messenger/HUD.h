@@ -9,6 +9,7 @@
 
 #pragma once
 #include "UIScene.h"
+#include "Mario.h"
 #include "RenderableObject.h"
 
 namespace agp
@@ -60,6 +61,6 @@ class agp::HUD : public UIScene
 		void addCoin(); 
 
 		// health bar method
-		void healthBar(int iterator);
+		void healthBar(int& iterator, Mario* mario);
 		
 };
