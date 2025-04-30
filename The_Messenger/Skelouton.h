@@ -24,13 +24,17 @@ protected:
 
 	bool _throwing;			// throwing hammer
 	bool _chasing;			// chasing Mario
-	
-	//stati del coglione
-	bool _stand;			// stato di stand
-	bool _emerging;			// stato di passaggio da stand a walk	
-	bool _walk;				// stato di walk
+
+	bool _boost;
+	Uint32 emergingTime = 0;
+	Uint32 elapsed = 0;
 
 	int _state; 
+	bool _updateCollider;
+	bool _offsetCollider;
+	
+	RectF _limitRectSkelouton;
+	RectF _limitRectMario;
 
 	PointF _pivot;			// center of horizontal movement
 	float _halfRangeX;		// half range of horizontal movement
@@ -42,7 +46,8 @@ public:
 
 	// extends game logic (+HammerBrother logic)
 	virtual void update(float dt) override;
-	bool collision(CollidableObject* with, bool begin, Direction fromDir) override; 
 
 	virtual std::string name() override { return strprintf("Skelouton[%d]", _id); }
+
+	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
 };

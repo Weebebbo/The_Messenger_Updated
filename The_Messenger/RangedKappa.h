@@ -24,6 +24,8 @@ protected:
 
 	bool _throwing;			// lancio fireball attivo 
 	bool _canThrow;			// controlla se è possibile lanciare fireball
+	bool _mirror;			
+	PointF _positionSpawnFireball;
 	bool _chasing;			// chasing Mario
 	PointF _pivot;			// center of horizontal movement
 	float _halfRangeX;		// half range of horizontal movement
@@ -31,10 +33,14 @@ protected:
 
 public:
 
-	RangedKappa(Scene* scene, const PointF& pos);
+	RangedKappa(Scene* scene, const PointF& pos, bool mirror);
 
 	// extends game logic (+HammerBrother logic)
 	virtual void update(float dt) override;
 	
 	virtual std::string name() override { return strprintf("RangedKappa[%d]", _id); }
+
+	//getter methods
+	bool get_mirror() { return _mirror; }
+
 };

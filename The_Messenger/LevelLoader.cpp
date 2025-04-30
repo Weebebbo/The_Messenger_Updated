@@ -95,6 +95,12 @@ Scene* LevelLoader::load(const std::string& name)
 		PlatformerGameScene* world = new PlatformerGameScene(RectF(0, -12, 224, 15), { 16,16 }, 1 / 100.0f);
 		world->setBackgroundColor(Color(92, 148, 252));
 
+		//new RangedKappa(world, PointF(15, 20), true);
+		//new Bat(world, PointF(10, 17));
+		//new GreenKappa(world, PointF(5, 20)); 
+		new Skelouton(world, PointF(8, 18)); 
+		//new StaticObject(world, RectF(8, 19, 1, 1), nullptr); 
+
 		// Room1
 		new StaticObject(world, RectF(0, 5, 162, 19), spriteLoader->get("room1"), true, -2);
 		new Candlestick(world, RectF(25.6f, 15.5f, 2.5f, 2.5f));

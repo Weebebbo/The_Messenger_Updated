@@ -4,32 +4,38 @@
 #include "PlatformerGameScene.h"
 #include "Mario.h"
 #include "Skelouton.h"
+#include "StaticObject.h"
 #include <random>
 
 using namespace agp;
 
 Skelouton::Skelouton(Scene* scene, const PointF& pos)
-	: Enemy(scene, RectF(pos.x + 1 / 16.0f, pos.y - 1, 0.5f, 1.5f), SpriteFactory::instance()->get("skelouton_stand"))
+	: Enemy(scene, _rect, SpriteFactory::instance()->get("skelouton_stand"), 1)
 {
-	// Bria pensaci tu
-	//_collider.adjust(0.3f, -0.9f, 1.2f, -0.1f);
-	//_collider = { 0.2f, -0.5f, 1.5f, 2 };
-	_collider.adjust(0.1f, 0.4f, -0.1f, -1 / 16.0f);
+	
+	setPos(pos);
+	_rect = { pos.x, pos.y - 1.5f, 1.8f, 2.4f };
+	defaultCollider();
+	_collider.adjust(0.3f, 1.2f, -0.3f, -0.1f); 
 	_fit = false;
 
 	_pivot = pos;
 	_throwing = false;
 	_chasing = false;
+	_boost = false; 
+	_compenetrable = true;
+	_updateCollider = false;
+	_offsetCollider = false;
 
-	_stand = true; //appena viene spawnato lo scheletro è fermo
-	_emerging = false;
-	_walk = false;
-	_fit = false;
-
-	_state = 0;
+	_state = 0; //indica lo stato in cui si trova lo scheletro
+	// 0 -> standing
+	// 1 -> emerging
+	// 2 -> walking 
+	// 3 -> turbo diesel o anche detto pepe al culo 
 
 	_sprites["walk_on"] = SpriteFactory::instance()->get("skelouton_walk_on");
 	_sprites["walk"] = SpriteFactory::instance()->get("skelouton_walk");
+	_sprites["run"] = SpriteFactory::instance()->get("skelouton_run");
 
 	// default physics
 	_yGravityForce = 25;
@@ -40,68 +46,103 @@ Skelouton::Skelouton(Scene* scene, const PointF& pos)
 	_xDir = Direction::LEFT;
 	_halfRangeX = 0.7f;
 
-	schedule("emerging_on", 2.0f, [this] {
-		_emerging = true;
-		_state = 1;
-		schedule("walk_on", 0.5f, [this] { _state = 2; });
-		}); 
-
+	_limitRectSkelouton = { 0, 0, 0, 0 };
+	_limitRectMario = { 0, 0, 0, 0 };
 }
 
 void Skelouton::update(float dt)
 {
 	Enemy::update(dt);
-
+	
 	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
 
-	//std::cout << "stand:" << _stand << std::endl; 
-	//std::cout << "walk:" << _walk << std::endl;
-	//std::cout << "emerging: " << _emerging << std::endl;
+	LineF downRayMario = {
+		PointF(mario->sceneCollider().center().x, mario->sceneCollider().bottom()),
+		PointF(mario->sceneCollider().center().x, mario->sceneCollider().bottom() + 0.8f)
+	};
+	float hitTimes; //non so a cosa cazzo serve 
+	if (dynamic_cast<StaticObject*>(scene()->raycastNearest(downRayMario, hitTimes)))
+		_limitRectMario = dynamic_cast<StaticObject*>(scene()->raycastNearest(downRayMario, hitTimes))->rect();
 
-	//std::cout << mario->pos().y << std::endl;
-	//std::cout << this->pos().y << std::endl;
+	if (rect().left() <= _limitRectSkelouton.left())
+	{
+		move(Direction::RIGHT);
+		_flip = SDL_FLIP_HORIZONTAL; 
+		_collider = _collider + PointF(-0.3f, 0); 
+		_offsetCollider = true;
+	}
+	else if (sceneCollider().right() >= _limitRectSkelouton.right()) 
+	{
+		move(Direction::LEFT);
+		_flip = SDL_FLIP_NONE;
+		if (_offsetCollider) {
+			_collider = _collider + PointF(0.3f, 0);
+			_offsetCollider = false; 
+		}
+	}
+
+	if (_state == 0) {
+		if (mario->pos().x > this->pos().x - 5 && mario->pos().x < this->pos().x + 10) {
+			_state = 1;
+			elapsed = SDL_GetTicks();
+		}
+	}
+	else if (_state == 1 && SDL_GetTicks() - emergingTime - elapsed > 650) {	 
+		_state = 2;
+	}
+
+	if (_state == 2 && vel().x != 0 && _limitRectMario.center().y == _limitRectSkelouton.center().y) {
+		std::cout << "stato 3 attivo" << std::endl; 
+		_state = 3;
+	}
+	else if (_state == 3 && _limitRectMario.center().y != _limitRectSkelouton.center().y) {
+		_state = 2;
+		_xVelMax /= 3;
+		_boost = false;
+	}
+
+	std::cout << "mario: " << _limitRectMario.center().y << std::endl;
+	std::cout << "scheletro: " << _limitRectSkelouton.center().y << std::endl;
+	_limitRectMario = { 0, 0, 0, 0 };
+	_limitRectSkelouton = { 0, 0, 0, 0 };
 
 	switch (_state) {
 	case 0:
 		break;
 	case 1:
 		_sprite = _sprites["walk_on"]; 
-		//setRect(RectF(pos().x, pos().y, 2, 2));
-		//_collider = { 0.35, -1.52, 1.25, 2.05 };
 		break;
 	case 2:
+		if (!_updateCollider) {
+			_collider.adjust(0.1f, -1.1f, 0.1f, -0.1f);
+			_updateCollider = true; //il collider è stato aggiornato
+		}
 		_sprite = _sprites["walk"]; 
 		_xMoveForce = 1000;
-		move(Direction::LEFT);
-
+		break;
+	case 3:
+		if (!_boost) {
+			_sprite = _sprites["run"]; 
+			_xVelMax *= 3;
+			_boost = true;
+		}
 		break; 
 	default:
 		std::cout << "non succede un cazzo" << std::endl; 
 	}
 	
-				
-	/*if (_walk) {
-		_sprite = _sprites["walk"]; 
-		_xMoveForce = 1000;
-		move(Direction::LEFT); 
-	}*/
-		
-	//_facingDir = Direction::NONE;
-	//_xDir = Direction::NONE;
-	//_vel.x = 0;
-	//return;
-
-
 }
 
 bool Skelouton::collision(CollidableObject* with, bool begin, Direction fromDir)
 {
-	Mario* mario = dynamic_cast<Mario*>(with);
-
-	if (mario) {
-		std::cout << "collisione rilevata" << std::endl; 
+	Enemy::collision(with, begin, fromDir);
+	
+	StaticObject* obj = dynamic_cast<StaticObject*>(with);
+	if (obj && fromDir == Direction::DOWN)
+	{
+		_limitRectSkelouton = obj->rect();
 		return true;
 	}
-
-	return false;
+	else
+		return false;
 }
