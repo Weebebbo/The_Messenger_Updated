@@ -26,10 +26,6 @@ public:
 	ClimbableWalls(Scene* scene, const RectF& rect, Sprite* sprite, int layer = 0);
 	virtual ~ClimbableWalls() {}
 
-	//Getters
-	//bool get_didMarioHitMe() { return _didMarioHitMe; }
-	//bool get_isTheColliderFinished() { return _isTheColliderFinished; }
-
 	// extends game logic (-physics, -collisions)
 	virtual void update(float dt) override; //{RenderableObject::update(dt);}
 

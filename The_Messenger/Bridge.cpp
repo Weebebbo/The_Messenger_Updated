@@ -10,8 +10,11 @@
 #include "StaticObject.h"
 #include "Scene.h"
 #include "Bridge.h"
+
+#include "GreenKappa.h"
 #include "PlatformerGameScene.h"
 #include "Mario.h"
+#include "RangedKappa.h"
 
 using namespace agp;
 
@@ -24,33 +27,36 @@ Bridge::Bridge(Scene* scene, const RectF& rect, Sprite* sprite, int layer) :
 bool Bridge::collision(CollidableObject* with, bool begin, Direction fromDir) {
 	Mario* mario = dynamic_cast<Mario*>(with);
 
-	if (mario && (fromDir == Direction::DOWN || fromDir == Direction::LEFT || fromDir == Direction::RIGHT)) {
-		_compenetrable = true;
-
-		schedule("compenetrable_off", 0.4f, [this] {
-			_compenetrable = false;
-			}, 0);
-
-		return true;
-	}
-	else if (mario && fromDir == Direction::UP) {
-
-		mario->set_collisionWithLift(true); //check collisione con la piattaforma (per annullare il salto)
-
-		if (mario->get_canDescend()) {
+	if (mario)
+	{
+		if (fromDir == Direction::DOWN || fromDir == Direction::LEFT || fromDir == Direction::RIGHT) {
 			_compenetrable = true;
 
 			schedule("compenetrable_off", 0.4f, [this] {
 				_compenetrable = false;
 				}, 0);
 
+			return true;
 		}
-		return true;
-	}
-	else
-	{
-		mario->set_collisionWithLift(false);
-		mario->set_canDescend(false);
-		return false;
+		else if (fromDir == Direction::UP) {
+
+			mario->set_collisionWithLift(true); //check collisione con la piattaforma (per annullare il salto)
+
+			if (mario->get_canDescend()) {
+				_compenetrable = true;
+
+				schedule("compenetrable_off", 0.2f, [this] {
+					_compenetrable = false;
+					}, 0);
+
+			}
+			return true;
+		}
+		else
+		{
+			mario->set_collisionWithLift(false);
+			mario->set_canDescend(false);
+			return false;
+		}
 	}
 }

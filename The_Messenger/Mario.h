@@ -21,107 +21,118 @@ namespace agp
 
 class agp::Mario : public DynamicObject
 {
-	private:
+private:
 
-		bool _walking;
-		bool _invincible;
-		bool _dying;
-		bool _dead;
-		int _coins;
-		
-		bool _healthBar[5]; 
-		int _iterator;
+	bool _walking;
+	bool _invincible;
+	bool _dying;
+	bool _dead;
+	bool _didMarioHitPotion;
+	int _coins;
 
-		bool _hitFromLeft; 
-		bool _hitFromRight; 
-		bool _hitFromBottom;
-		bool _canMarioTakeDamage;
-		Uint32 invincibilityStart = 0;
-		bool _damageSkid;
-		int _counter;
-		
-		bool _standingAttack1;
-		bool _standingAttack2;
-		bool _runningAttack;
-		bool _jumpingAttack;
-		bool _crouchAttack;
+	int _iterator;
 
-		bool _canDescend;
-		bool _collisionWithLift;
-		bool _canCrouch;
+	bool _hitFromLeft;
+	bool _hitFromRight;
+	bool _hitFromBottom;
+	bool _canMarioTakeDamage;
+	Uint32 invincibilityStart = 0;
+	bool _damageSkid;
+	int _counter;
 
-		double _xLastNonZeroVel;
-		Sword* _sword;
+	bool _standingAttack1;
+	bool _standingAttack2;
+	bool _runningAttack;
+	bool _jumpingAttack;
+	bool _crouchAttack;
 
-		bool _rise; 
-		bool _ball; 
-		bool _fall; 
-		bool _crouch;
-		bool _prevCrouch;
-		bool _wantsToClimb;
-		bool _climbingMovement;
-		bool _finishedClimbableWallUpperLimit;
-		bool _finishedClimbableWallLowerLimit;
-		bool _canMarioJumpAgain;
-		bool _iWantToJumpAgain;
-		
-		std::map<std::string, Sprite*> _sprites;
+	bool _canDescend;
+	bool _collisionWithLift;
+	bool _canCrouch;
 
-	public:
+	bool _isSwimming;
 
-		Mario(Scene* scene, const PointF& pos);
+	double _xLastNonZeroVel;
+	Sword* _sword;
 
-		bool invincible() { return _invincible; }
+	bool _rise;
+	bool _ball;
+	bool _fall;
+	bool _crouch;
+	bool _prevCrouch;
+	bool _wantsToClimb;
+	bool _climbingMovement;
+	bool _finishedClimbableWallUpperLimit;
+	bool _finishedClimbableWallLowerLimit;
+	bool _canMarioJumpAgain;
+	bool _iWantToJumpAgain;
 
-		// Getter 
-		bool get_walking() { return _walking; }
-		bool get_wantsToClimb() { return _wantsToClimb; }
-		bool get_climbingMovement() { return _climbingMovement; }
-		bool get_crouch() { return _crouch; }
-		bool get_rise() { return _rise; }
-		bool get_ball() { return _ball; }
-		bool get_fall() { return _fall; }
-		bool get_canDescend() { return _canDescend; }
-		bool get_collisionWithLift() { return _collisionWithLift; }
-		bool get_finishedClimbingWallUpperLimit() { return _finishedClimbableWallUpperLimit; }
-		bool get_finishedClimbingWallLowerLimit() { return _finishedClimbableWallLowerLimit; }
-		bool get_canMarioJumpAgain() { return _canMarioJumpAgain; }
-		bool get_iWantToJumpAgain() { return _iWantToJumpAgain; }
-		Vec2Df get_prevVel() { return _prevVel; }
-		bool get_hitFromLeft() { return _hitFromLeft; }
-		bool get_hitFromRight() { return _hitFromRight; }
-		bool get_hitFromBottom() { return _hitFromBottom; }
-		bool get_canMarioTakeDamage() { return _canMarioTakeDamage; }
-		bool get_damageSkid() { return _damageSkid; }
-		int get_coins() { return _coins; }
+	std::map<std::string, Sprite*> _sprites;
 
-		// Setter
-		void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }
-		void set_climbingMovement(bool climbingMovement) { _climbingMovement = climbingMovement; }
-		void set_canDescend(bool canDescend) { _canDescend = canDescend; }
-		void set_collisionWithLift(bool collisionWithLift) { _collisionWithLift = collisionWithLift; }
-		void set_finishedClimbingWallUpperLimit(bool finished) { _finishedClimbableWallUpperLimit = finished; }
-		void set_finishedClimbingWallLowerLimit(bool finished) { _finishedClimbableWallLowerLimit = finished; }
-		void set_canMarioJumpAgain(bool canJump) { _canMarioJumpAgain = canJump; }
-		void set_iWantToJumpAgain(bool iWantToJump) { _iWantToJumpAgain = iWantToJump; }
-		void set_canMarioTakeDamage(bool canMarioTakeDamage) { _canMarioTakeDamage = canMarioTakeDamage; }
+public:
 
-		// extends game logic (+mario logic)
-		virtual void update(float dt) override;
+	Mario(Scene* scene, const PointF& pos);
 
-		// player actions
-		virtual void move(Direction dir) override;
-		virtual void jump(bool on = true);
-		void crouch(bool on = true);
-		void climb_stationary();
-		void climbing_movement();
-		void descend() { _canDescend = true; }
+	bool invincible() { return _invincible; }
 
-		// scripted actions
-		virtual void attack(); 
-		virtual void die();
-		virtual void hurt();
+	// Getter
+	bool get_walking() { return _walking; }
+	bool get_wantsToClimb() { return _wantsToClimb; }
+	bool get_climbingMovement() { return _climbingMovement; }
+	bool get_crouch() { return _crouch; }
+	bool get_rise() { return _rise; }
+	bool get_ball() { return _ball; }
+	bool get_fall() { return _fall; }
+	bool get_canDescend() { return _canDescend; }
+	bool get_collisionWithLift() { return _collisionWithLift; }
+	bool get_finishedClimbingWallUpperLimit() { return _finishedClimbableWallUpperLimit; }
+	bool get_finishedClimbingWallLowerLimit() { return _finishedClimbableWallLowerLimit; }
+	bool get_canMarioJumpAgain() { return _canMarioJumpAgain; }
+	bool get_iWantToJumpAgain() { return _iWantToJumpAgain; }
+	Vec2Df get_prevVel() { return _prevVel; }
+	bool get_hitFromLeft() { return _hitFromLeft; }
+	bool get_hitFromRight() { return _hitFromRight; }
+	bool get_hitFromBottom() { return _hitFromBottom; }
+	bool get_canMarioTakeDamage() { return _canMarioTakeDamage; }
+	bool get_damageSkid() { return _damageSkid; }
+	int get_coins() { return _coins; }
+	bool get_isSwimming() { return _isSwimming; }
+	int get_iterator() { return _iterator; }
+	bool get_didMarioHitPotion() { return _didMarioHitPotion; }
 
-		virtual std::string name() override { return strprintf("Mario[%d]", _id); } 
-		virtual void defaultCollider() override { _collider = { 0.6f, -0.1f, 1.3f, 2.4f }; }; 
+	// Setter
+	void set_wantsToClimb(bool isClinbing) { _wantsToClimb = isClinbing; }
+	void set_climbingMovement(bool climbingMovement) { _climbingMovement = climbingMovement; }
+	void set_canDescend(bool canDescend) { _canDescend = canDescend; }
+	void set_collisionWithLift(bool collisionWithLift) { _collisionWithLift = collisionWithLift; }
+	void set_finishedClimbingWallUpperLimit(bool finished) { _finishedClimbableWallUpperLimit = finished; }
+	void set_finishedClimbingWallLowerLimit(bool finished) { _finishedClimbableWallLowerLimit = finished; }
+	void set_canMarioJumpAgain(bool canJump) { _canMarioJumpAgain = canJump; }
+	void set_iWantToJumpAgain(bool iWantToJump) { _iWantToJumpAgain = iWantToJump; }
+	void set_canMarioTakeDamage(bool canMarioTakeDamage) { _canMarioTakeDamage = canMarioTakeDamage; }
+	void set_isSwimming(bool is) { _isSwimming = is; }
+	void set_rise(bool rise) { _rise = rise; }
+	void set_gravity(float g) { _yGravityForce = g; }
+	void set_didMarioHitPotion(bool did) { _didMarioHitPotion = did; }
+
+	// extends game logic (+mario logic)
+	virtual void update(float dt) override;
+
+	// player actions
+	virtual void move(Direction dir) override;
+	virtual void jump(bool on = true);
+	void crouch(bool on = true);
+	void climb_stationary();
+	void climbing_movement();
+	void descend() { _canDescend = true; }
+	void heal();
+	void swimming();
+
+	// scripted actions
+	virtual void attack();
+	virtual void die();
+	virtual void hurt();
+
+	virtual std::string name() override { return strprintf("Mario[%d]", _id); }
+	virtual void defaultCollider() override { _collider = { 0.6f, -0.1f, 1.3f, 2.4f }; };
 };

@@ -79,7 +79,7 @@ void GreenKappa::update(float dt)
 		_flip = SDL_FLIP_HORIZONTAL; 
 
 	if (!_canSwordHitMe && (SDL_GetTicks() - invincibilityStartGreenKappa > INVINCIBILITY_DURATION_GREEN_KAPPA)) {
-		_canSwordHitMe = true;  // mario può tornare a prenderlo in culo 
+		_canSwordHitMe = true;  // mario puï¿½ tornare a prenderlo in culo 
 		_hitFromLeft = false; 
 		_hitFromRight = false;
 		std::cout << "danno riattivato" << std::endl;
@@ -103,10 +103,21 @@ bool GreenKappa::collision(CollidableObject* with, bool begin, Direction fromDir
 		return true;
 	}
 
+	if (!sword) {
+		if (_with && fromDir == Direction::LEFT)
+		{
+			_changeDirection = true;
+			return true;
+		}
+		else if (_with && fromDir == Direction::RIGHT) {
+			_changeDirection = false;
+			return true;
+		}
+	}
+
 	if (sword && !_canSwordHitMe) {
 		
 		if (fromDir == Direction::RIGHT) {
-			//std::cout << "destra" << std::endl;
 			_hitFromRight = true;
 			_xSkiddingForce = 10;
 			_xVelMax = 3000;
@@ -117,7 +128,6 @@ bool GreenKappa::collision(CollidableObject* with, bool begin, Direction fromDir
 				}); 
 		}
 		else if (fromDir == Direction::LEFT) {
-			//std::cout << "sinistra" << std::endl;
 			_hitFromLeft = true;
 			_xSkiddingForce = 10;
 			_xVelMax = 3000;

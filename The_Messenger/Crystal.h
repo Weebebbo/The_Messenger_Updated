@@ -1,6 +1,4 @@
 #pragma once
-
-#include "DynamicObject.h"
 #include "CollidableObject.h"
 
 namespace agp
@@ -13,9 +11,14 @@ class agp::Crystal : public CollidableObject
 
 private:
 
+	int _health;
+	bool _didMarioHitMe;
+	bool _inLoop;
+
 public:
 
 	Crystal(Scene* scene, const RectF& rect, int layer = 0);
+	~Crystal() {};
 
 	virtual void update(float dt) override;
 

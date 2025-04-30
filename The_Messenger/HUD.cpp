@@ -78,7 +78,8 @@ void HUD::setFPS(int fps)
 	}
 }
 
-void HUD::addCoin() {
+void HUD::addCoin()
+{
 	
 	int coins = get_coins();
 	coins++; 
@@ -88,7 +89,15 @@ void HUD::addCoin() {
 	_coinsObj = new RenderableObject(this, RectF(13.5, 0.7, 1, 0.5), SpriteFactory::instance()->getText(std::to_string(coins), { 0.5f, 0.5f }, 2, '0'));
 }
 
-void HUD::healthBar(int iterator) {
-	_healthBar[iterator + 1]->kill(); 
-	_healthBar[iterator + 1] = new RenderableObject(this, RectF(0.5 + (iterator + 1) * 0.5, 0.8, 0.5, 1.2), SpriteFactory::instance()->get("hud_health_bar2"));;
+void HUD::healthBarDown(int& iterator)
+{
+	_healthBar[iterator + 1]->kill();
+	_healthBar[iterator + 1] = new RenderableObject(this, RectF(0.5 + (iterator + 1) * 0.5, 0.8, 0.5, 1.2), SpriteFactory::instance()->get("hud_health_bar2"));
+}
+
+void HUD::healthBarUp(int& iterator, Mario* mario)
+{
+	_healthBar[iterator + 1]->kill();
+	_healthBar[iterator + 1] = new RenderableObject(this, RectF(0.5 + (iterator + 1) * 0.5, 0.7, 0.5, 1.1), SpriteFactory::instance()->get("hud_health_bar"));
+	mario->set_didMarioHitPotion(false);
 }
