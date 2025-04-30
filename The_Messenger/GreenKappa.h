@@ -22,6 +22,7 @@ class agp::GreenKappa : public Enemy
 {
 private: 
 	int _healthBar;
+	RectF _limitRect;
 	bool _canSwordHitMe;
 	bool _prevDidSwordHitMe;
 	bool _hitFromLeft;

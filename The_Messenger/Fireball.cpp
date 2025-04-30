@@ -22,10 +22,17 @@ Fireball::Fireball(Scene* scene, const PointF& pos, Enemy* thrower)
 	_xVelMax = 4;
 	_xDir = Direction::NONE;
 
-	//Schedule tolto perchè le fireball partono appena vengono spawnate
+	//Schedule tolto perchÃ¨ le fireball partono appena vengono spawnate
 	_throwing = true;
 	_yGravityForce = 0;
-	setVelX(-1000);
+	
+	if (thrower->facingDir() == Direction::RIGHT) {
+		setVelX(1000);
+		_flip = SDL_FLIP_HORIZONTAL; 
+	}
+	else
+		setVelX(-1000);
+
 	_xDir = _thrower->facingDir();
 	_angularVelocity = 0;
 }

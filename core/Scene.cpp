@@ -165,8 +165,9 @@ Object* Scene::raycastNearest(const LineF& line, float& tNear)
 	auto objects = raycast(line, &hitTimes);
 	if (objects.size())
 	{
-		tNear = hitTimes.front();
-		return objects.front();
+		tNear = hitTimes.back();
+		//std::cout << objects.back()->name() << std::endl; 
+		return objects.back();
 	}
 	else 
 		return nullptr;

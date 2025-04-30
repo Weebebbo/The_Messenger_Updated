@@ -38,20 +38,34 @@ GreenKappa::GreenKappa(Scene* scene, const PointF& pos)
 	_hitFromLeft = false;
 	_hitFromRight = false; 
 	_canMarioTakeDamage = false;
+
+	_limitRect = { 0, 0, 0, 0 }; 
 }
 
 void GreenKappa::update(float dt)
 {
-	
+	if (!_limitRect.size.x) {
+		LineF downRay = {
+		sceneCollider().bl(),
+		sceneCollider().bl() + PointF(0, 0.1f)
+		};
+		float hitTimes;
+		if (dynamic_cast<StaticObject*>(scene()->raycastNearest(downRay, hitTimes)))
+			_limitRect = dynamic_cast<StaticObject*>(scene()->raycastNearest(downRay, hitTimes))->rect();
+	}
+
 	Enemy::update(dt);
 
 	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
 	_canMarioTakeDamage = mario->get_canMarioTakeDamage(); 
 
-	if (_changeDirection)
+	if (sceneCollider().left() <= _limitRect.left())
 		move(Direction::RIGHT);
-	else
+	else if (sceneCollider().right() >= _limitRect.right())
 		move(Direction::LEFT); 
+
+	std::cout << "oggetto sotto: " << sceneCollider().left() << std::endl;
+	std::cout << "schelestronzo: " << _limitRect.left() << std::endl;
 
 	// x-mirroring
 	if (_vel.x > 0)

@@ -9,7 +9,7 @@
 
 using namespace agp;
 
-RangedKappa::RangedKappa(Scene* scene, const PointF& pos)
+RangedKappa::RangedKappa(Scene* scene, const PointF& pos, bool mirror)
 	: Enemy(scene, RectF(pos.x - 1, pos.y - 3, 2.5f, 2.68f), SpriteFactory::instance()->get("ranged_kappa_stand"))
 {
 	//_collider.adjust(0.1f, 0.4f, -0.1f, -1 / 16.0f);
@@ -23,6 +23,8 @@ RangedKappa::RangedKappa(Scene* scene, const PointF& pos)
 	_throwing = false;
 	_canThrow = false;
 	_chasing = false;
+	_mirror = mirror;	//se è attivo il bro funziona specchiato 
+	_positionSpawnFireball = PointF(0, 0); 
 
 	// default physics
 	_yGravityForce = 25;
@@ -30,58 +32,56 @@ RangedKappa::RangedKappa(Scene* scene, const PointF& pos)
 	_xFrictionForce = 0;
 	_xSkiddingForce = 1000;
 	_xVelMax = 1;
-	_xDir = Direction::LEFT;
+	
+	if (mirror) {
+		_facingDir = Direction::RIGHT;
+		_positionSpawnFireball = rect().tr() + PointF(-0.3f, 4.2f); 
+	}
+	else {
+		_facingDir = Direction::LEFT;
+		_positionSpawnFireball = rect().tl() + PointF(-0.3f, 4.2f);
+	}
+		
+	
 	_halfRangeX = 0.7f;
 
 	schedule("throw_fireball_sprite", 2.0f, [this] {
 		if (_canThrow) {
 			_throwing = true;
 			schedule("throw_fireball_attack1", 0.25f, [this] {
-				new Fireball(_scene, rect().tl() + PointF(0, 0.85f), this);
+				new Fireball(_scene, _positionSpawnFireball, this);
 				schedule("throw_fireball_attack2", 0.5f, [this] {
-					new Fireball(_scene, rect().tl() + PointF(0, 0.85f), this);
+					new Fireball(_scene, _positionSpawnFireball, this);
 					});
 				});
 			schedule("throwing_off", 1.0f, [this]() {_throwing = false; });
 		}
 		}, -1);
 
-	/*schedule("attack", 3.0f, [this] {
-		if (_canThrow) {
-			_throwing = true;
-
-			schedule("spawn_fireball1", 0.25f, [this] {
-				new Fireball(_scene, rect().tl() + PointF(0, 0.85f), this);
-				schedule("stop_animation1", 0.25f, [this] { _throwing = false; }); 	
-				});
-
-			schedule("start_animation2", 1.0f, [this] {
-				_throwing = true;
-				schedule("spawn_fireball2", 0.25f, [this] {
-					new Fireball(_scene, rect().tl() + PointF(0, 0.85f), this);
-					schedule("stop_animation2", 0.25f, [this] { _throwing = false; }); });
-				});
-		}
-	}, -1); */
 }
 
 void RangedKappa::update(float dt)
 {
 	Enemy::update(dt);
 
-	//std::cout << _throwing << std::endl; 
-
 	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
 
-	//std::cout << _canThrow << std::endl; 
-	//std::cout << "Mario: " << mario->pos().x << std::endl;
-	//std::cout << "Enemy: " << this->pos().x << std::endl;
-
-	if (mario->pos().x < this->pos().x) {
-		_canThrow = true;
+	if (!_mirror) {
+		if (mario->pos().x < this->pos().x && mario->pos().x > this->pos().x - 10) {
+			_canThrow = true;
+		}
+		else {
+			_canThrow = false;
+		}
 	}
 	else {
-		_canThrow = false;
+		_flip = SDL_FLIP_HORIZONTAL; 
+		if (mario->pos().x > this->pos().x && mario->pos().x < this->pos().x + 10) {
+			_canThrow = true;
+		}
+		else {
+			_canThrow = false;
+		}
 	}
 
 	if (_throwing)

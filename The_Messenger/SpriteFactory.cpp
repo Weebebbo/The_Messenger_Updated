@@ -172,11 +172,13 @@ Sprite* SpriteFactory::get(const std::string& id)
 	else if (id == "fireball")
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][8].begin(), _autoTiles["enemies2"][8].begin() + 4 }, 6);
 	else if (id == "bat_flying")
-		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][0].begin(), _autoTiles["enemies2"][0].begin() + 4 }, 6);
+		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][0].begin(), _autoTiles["enemies2"][0].begin() + 4 }, 10);
 	else if (id == "green_kappa_walk")
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][5].begin(), _autoTiles["enemies2"][5].begin() + 4 }, 6);
 	else if (id == "skelouton_walk")
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][9].begin(), _autoTiles["enemies2"][9].begin() + 4 }, 6);
+	else if (id == "skelouton_run")
+		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][9].begin(), _autoTiles["enemies2"][9].begin() + 4 }, 12);
 	else if (id == "skelouton_walk_on")
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][10].begin(), _autoTiles["enemies2"][10].begin() + 4 }, 6);
 	else if (id == "saw")

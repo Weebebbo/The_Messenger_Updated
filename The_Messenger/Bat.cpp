@@ -4,6 +4,7 @@
 #include "PlatformerGameScene.h"
 #include "Mario.h"
 #include "Bat.h"
+#include "StaticObject.h"
 #include <random>
 
 using namespace agp;
@@ -19,22 +20,17 @@ Bat::Bat(Scene* scene, const PointF& pos)
 	_flying = false;
 	_throwing = false;
 	_chasing = false;
+	_compenetrable = false;
 
 	// default physics
 	_yGravityForce = 0;
 	_xMoveForce = 0;
 	_xFrictionForce = 1000;
 	_xSkiddingForce = 1000;
-	_xVelMax = 1;
+	_xVelMax = 2;
 	_xDir = Direction::LEFT;
 	_halfRangeX = 0.7f;
 
-	// scripting (chasing Mario)
-	schedule("chasing", 3.0f, [this]
-		{
-			_chasing = true;
-			_xVelMax *= 2;
-		});
 }
 
 void Bat::update(float dt)
@@ -43,11 +39,17 @@ void Bat::update(float dt)
 
 	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
 
+	// il controllo sulle coordinate viene fatto solo per l'attivazione, dopodiche lo stronzo segue mario per tutta la mappa
+	if (mario->pos().x < this->pos().x && mario->pos().x > this->pos().x - 3) {
+		_chasing = true;
+	} 
+
 	if (_chasing) {
 		_flying = true;
-		_sprite = _sprites["flying"]; 
+		_sprite = _sprites["flying"];
 		_xMoveForce = 1000;
-		
+		_yGravityForce = 2; 
+
 
 		if (mario->pos().x < this->pos().x)
 			move(Direction::LEFT);
@@ -56,13 +58,20 @@ void Bat::update(float dt)
 		else
 			move(Direction::NONE);
 
-		if (mario->pos().y > this->pos().y) {
-			_yGravityForce = 2;
+		if (mario->pos().y < this->pos().y)
+			_yGravityForce = -2; 
+
+		LineF downRay = {
+			sceneCollider().bl(),
+			sceneCollider().bl() + PointF(0, 0.5f)
+		};
+
+		//RAYCAST DI BRIA MORTO ESPLOSO PER EVITARE CHE IL PIPISTRONZO SBATTA A TERRA COME UN DOWN 
+		float hitTimes;
+		if (dynamic_cast<StaticObject*>(scene()->raycastNearest(downRay, hitTimes))) {
+			setVelY(-1);
 		}
-		else if (mario->pos().y < this->pos().y) {
-			_yGravityForce = -2;
-		}
-		
+
 		if (_vel.x > 0) // x-mirroring
 			_flip = SDL_FLIP_HORIZONTAL;
 		else
