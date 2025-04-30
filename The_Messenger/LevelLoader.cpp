@@ -99,15 +99,6 @@ Scene* LevelLoader::load(const std::string& name)
 	if (name == "overworld")
 	{
 		PlatformerGameScene* world = new PlatformerGameScene(RectF(0, -12, 224, 15), { 16,16 }, 1 / 100.0f);
-    
-		world->setBackgroundColor(Color(92, 148, 252));
-
-		//new RangedKappa(world, PointF(15, 20), true);
-		//new Bat(world, PointF(10, 17));
-		//new GreenKappa(world, PointF(5, 20)); 
-		new Skelouton(world, PointF(8, 18)); 
-		//new StaticObject(world, RectF(8, 19, 1, 1), nullptr); 
-
 		world->setBackgroundColor(Color(0, 0, 0));
 	
 		// Room1
@@ -214,7 +205,7 @@ Scene* LevelLoader::load(const std::string& name)
 			{
 				_marioInRoom = 1;
 				killRoom();
-				//fillRoom1(world);
+				fillRoom1(world);
 			});
 		//from roo1 to room2
 		new Trigger(world, RectF(127, 26.5f, 5, 0.1f), mario, [&, world]()
@@ -459,7 +450,7 @@ void LevelLoader::fillRoom6(PlatformerGameScene* world)
 
 void LevelLoader::fillRoom9(PlatformerGameScene* world)
 {
-	RangedKappa* rkappa1 = new RangedKappa(world, PointF(324, 73));
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(324, 73), true);
 	RangedKappa* rkappa2 = new RangedKappa(world, PointF(371, 74));
 	FallingBridge* fb1 = new FallingBridge(world, RectF(331, 75, 3, 0.8f));
 	FallingBridge* fb2 = new FallingBridge(world, RectF(334, 75, 3, 0.8f));
@@ -481,7 +472,7 @@ void LevelLoader::fillRoom9(PlatformerGameScene* world)
 
 void LevelLoader::fillRoom11(PlatformerGameScene* world)
 {
-	RangedKappa* rkappa1 = new RangedKappa(world, PointF(380, 55));
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(380, 57), true);
 
 	rangedKappas = { {1, rkappa1} };
 }
