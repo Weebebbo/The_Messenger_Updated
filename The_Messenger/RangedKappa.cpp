@@ -89,4 +89,6 @@ void RangedKappa::update(float dt)
 	else
 		_sprite = _sprites["ranged_kappa_stand"];
 
+	if (_dying)
+		_canThrow = false;
 }

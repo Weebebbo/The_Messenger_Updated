@@ -20,8 +20,8 @@ using namespace agp;
 MenuItem::MenuItem(Menu* container, int index, const std::string& text, std::function<void()> task)
 	: RenderableObject(container, 
 		RectF(
-			container->menuRect().left(), 
-			container->menuRect().top() + 0.5f + 0.7f * index, 
+			container->menuRect().left() + 0.6f, 
+			container->menuRect().top() + 0.2f + 0.7f * index, 
 			container->menuRect().size.x, 0.5f),
 		SpriteFactory::instance()->getText(' ' + text, { 0.5f, 0.5f }, 0, ' ', false), 1)
 {
@@ -30,6 +30,8 @@ MenuItem::MenuItem(Menu* container, int index, const std::string& text, std::fun
 	_text = text;
 	_task = task;
 	_selected = false;
+	_focusColor = { 0, 0, 0, 0 }; //tolgo il colore di selezione
+
 }
 
 void MenuItem::refresh()
@@ -42,6 +44,7 @@ void MenuItem::update(float dt)
 	RenderableObject::update(dt);
 
 	_focused = _selected;
+
 }
 
 Menu::Menu(const PointF& position, float width, Menu* parent, bool closable)
@@ -53,8 +56,8 @@ Menu::Menu(const PointF& position, float width, Menu* parent, bool closable)
 	_closable = closable;
 
 	// menu layer
-	_menuBackground = new RenderableObject(this, _menuRect, Color(200, 76, 12, 255));
-
+	_menuBackground = new RenderableObject(this, _menuRect, Color(111, 123, 234, 0));
+	//_rectPositionY = position.y + 0.8f;
 	// default: modal menu (blocks all lower scenes)
 	_blocking = true;
 
@@ -76,7 +79,7 @@ MenuItem* Menu::addItem(const std::string& text, std::function<void()> task)
 	if (_items.size() == 1)
 		item->setSelected(true);
 
-	_menuRect.size.y = 0.5f + _items.size() * 0.7f + 0.3f;
+	_menuRect.size.y = -0.2f + _items.size() * 0.6f + 0.5f;
 	_menuBackground->setRect(_menuRect);
 
 	return item;
@@ -86,18 +89,21 @@ void Menu::event(SDL_Event& evt)
 {
 	UIScene::event(evt);
 
+	if (_closable)
+		_menuBackground = new RenderableObject(this, _menuRect, Color(223, 109, 21, 255));
+
 	if (evt.type == SDL_KEYDOWN)
 	{
 		if (evt.key.keysym.scancode == SDL_SCANCODE_DOWN)
 		{
-			Audio::instance()->playSound("fireball");
+			//Audio::instance()->playSound("fireball");
 			_items[_itemSelected]->setSelected(false);
 			_itemSelected = (_itemSelected + 1) % int(_items.size());
 			_items[_itemSelected]->setSelected(true);
 		}
 		else if (evt.key.keysym.scancode == SDL_SCANCODE_UP)
 		{
-			Audio::instance()->playSound("fireball");
+			//Audio::instance()->playSound("fireball");
 			_items[_itemSelected]->setSelected(false);
 			_itemSelected = (_itemSelected - 1) < 0 ? int(_items.size()) - 1 : _itemSelected - 1;
 			_items[_itemSelected]->setSelected(true);
@@ -117,40 +123,41 @@ void Menu::event(SDL_Event& evt)
 
 Menu* Menu::mainMenu()
 {
-	Menu* menu = new Menu({ 5.0, 9.5 }, 6.0, 0, false);
+	Menu* menu = new Menu({ 5.0, 10.7 }, 6.0, 0, false);
 
 	new RenderableObject(menu, RectF(0, 2, 16, 13), SpriteFactory::instance()->get("welcome"), -1);
 
-	menu->addItem("New Game", []() 
-	{
-		Game::instance()->popSceneLater();
-		Audio::instance()->playMusic("mainTheme");
-	});
-	menu->addItem("Options", [menu]()
-	{
-		Menu* nestedMenu = new Menu(menu);
-		// esce la schermata coi comandi, tasti da prendere dal png in sprites
-		nestedMenu->addItem("Commands", []() {printf("Commands pressed\n"); });
-		// Da mettere che muta
-		nestedMenu->addItem("Volume", []() {printf("Volume pressed\n"); });
-		//DA AGGIUNGERE SANO
-		// Mettere cheat per l'invincibilità e aggiungere punto di spawn per stanza a mario
+	menu->addItem("", [menu]()
+		{
+			Menu* nestedMenu = new Menu(menu);
+			nestedMenu->addItem("Options", [nestedMenu]() {
+				std::cout << "Comandi" << std::endl;
+				Menu* optionsMenu = new Menu(nestedMenu);
+				optionsMenu->addItem("Commands", [nestedMenu]() {
+					std::cout << "Fatti in culo!" << std::endl;
+					});
+				optionsMenu->addItem("Commands", []() {
+					std::cout << "Fatti in culo!" << std::endl;
+					});
+				optionsMenu->addItem("Commands", []() {
+					std::cout << "Fatti in culo!" << std::endl;
+					});
+				Game::instance()->pushScene(optionsMenu);
+				});
+			nestedMenu->addItem("New Game", []()
+				{
+					Game::instance()->popSceneLater();
+					Game::instance()->popSceneLater();
+					Audio::instance()->playMusic("mainTheme");
+				});
+			nestedMenu->addItem("Quit", []() {Game::instance()->quit(); });
 
-		SDL_RendererInfo info;
-		SDL_GetRendererInfo(Game::instance()->window()->renderer(), &info);
-		bool vsyncOn = info.flags & SDL_RENDERER_PRESENTVSYNC;
-		nestedMenu->addItem(std::string("VSYNC ") + (vsyncOn ? "on" : "off"), [nestedMenu]()
-			{
-				bool vsyncOn = nestedMenu->itemAt(2)->text() == "VSYNC on";
-				nestedMenu->itemAt(2)->setText(vsyncOn ? "VSYNC off" : "VSYNC on");
-				SDL_RenderSetVSync(Game::instance()->window()->renderer(), !vsyncOn);
-			});
-		Game::instance()->pushScene(nestedMenu);
-	});
-	menu->addItem("Quit", []() {Game::instance()->quit(); });
+			Game::instance()->pushScene(nestedMenu);
+		});
 
 	return menu;
 }
+
 
 Menu* Menu::pauseMenu()
 {

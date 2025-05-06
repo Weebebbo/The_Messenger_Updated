@@ -31,6 +31,7 @@ SpriteFactory::SpriteFactory()
 	SDL_Renderer* renderer = Game::instance()->window()->renderer();
 	// OLD Super Mario hud 
 	_spriteSheets["hud"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "sprites/hud.png", { 147, 187, 236 });
+	_spriteSheets["Screen_menu"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "sprites/Screen_menu.png", { 147, 187, 236 });
 
 	_spriteSheets["ninja"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja.png", _autoTiles["ninja"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["effects"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja_effects.png", _autoTiles["effects"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
@@ -94,7 +95,7 @@ Sprite* SpriteFactory::get(const std::string& id)
 
 	// OLD Super Mario sprites
 	else if (id == "welcome")
-		return new Sprite(_spriteSheets["hud"], RectI(1, 2 + 16 * 2, 16 * 16, 13 * 16));
+		return new Sprite(_spriteSheets["Screen_menu"], RectI(1, 2 + 16 * 2, 1920, 1080));
 	else if (id == "gameover")
 		return new Sprite(_spriteSheets["hud"], RectI(260, 253, 16 * 16, 15 * 16));
 

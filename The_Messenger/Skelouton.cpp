@@ -58,7 +58,7 @@ void Skelouton::update(float dt)
 
 	LineF downRayMario = {
 		PointF(mario->sceneCollider().center().x, mario->sceneCollider().bottom()),
-		PointF(mario->sceneCollider().center().x, mario->sceneCollider().bottom() + 0.8f)
+		PointF(mario->sceneCollider().center().x, mario->sceneCollider().bottom() + 0.1f)
 	};
 	float hitTimes; //non so a cosa cazzo serve 
 	if (dynamic_cast<StaticObject*>(scene()->raycastNearest(downRayMario, hitTimes)))
@@ -82,7 +82,7 @@ void Skelouton::update(float dt)
 	}
 
 	if (_state == 0) {
-		if (mario->pos().x > this->pos().x - 5 && mario->pos().x < this->pos().x + 10) {
+		if (mario->pos().x > this->pos().x - 10 && mario->pos().x < this->pos().x + 10) {
 			_state = 1;
 			elapsed = SDL_GetTicks();
 		}
@@ -101,8 +101,8 @@ void Skelouton::update(float dt)
 		_boost = false;
 	}
 
-	std::cout << "mario: " << _limitRectMario.center().y << std::endl;
-	std::cout << "scheletro: " << _limitRectSkelouton.center().y << std::endl;
+	//std::cout << "mario: " << _limitRectMario.center().y << std::endl;
+	//std::cout << "scheletro: " << _limitRectSkelouton.center().y << std::endl;
 	_limitRectMario = { 0, 0, 0, 0 };
 	_limitRectSkelouton = { 0, 0, 0, 0 };
 
@@ -115,6 +115,7 @@ void Skelouton::update(float dt)
 	case 2:
 		if (!_updateCollider) {
 			_collider.adjust(0.1f, -1.1f, 0.1f, -0.1f);
+			_collider = _collider + PointF(0, 0.1f); 
 			_updateCollider = true; //il collider è stato aggiornato
 		}
 		_sprite = _sprites["walk"]; 
@@ -138,6 +139,7 @@ bool Skelouton::collision(CollidableObject* with, bool begin, Direction fromDir)
 	Enemy::collision(with, begin, fromDir);
 	
 	StaticObject* obj = dynamic_cast<StaticObject*>(with);
+	
 	if (obj && fromDir == Direction::DOWN)
 	{
 		_limitRectSkelouton = obj->rect();

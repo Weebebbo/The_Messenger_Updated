@@ -35,6 +35,7 @@ public:
 
 	// extends game logic (+HammerBrother logic)
 	virtual void update(float dt) override;
+	virtual void smash() override;
 
 	virtual std::string name() override { return strprintf("Bat[%d]", _id); }
 };

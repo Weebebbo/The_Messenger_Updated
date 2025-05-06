@@ -5,6 +5,7 @@
 #include "Mario.h"
 #include "Bat.h"
 #include "StaticObject.h"
+#include "Audio.h"
 #include <random>
 
 using namespace agp;
@@ -40,7 +41,7 @@ void Bat::update(float dt)
 	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
 
 	// il controllo sulle coordinate viene fatto solo per l'attivazione, dopodiche lo stronzo segue mario per tutta la mappa
-	if (mario->pos().x < this->pos().x && mario->pos().x > this->pos().x - 3) {
+	if (mario->pos().x > this->pos().x - 10 && mario->pos().x < this->pos().x + 10) {
 		_chasing = true;
 	} 
 
@@ -78,4 +79,9 @@ void Bat::update(float dt)
 			_flip = SDL_FLIP_NONE;
 
 	}
+}
+
+void Bat::smash() {
+	this->kill(); 
+	Audio::instance()->playSound("kick");
 }

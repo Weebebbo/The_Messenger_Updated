@@ -33,7 +33,7 @@ protected:
 
 public:
 
-	RangedKappa(Scene* scene, const PointF& pos, bool mirror);
+	RangedKappa(Scene* scene, const PointF& pos, bool mirror = false);
 
 	// extends game logic (+HammerBrother logic)
 	virtual void update(float dt) override;
