@@ -459,7 +459,7 @@ void LevelLoader::fillRoom6(PlatformerGameScene* world)
 
 void LevelLoader::fillRoom9(PlatformerGameScene* world)
 {
-	RangedKappa* rkappa1 = new RangedKappa(world, PointF(324, 73));
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(324, 73), true);
 	RangedKappa* rkappa2 = new RangedKappa(world, PointF(371, 74));
 	FallingBridge* fb1 = new FallingBridge(world, RectF(331, 75, 3, 0.8f));
 	FallingBridge* fb2 = new FallingBridge(world, RectF(334, 75, 3, 0.8f));
@@ -481,7 +481,7 @@ void LevelLoader::fillRoom9(PlatformerGameScene* world)
 
 void LevelLoader::fillRoom11(PlatformerGameScene* world)
 {
-	RangedKappa* rkappa1 = new RangedKappa(world, PointF(380, 55));
+	RangedKappa* rkappa1 = new RangedKappa(world, PointF(380, 57), true);
 
 	rangedKappas = { {1, rkappa1} };
 }
