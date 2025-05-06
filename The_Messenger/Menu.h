@@ -24,6 +24,7 @@ namespace agp
 // - implements a simple textSprite-based menu item
 class agp::MenuItem : public RenderableObject
 {
+
 	protected:
 
 		Menu* _container;

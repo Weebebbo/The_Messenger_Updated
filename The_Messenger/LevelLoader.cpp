@@ -99,6 +99,15 @@ Scene* LevelLoader::load(const std::string& name)
 	if (name == "overworld")
 	{
 		PlatformerGameScene* world = new PlatformerGameScene(RectF(0, -12, 224, 15), { 16,16 }, 1 / 100.0f);
+    
+		world->setBackgroundColor(Color(92, 148, 252));
+
+		//new RangedKappa(world, PointF(15, 20), true);
+		//new Bat(world, PointF(20, 10));
+		//new GreenKappa(world, PointF(5, 20)); 
+		//new Skelouton(world, PointF(8, 18)); 
+		//new StaticObject(world, RectF(8, 19, 1, 1), nullptr); 
+
 		world->setBackgroundColor(Color(0, 0, 0));
 	
 		// Room1

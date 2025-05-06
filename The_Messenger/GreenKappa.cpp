@@ -64,8 +64,8 @@ void GreenKappa::update(float dt)
 	else if (sceneCollider().right() >= _limitRect.right())
 		move(Direction::LEFT); 
 
-	std::cout << "oggetto sotto: " << sceneCollider().left() << std::endl;
-	std::cout << "schelestronzo: " << _limitRect.left() << std::endl;
+	//std::cout << "oggetto sotto: " << sceneCollider().left() << std::endl;
+	//std::cout << "schelestronzo: " << _limitRect.left() << std::endl;
 
 	// x-mirroring
 	if (_vel.x > 0)
