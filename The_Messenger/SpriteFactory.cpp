@@ -29,18 +29,19 @@ SpriteFactory::SpriteFactory()
 	}
 
 	SDL_Renderer* renderer = Game::instance()->window()->renderer();
-	// OLD Super Mario hud 
+	// OLD Super Mario hud
 	_spriteSheets["hud"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "sprites/hud.png", { 147, 187, 236 });
 	_spriteSheets["Screen_menu"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "sprites/Screen_menu.png", { 147, 187, 236 });
+	_spriteSheets["black_screen"] = loadTexture(renderer, std::string(SDL_GetBasePath()) + "sprites/sfondo_nero.png", { 147, 187, 236 });
 
 	_spriteSheets["ninja"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja.png", _autoTiles["ninja"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
 	_spriteSheets["effects"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/ninja_effects.png", _autoTiles["effects"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
-	_spriteSheets["enemies2"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/nemici_del_messaggero.png", _autoTiles["enemies2"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
+	_spriteSheets["enemies2"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/nemici_del_messaggero.png", _autoTiles["enemies2"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, false);
 	_spriteSheets["saw"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/saw.png", _autoTiles["saw"], { 63, 72, 204 }, { 237, 28, 36 });
 	_spriteSheets["fallingBridge"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/fallingBridge.png", _autoTiles["fallingBridge"], { 255, 1, 1 }, { 70, 67, 255 });
 
 	_spriteSheets["hud1"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/hud1.png", _autoTiles["hud1"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true);
-	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, true);
+	_spriteSheets["items"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/items.png", _autoTiles["items"], { 237, 28, 36 }, { 26, 188, 156 }, 5, false, true, false);
 	_spriteSheets["candlestick_on"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_on.png", _autoTiles["candlestick_on"], { 69, 67, 255 }, { 255, 13, 13 });
 	_spriteSheets["candlestick_off"] = loadTextureAutoDetect(renderer, std::string(SDL_GetBasePath()) + "sprites/candlestick_off.png", _autoTiles["candlestick_off"], { 69, 67, 255 }, { 255, 1, 1 });
 
@@ -93,11 +94,13 @@ Sprite* SpriteFactory::get(const std::string& id)
 	else if (id == "fallingBridge")
 		return new Sprite(_spriteSheets["fallingBridge"], _autoTiles["fallingBridge"][0][0]);
 
-	// OLD Super Mario sprites
+	// roba del menu
 	else if (id == "welcome")
 		return new Sprite(_spriteSheets["Screen_menu"], RectI(1, 2 + 16 * 2, 1920, 1080));
 	else if (id == "gameover")
 		return new Sprite(_spriteSheets["hud"], RectI(260, 253, 16 * 16, 15 * 16));
+	else if (id == "commands")
+		return new Sprite(_spriteSheets["black_screen"], RectI(1, 2 + 16 * 2, 1920, 1080));
 
 	// NINJA Sprites
 	else if (id == "jump_rise")

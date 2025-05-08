@@ -73,6 +73,9 @@ public:
 
 	Mario(Scene* scene, const PointF& pos);
 
+	//menu function
+	void toggleInvincible();
+
 	bool invincible() { return _invincible; }
 
 	// Getter

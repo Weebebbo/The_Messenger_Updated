@@ -65,7 +65,7 @@ class agp::Menu : public UIScene
 
 	public:
 
-		Menu(const PointF& position, float width, Menu* parent = 0, bool closable = true);
+		Menu(const PointF& position, float width, Menu* parent = 0, bool closable = true, Color backgroundColor = Color(0, 0, 0, 255));
 		Menu(Menu* parent);
 		virtual ~Menu() {};
 
@@ -73,6 +73,9 @@ class agp::Menu : public UIScene
 		const RectF& menuRect() { return _menuRect; }
 		MenuItem* addItem(const std::string& text, std::function<void()> task);
 		MenuItem* itemAt(int index) { return _items[index]; }
+		//bool get_music() { return _music; }
+		std::string get_itemTextInvincible();
+		std::string get_itemTextVolume();
 
 		// extends event handler (+menu selection)
 		virtual void event(SDL_Event& evt) override;
@@ -80,4 +83,5 @@ class agp::Menu : public UIScene
 		// provide main menus
 		static Menu* mainMenu();
 		static Menu* pauseMenu();
+		void toggleMusic();
 };

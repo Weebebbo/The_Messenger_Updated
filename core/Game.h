@@ -55,6 +55,9 @@ class agp::Game : public Singleton<Game>
 			float aspectRatio = -1,
 			Rendering rendering = Rendering::SDL);
 
+		//peitros function
+		Scene* scene() { return _scenes[0]; }
+
 		// getters
 		Window* window() { return _window; }
 		float aspectRatio() { return _aspectRatio; }

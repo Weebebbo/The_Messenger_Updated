@@ -111,7 +111,7 @@ void Mario::update(float dt)
 {
 	// physics
 	DynamicObject::update(dt);
-
+	
 	// state logic
 	if ((_rise && grounded()) || (_fall && grounded())) {
 		_rise = false;
@@ -453,5 +453,16 @@ void Mario::hurt()
 
 		if (_iterator < 0)
 			die();
+	}
+}
+
+void Mario::toggleInvincible() {
+	if (!_invincible) {
+		_invincible = true;
+		std::cout << "Invincibilita' attivata!" << std::endl;
+	}
+	else {
+		_invincible = false;
+		std::cout << "Invincibilita' disattivata!" << std::endl;
 	}
 }
