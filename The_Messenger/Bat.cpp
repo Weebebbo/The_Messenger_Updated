@@ -40,7 +40,7 @@ void Bat::update(float dt)
 
 	Mario* mario = dynamic_cast<Mario*>(dynamic_cast<PlatformerGameScene*>(_scene)->player());
 
-	// il controllo sulle coordinate viene fatto solo per l'attivazione, dopodiche lo stronzo segue mario per tutta la mappa
+	// il controllo sulle coordinate viene fatto solo per l'attivazione, dopodiche il pipistrello segue mario per tutta la mappa
 	if (mario->pos().x > this->pos().x - 10 && mario->pos().x < this->pos().x + 10) {
 		_chasing = true;
 	} 
@@ -67,7 +67,7 @@ void Bat::update(float dt)
 			sceneCollider().bl() + PointF(0, 0.5f)
 		};
 
-		//RAYCAST DI BRIA MORTO ESPLOSO PER EVITARE CHE IL PIPISTRONZO SBATTA A TERRA COME UN DOWN 
+		//uso il raycast per evitare che il pipistrello sbatta a terra in volo 
 		float hitTimes;
 		if (dynamic_cast<StaticObject*>(scene()->raycastNearest(downRay, hitTimes))) {
 			setVelY(-1);

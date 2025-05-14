@@ -28,7 +28,7 @@ private:
 	bool _hitFromLeft;
 	bool _hitFromRight; 
 	bool _canMarioTakeDamage;
-	Uint32 invincibilityStartGreenKappa = 0;
+	Uint32 _invincibilityStartGreenKappa;
 
 protected:
 

@@ -31,11 +31,14 @@ Skelouton::Skelouton(Scene* scene, const PointF& pos)
 	// 0 -> standing
 	// 1 -> emerging
 	// 2 -> walking 
-	// 3 -> turbo diesel o anche detto pepe al culo 
+	// 3 -> running
 
 	_sprites["walk_on"] = SpriteFactory::instance()->get("skelouton_walk_on");
 	_sprites["walk"] = SpriteFactory::instance()->get("skelouton_walk");
 	_sprites["run"] = SpriteFactory::instance()->get("skelouton_run");
+
+	_emergingTime = 0; 
+	_elapsed = 0; 
 
 	// default physics
 	_yGravityForce = 25;
@@ -60,7 +63,7 @@ void Skelouton::update(float dt)
 		PointF(mario->sceneCollider().center().x, mario->sceneCollider().bottom()),
 		PointF(mario->sceneCollider().center().x, mario->sceneCollider().bottom() + 0.1f)
 	};
-	float hitTimes; //non so a cosa cazzo serve 
+	float hitTimes; 
 	if (dynamic_cast<StaticObject*>(scene()->raycastNearest(downRayMario, hitTimes)))
 		_limitRectMario = dynamic_cast<StaticObject*>(scene()->raycastNearest(downRayMario, hitTimes))->rect();
 
@@ -84,10 +87,10 @@ void Skelouton::update(float dt)
 	if (_state == 0) {
 		if (mario->pos().x > this->pos().x - 10 && mario->pos().x < this->pos().x + 10) {
 			_state = 1;
-			elapsed = SDL_GetTicks();
+			_elapsed = SDL_GetTicks();
 		}
 	}
-	else if (_state == 1 && SDL_GetTicks() - emergingTime - elapsed > 650) {	 
+	else if (_state == 1 && SDL_GetTicks() - _emergingTime - _elapsed > 650) {	 
 		_state = 2;
 	}
 
@@ -101,8 +104,6 @@ void Skelouton::update(float dt)
 		_boost = false;
 	}
 
-	//std::cout << "mario: " << _limitRectMario.center().y << std::endl;
-	//std::cout << "scheletro: " << _limitRectSkelouton.center().y << std::endl;
 	_limitRectMario = { 0, 0, 0, 0 };
 	_limitRectSkelouton = { 0, 0, 0, 0 };
 
@@ -128,8 +129,6 @@ void Skelouton::update(float dt)
 			_boost = true;
 		}
 		break; 
-	default:
-		std::cout << "non succede un cazzo" << std::endl; 
 	}
 	
 }

@@ -26,8 +26,8 @@ protected:
 	bool _chasing;			// chasing Mario
 
 	bool _boost;
-	Uint32 emergingTime = 0;
-	Uint32 elapsed = 0;
+	Uint32 _emergingTime;
+	Uint32 _elapsed;
 
 	int _state; 
 	bool _updateCollider;

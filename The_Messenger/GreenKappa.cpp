@@ -31,8 +31,9 @@ GreenKappa::GreenKappa(Scene* scene, const PointF& pos)
 	_xDir = Direction::LEFT;
 	_halfRangeX = 0.7f;
 	_changeDirection = false; //false = sinistra, true = destra
+	_invincibilityStartGreenKappa = 0;
 
-	_healthBar = 2; //vita dello stronzo
+	_healthBar = 2; //barra della vita 
 	_canSwordHitMe = false;
 	_prevDidSwordHitMe = false;
 	_hitFromLeft = false;
@@ -64,9 +65,6 @@ void GreenKappa::update(float dt)
 	else if (sceneCollider().right() >= _limitRect.right())
 		move(Direction::LEFT); 
 
-	//std::cout << "oggetto sotto: " << sceneCollider().left() << std::endl;
-	//std::cout << "schelestronzo: " << _limitRect.left() << std::endl;
-
 	// x-mirroring
 	if (_vel.x > 0)
 		_flip = SDL_FLIP_HORIZONTAL;
@@ -78,11 +76,10 @@ void GreenKappa::update(float dt)
 	else if (_hitFromRight)
 		_flip = SDL_FLIP_HORIZONTAL; 
 
-	if (!_canSwordHitMe && (SDL_GetTicks() - invincibilityStartGreenKappa > INVINCIBILITY_DURATION_GREEN_KAPPA)) {
-		_canSwordHitMe = true;  // mario pu� tornare a prenderlo in culo 
+	if (!_canSwordHitMe && (SDL_GetTicks() - _invincibilityStartGreenKappa > INVINCIBILITY_DURATION_GREEN_KAPPA)) {
+		_canSwordHitMe = true;  
 		_hitFromLeft = false; 
 		_hitFromRight = false;
-		std::cout << "danno riattivato" << std::endl;
 	}
 
 }
@@ -145,23 +142,15 @@ bool GreenKappa::collision(CollidableObject* with, bool begin, Direction fromDir
 
 void GreenKappa::smash() {
 
-	//std::cout << "vita del GreenKappa: " << _healthBar << std::endl;
-
 	if (_canSwordHitMe) {
 		_healthBar--;
 		_canSwordHitMe = false;
-		invincibilityStartGreenKappa = SDL_GetTicks(); 
+		_invincibilityStartGreenKappa = SDL_GetTicks(); 
 		
 		_sprite = SpriteFactory::instance()->get("hit");
 		schedule("kill_object", 0.3f, [this] {
 			_sprite = SpriteFactory::instance()->get("green_kappa_walk");
 			});
-
-		//StaticObject* pippo = new StaticObject(_scene, rect(), nullptr);
-		//pippo->setSprite(SpriteFactory::instance()->get("hit"));
-		//schedule("kill_object", 0.3f, [pippo] {
-		//	pippo->kill(); 
-		//	});
 	}
 
 	if (_healthBar < 0) {

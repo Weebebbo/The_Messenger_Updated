@@ -1,6 +1,4 @@
-//
-// Created by webubbu on 17/03/25.
-//
+
 #include "Candlestick.h"
 #include "SpriteFactory.h"
 #include "Sword.h"

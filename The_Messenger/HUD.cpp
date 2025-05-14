@@ -28,7 +28,7 @@ HUD::HUD()
 	_time = 400;
 	_fps = 0;
 
-	new RenderableObject(this, RectF(0.5, 0.5, 2.5, 0.5), SpriteFactory::instance()->getText("BRIAMORTO", {0.3f, 0.3f}));
+	new RenderableObject(this, RectF(0.5, 0.5, 2.5, 0.5), SpriteFactory::instance()->getText("ALEXBRIA", {0.3f, 0.3f}));
 	//new RenderableObject(this, RectF(5.5, 0.5, 2, 0.5), SpriteFactory::instance()->getText("DIO", { 0.5f, 0.5f }));
 	//new RenderableObject(this, RectF(9.0, 0.5, 2.5, 0.5), SpriteFactory::instance()->getText("WORLD", { 0.5f, 0.5f }));
 	//new RenderableObject(this, RectF(12.5, 0.5, 2, 0.5), SpriteFactory::instance()->getText("TIME", { 0.5f, 0.5f }));

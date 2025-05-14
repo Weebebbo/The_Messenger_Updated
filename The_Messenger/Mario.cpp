@@ -43,6 +43,7 @@ Mario::Mario(Scene* scene, const PointF& pos)
 	_hitFromRight = false;
 	_hitFromBottom = false;
 	_canMarioTakeDamage = true;
+	_invincibilityStart = 0; 
 	_damageSkid = false;
 	_counter = 0;
 
@@ -208,10 +209,10 @@ void Mario::update(float dt)
 		}
 	}
 
-	if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart > INVINCIBILITY_DURATION)) {
+	if (!_canMarioTakeDamage && (SDL_GetTicks() - _invincibilityStart > INVINCIBILITY_DURATION)) {
 		_canMarioTakeDamage = true;  
 	} 
-	else if (!_canMarioTakeDamage && (SDL_GetTicks() - invincibilityStart < INVINCIBILITY_DURATION))
+	else if (!_canMarioTakeDamage && (SDL_GetTicks() - _invincibilityStart < INVINCIBILITY_DURATION))
 	{
 		_counter++;
 
@@ -221,7 +222,7 @@ void Mario::update(float dt)
 			_sprite = nullptr;
 	}
 
-	if (_damageSkid && (SDL_GetTicks() - invincibilityStart > DAMAGE_SKID_DURATION)) {
+	if (_damageSkid && (SDL_GetTicks() - _invincibilityStart > DAMAGE_SKID_DURATION)) {
 		_damageSkid = false;  // serve per non far attaccare mario mentre scivola
 	}
 }
@@ -420,7 +421,7 @@ void Mario::hurt()
 
 		_canMarioTakeDamage = false;
 		_damageSkid = true;
-		invincibilityStart = SDL_GetTicks();
+		_invincibilityStart = SDL_GetTicks();
 
 		if (_facingDir == Direction::RIGHT) {
 			_hitFromRight = true;
