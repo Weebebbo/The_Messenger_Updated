@@ -22,7 +22,7 @@ class agp::Bridge : public CollidableObject
 {
 
 protected:
-
+	
 
 public:
 
@@ -30,7 +30,7 @@ public:
 	virtual ~Bridge() {}
 
 	// extends game logic (-physics, -collisions)
-	virtual void update(float dt) override { RenderableObject::update(dt); }
+	virtual void update(float dt) override;
 	virtual bool collision(CollidableObject* with, bool begin, Direction fromDir) override;
 
 	virtual std::string name() override {

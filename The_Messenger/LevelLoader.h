@@ -45,7 +45,7 @@ class agp::LevelLoader : public Singleton<LevelLoader>
 
 		int _marioInRoom;
 
-		// Boleani necessari per il movimento della camera
+		// Booleani necessari per il movimento della camera
 		bool _room3Movecamera;
 
 		// Map che contengono i nemici

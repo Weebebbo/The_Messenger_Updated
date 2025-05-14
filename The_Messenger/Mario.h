@@ -36,7 +36,7 @@ private:
 	bool _hitFromRight;
 	bool _hitFromBottom;
 	bool _canMarioTakeDamage;
-	Uint32 invincibilityStart = 0;
+	Uint32 _invincibilityStart;
 	bool _damageSkid;
 	int _counter;
 

@@ -23,7 +23,7 @@ RangedKappa::RangedKappa(Scene* scene, const PointF& pos, bool mirror)
 	_throwing = false;
 	_canThrow = false;
 	_chasing = false;
-	_mirror = mirror;	//se è attivo il bro funziona specchiato 
+	_mirror = mirror;	//se è attivo il nemico funziona specchiato 
 	_positionSpawnFireball = PointF(0, 0); 
 
 	// default physics

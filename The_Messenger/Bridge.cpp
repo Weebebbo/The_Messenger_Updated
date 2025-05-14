@@ -24,6 +24,11 @@ Bridge::Bridge(Scene* scene, const RectF& rect, Sprite* sprite, int layer) :
 
 }
 
+void Bridge::update(float dt) {
+	
+	RenderableObject::update(dt);
+}
+
 bool Bridge::collision(CollidableObject* with, bool begin, Direction fromDir) {
 	Mario* mario = dynamic_cast<Mario*>(with);
 

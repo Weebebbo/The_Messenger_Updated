@@ -213,7 +213,6 @@ Sprite* SpriteFactory::get(const std::string& id)
 	else if (id == "smash")
 		return new AnimatedSprite(_spriteSheets["items"], { _autoTiles["items"][13].begin(), _autoTiles["items"][13].begin() + 4 }, 6);
 
-	//Animazione danno nemici (prova)
 	//Morte di Mario
 	else if (id == "hit")
 		return new AnimatedSprite(_spriteSheets["enemies2"], { _autoTiles["enemies2"][11].begin(), _autoTiles["enemies2"][11].begin() + 4 }, 6);

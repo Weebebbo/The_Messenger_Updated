@@ -145,7 +145,7 @@ Menu* Menu::mainMenu()
 				Menu* optionsMenu = new Menu(nestedMenu);
 				
 				optionsMenu->addItem("Commands", [nestedMenu, optionsMenu]() {
-					std::cout << "Fatti in culo!" << std::endl;
+					std::cout << "Commands!" << std::endl;
 					new RenderableObject(optionsMenu, RectF(0, 2, 16, 13), SpriteFactory::instance()->get("commands"), -1);
 					});
 				

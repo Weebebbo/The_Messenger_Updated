@@ -14,7 +14,6 @@ class agp::Candlestick : public CollidableObject
 private:
     bool _haveIspawnedMoney;
     bool _didMarioHitMe;
-    //Serve per cercare di sistemare il core rotto in culo di Bria
 	bool _wasIhitBefore;
     int _howManyEmeralds;
 
