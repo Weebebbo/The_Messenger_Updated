@@ -95,7 +95,6 @@ void Skelouton::update(float dt)
 	}
 
 	if (_state == 2 && vel().x != 0 && _limitRectMario.center().y == _limitRectSkelouton.center().y) {
-		std::cout << "stato 3 attivo" << std::endl; 
 		_state = 3;
 	}
 	else if (_state == 3 && _limitRectMario.center().y != _limitRectSkelouton.center().y) {
@@ -117,7 +116,7 @@ void Skelouton::update(float dt)
 		if (!_updateCollider) {
 			_collider.adjust(0.1f, -1.1f, 0.1f, -0.1f);
 			_collider = _collider + PointF(0, 0.1f); 
-			_updateCollider = true; //il collider è stato aggiornato
+			_updateCollider = true; //il collider ï¿½ stato aggiornato
 		}
 		_sprite = _sprites["walk"]; 
 		_xMoveForce = 1000;

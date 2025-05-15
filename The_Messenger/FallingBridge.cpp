@@ -1,5 +1,6 @@
 #include "FallingBridge.h"
 #include "Mario.h"
+#include "Potion.h"
 #include "SpriteFactory.h"
 
 using namespace agp;
@@ -40,6 +41,7 @@ void FallingBridge::update(float dt)
 bool FallingBridge::collidableWith(CollidableObject* obj)
 {
     return dynamic_cast<Mario*>(obj);
+    return dynamic_cast<Potion*>(obj);
 }
 
 bool FallingBridge::collision(CollidableObject* with, bool begin, Direction fromDir)

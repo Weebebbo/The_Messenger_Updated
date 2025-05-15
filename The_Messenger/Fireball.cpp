@@ -74,6 +74,5 @@ bool Fireball::collision(CollidableObject* with, bool begin, Direction fromDir) 
 }
 
 void Fireball::smash() {
-	//_sprite = SpriteFactory::instance()->get("smash");
 	_scene->killObject(this);
 }
