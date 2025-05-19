@@ -272,7 +272,7 @@ void Mario::jump(bool on)
 				_fall = true;
 			});
 
-		Audio::instance()->playSound("jump-small");
+		Audio::instance()->playSound("Jump");
 	}
 	else if (!on && midair() && !_dying && !_wantsToClimb && !_isSwimming)
 	{
@@ -350,7 +350,7 @@ void Mario::attack()
 	if (_dying || _dead)
 		return;
 
-	Audio::instance()->playSound("sword");
+	Audio::instance()->playSound("Attack");
 
 	_sword = new Sword(this);
 
@@ -418,6 +418,7 @@ void Mario::hurt()
 	{
 		_iterator--;
 		dynamic_cast<PlatformerGame*>(Game::instance())->hud()->healthBarDown(_iterator);
+		Audio::instance()->playSound("Ninja_hit");
 
 		_canMarioTakeDamage = false;
 		_damageSkid = true;

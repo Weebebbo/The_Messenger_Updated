@@ -5,6 +5,7 @@
 #include "Mario.h"
 #include "RangedKappa.h"
 #include "Fireball.h"
+#include "Audio.h"
 #include <random>
 
 using namespace agp;
@@ -85,7 +86,10 @@ void RangedKappa::update(float dt)
 	}
 
 	if (_throwing)
+	{
 		_sprite = _sprites["ranged_kappa_fireball"];
+		Audio::instance()->playSound("Fireball");
+	}
 	else
 		_sprite = _sprites["ranged_kappa_stand"];
 
