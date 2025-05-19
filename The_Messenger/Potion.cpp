@@ -2,9 +2,10 @@
 #include "Mario.h"
 #include "StaticObject.h"
 #include "PlatformerGame.h"
-#include "Hud.h"
+#include "HUD.h"
 #include "SpriteFactory.h"
 #include "AnimatedSprite.h"
+#include "Bridge.h"
 
 using namespace agp;
 
@@ -28,6 +29,8 @@ bool Potion::collidableWith(CollidableObject* obj)
     if (dynamic_cast<Mario*>(obj))
         return true;
     else if (dynamic_cast<StaticObject*>(obj))
+        return true;
+    else if (dynamic_cast<Bridge*>(obj))
         return true;
     else
         return false;
