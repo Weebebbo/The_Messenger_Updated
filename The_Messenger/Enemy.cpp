@@ -37,7 +37,7 @@ void Enemy::smash()
 	_vel.y = -8;
 	_collidable = false;
 	_flip = SDL_FLIP_VERTICAL;
-	Audio::instance()->playSound("kick");
+	Audio::instance()->playSound("Enemy_hit");
 
 	schedule("die-smash", 2, [this]() {_scene->killObject(this); });
 }

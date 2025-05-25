@@ -6,6 +6,7 @@
 #include "AnimatedSprite.h"
 #include "Emerald.h"
 #include "PlatformerGameScene.h"
+#include "Audio.h"
 
 using namespace agp;
 
@@ -80,6 +81,7 @@ bool Crystal::collision(CollidableObject* with, bool begin, Direction fromDir) {
 	{
 		RenderableObject* effect = new RenderableObject(scene(), _rect, SpriteFactory::instance()->get("crystal_effect"), 0);
 		effect->setSprite(SpriteFactory::instance()->get("crystal_effect"));
+		Audio::instance()->playSound("Emerald");
 		schedule("effect", dynamic_cast<AnimatedSprite*>(effect->sprite())->duration(), [effect]()
 			{
 				effect->kill();

@@ -315,12 +315,39 @@ void Mario::climb_stationary()
 	}
 }
 
-void Mario::climbing_movement()
+void Mario::climbing_movement(float dt, Direction dir)
 {
 	if (_wantsToClimb)
 	{
 		_wantsToClimb = false;
 		_climbingMovement = true;
+	}
+	else if (_climbingMovement)
+	{
+		if (dir == Direction::UP)
+		{
+			_vel.y = -5.0f;
+			pos() += (0, _vel.y * dt);
+		}
+		else if (dir == Direction::DOWN)
+		{
+			_vel.y = 3.0f;
+			pos() += (0, _vel.y * dt);
+		}
+		else 
+		{
+			// Altra soluzione fatta in casa
+			if (dt >= 0.01)
+			{
+				_vel.y = -1.3f;
+				pos() += (0, _vel.y * dt);
+			}
+			else
+			{
+				_vel.y = -0.9f;
+				pos() += (0, _vel.y * dt);
+			}
+		}
 	}
 }
 
@@ -356,9 +383,7 @@ void Mario::attack()
 
 	//Scelta dell'animazione per l'attacco
 	if (_crouch)
-	{
 		_crouchAttack = true;
-	}
 	else if (_walking && !midair())
 		_runningAttack = true;
 	else if (midair())
@@ -395,11 +420,10 @@ void Mario::die()
 	_vel = { 0,0 };   
 	_xDir = Direction::NONE;
 	Audio::instance()->haltMusic();
-	Audio::instance()->playSound("death");
+	Audio::instance()->playSound("Death");
 
 	RenderableObject* effect = new RenderableObject(scene(), _rect, SpriteFactory::instance()->get("hit"), 0, false);
 
-	// DA MODIFICARE PER RENDERLO PIÙ GRADEVOLE
 	schedule("gameover", dynamic_cast<AnimatedSprite*>(effect->sprite())->duration(), [this]()
 		{
 			_dead = true;

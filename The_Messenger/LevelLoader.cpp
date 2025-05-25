@@ -421,7 +421,7 @@ void LevelLoader::fillRoom1(PlatformerGameScene* world)
 	RangedKappa* rkappa2 = new RangedKappa(world, PointF(143, 39));
 	RangedKappa* rkappa3 = new RangedKappa(world, PointF(139, 43));
 
-	GreenKappa* gkappa1 = new GreenKappa(world, PointF(104, 38));
+	GreenKappa* gkappa1 = new GreenKappa(world, PointF(103, 38));
 
 	skeloutons = { {1, skl1}, {2, skl2}, {3, skl3}, {4, skl4} };
 	rangedKappas = { {1, rkappa1}, {2, rkappa2},  {3, rkappa3} };
@@ -445,8 +445,8 @@ void LevelLoader::fillRoom3(PlatformerGameScene* world)
 
 void LevelLoader::fillRoom6(PlatformerGameScene* world)
 {
-	Skelouton* skl1 = new Skelouton(world, PointF(278, 63));
-	Skelouton* skl2 = new Skelouton(world, PointF(287, 63));
+	Skelouton* skl1 = new Skelouton(world, PointF(278, 62));
+	Skelouton* skl2 = new Skelouton(world, PointF(287, 62));
 
 	Bat* bat1 = new Bat(world, PointF(297, 52));
 
@@ -490,15 +490,12 @@ void LevelLoader::fillRoom12(PlatformerGameScene* world)
 {
 	RangedKappa* rkappa1 = new RangedKappa(world, PointF(332, 38));
 
-	Skelouton* skl1 = new Skelouton(world, PointF(362, 38));
-
 	Bat* bat1 = new Bat(world, PointF(343, 32));
 	Bat* bat2 = new Bat(world, PointF(356, 32));
 	Bat* bat3 = new Bat(world, PointF(364.5f, 35));
 
 	rangedKappas = { {1, rkappa1} };
 	bats = { {1, bat1}, {2, bat2}, {3, bat3} };
-	skeloutons = { {1, skl1} };
 }
 
 void LevelLoader::killRoom()

@@ -27,6 +27,7 @@ protected:
 	bool _flying; 
 	PointF _pivot;			// center of horizontal movement
 	float _halfRangeX;		// half range of horizontal movement
+	float _duration; 
 	std::map<std::string, Sprite*> _sprites;
 
 public:

@@ -5,6 +5,7 @@
 #include "Emerald.h"
 #include "PlatformerGameScene.h"
 #include "Potion.h"
+#include "Audio.h"
 
 using namespace agp;
 
@@ -70,6 +71,7 @@ bool Candlestick::collision(CollidableObject* with, bool begin, Direction fromDi
     {
         _didMarioHitMe = true;
 		_sprite = SpriteFactory::instance()->get("candlestick_off");
+        Audio::instance()->playSound("Enemy_hit");
         return true;
     }
     else

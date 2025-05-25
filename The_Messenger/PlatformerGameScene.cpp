@@ -73,40 +73,23 @@ void PlatformerGameScene::updateControls(float timeToSimulate)
 		if (!mario->get_finishedClimbingWallUpperLimit() && !mario->get_finishedClimbingWallLowerLimit())
 		{
 			if (keyboard[SDL_SCANCODE_UP] && !keyboard[SDL_SCANCODE_SPACE])
-			{
-				mario->move(Direction::NONE);
-				mario->setVelY(-5);
-				mario->climbing_movement();
-			}
+				mario->climbing_movement(timeToSimulate, Direction::UP);
 			else if (keyboard[SDL_SCANCODE_DOWN] && !keyboard[SDL_SCANCODE_SPACE])
-			{
-				mario->move(Direction::NONE);
-				mario->setVelY(3);
-				mario->climbing_movement();
-			}
+				mario->climbing_movement(timeToSimulate, Direction::DOWN);
 			else
 				goto end;
 		}
-
 		else if (mario->get_finishedClimbingWallUpperLimit())
 		{
 			if (keyboard[SDL_SCANCODE_UP])
-			{
-				mario->move(Direction::NONE);
-				mario->setVelY(-0.9f);
-				mario->climbing_movement();
-			}
+				mario->climbing_movement(timeToSimulate, Direction::NONE);
 			else
 				mario->set_finishedClimbingWallUpperLimit(false);
 		}
 		else if (mario->get_finishedClimbingWallLowerLimit())
 		{
 			if (keyboard[SDL_SCANCODE_DOWN])
-			{
-				mario->move(Direction::NONE);
-				mario->setVelY(-0.9f);
-				mario->climbing_movement();
-			}
+				mario->climbing_movement(timeToSimulate, Direction::NONE);
 			else
 				mario->set_finishedClimbingWallLowerLimit(false);
 		}

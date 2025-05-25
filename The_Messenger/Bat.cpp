@@ -6,6 +6,7 @@
 #include "Bat.h"
 #include "StaticObject.h"
 #include "Audio.h"
+#include "AnimatedSprite.h"
 #include <random>
 
 using namespace agp;
@@ -32,6 +33,7 @@ Bat::Bat(Scene* scene, const PointF& pos)
 	_xDir = Direction::LEFT;
 	_halfRangeX = 0.7f;
 
+	_duration = 0;
 }
 
 void Bat::update(float dt)
@@ -50,6 +52,14 @@ void Bat::update(float dt)
 		_sprite = _sprites["flying"];
 		_xMoveForce = 1000;
 		_yGravityForce = 2; 
+
+		if (_duration >= dynamic_cast<AnimatedSprite*>(_sprite)->duration() + 0.1f)
+		{
+			Audio::instance()->playSound("Bat_flap");
+			_duration = 0;
+		}
+		else
+			_duration += dt;
 
 
 		if (mario->pos().x < this->pos().x)
@@ -83,5 +93,5 @@ void Bat::update(float dt)
 
 void Bat::smash() {
 	this->kill(); 
-	Audio::instance()->playSound("kick");
+	Audio::instance()->playSound("Enemy_hit");
 }

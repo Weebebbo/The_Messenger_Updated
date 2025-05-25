@@ -6,6 +6,7 @@
 #include "SpriteFactory.h"
 #include "AnimatedSprite.h"
 #include "Bridge.h"
+#include "Audio.h"
 
 using namespace agp;
 
@@ -46,7 +47,8 @@ bool Potion::collision(CollidableObject* with, bool begin, Direction fromDir)
         int _iterator = mario->get_iterator();
         mario->heal();
         dynamic_cast<PlatformerGame*>(Game::instance())->hud()->healthBarUp(_iterator, mario);
-        
+        Audio::instance()->playSound("Potion");
+
         RenderableObject* effect = new RenderableObject(_scene, _rect, SpriteFactory::instance()->get("potion_effect"));
         schedule("kill", dynamic_cast<AnimatedSprite*>(effect->sprite())->duration(), [this, effect]()
             {

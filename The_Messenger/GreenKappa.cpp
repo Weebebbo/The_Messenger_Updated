@@ -6,6 +6,7 @@
 #include "GreenKappa.h"
 #include "StaticObject.h"
 #include "Sword.h"
+#include "Audio.h"
 #include <random>
 
 using namespace agp;
@@ -147,6 +148,7 @@ void GreenKappa::smash() {
 		_canSwordHitMe = false;
 		_invincibilityStartGreenKappa = SDL_GetTicks(); 
 		
+		Audio::instance()->playSound("Enemy_hit");
 		_sprite = SpriteFactory::instance()->get("hit");
 		schedule("kill_object", 0.3f, [this] {
 			_sprite = SpriteFactory::instance()->get("green_kappa_walk");

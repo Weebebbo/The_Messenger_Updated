@@ -126,7 +126,7 @@ public:
 	virtual void jump(bool on = true);
 	void crouch(bool on = true);
 	void climb_stationary();
-	void climbing_movement();
+	void climbing_movement(float dt, Direction dir);
 	void descend() { _canDescend = true; }
 	void heal();
 	void swimming();

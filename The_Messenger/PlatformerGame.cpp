@@ -49,5 +49,5 @@ void PlatformerGame::gameover()
 	gameoverScreen->setBackgroundColor(Color(0, 0, 0));
 	new RenderableObject(gameoverScreen, RectF(0, 0, 16, 15), SpriteFactory::instance()->get("gameover"));
 	pushScene(gameoverScreen);
-	Audio::instance()->playMusic("gameover", 0);
+	//Audio::instance()->playMusic("gameover", 0);
 }
