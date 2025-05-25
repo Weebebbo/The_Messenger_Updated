@@ -7,6 +7,7 @@
 #include "StaticObject.h"
 #include "Sword.h"
 #include "Audio.h"
+#include "Bridge.h"
 #include <random>
 
 using namespace agp;
@@ -54,6 +55,8 @@ void GreenKappa::update(float dt)
 		float hitTimes;
 		if (dynamic_cast<StaticObject*>(scene()->raycastNearest(downRay, hitTimes)))
 			_limitRect = dynamic_cast<StaticObject*>(scene()->raycastNearest(downRay, hitTimes))->rect();
+		else if (dynamic_cast<Bridge*>(scene()->raycastNearest(downRay, hitTimes)))
+			_limitRect = dynamic_cast<Bridge*>(scene()->raycastNearest(downRay, hitTimes))->rect();
 	}
 
 	Enemy::update(dt);

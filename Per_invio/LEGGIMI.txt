@@ -1,0 +1,34 @@
+DESCRIZIONE DELLE MECCANICHE E DEI COMANDI DEL VIDEOGIOCO:
+
+- Movimento: left_arrow e right_arrow per le rispettive direzioni;
+- Salto: spazio;
+- Attacco: a;
+- Crouch: down_arrow (hold).
+
+- Saltando contro un muro è possibile aggrapparvisi:
+	- Da aggrappati al muro premere up_arrow e down_arrow per per rispettive direzioni;
+	- Se si vuole saltare da aggrappati al muro premere spazio e poi left_arrow oppure spazio e poi right_arrow, in base alla direzione in cui si vuole saltare;
+	NOTA: non è possibile attaccare da aggrappati al muro.
+
+- Le interazioni con i ponti di legno e il personaggio sono due:
+	- Se il protagonista è sopra di essi è possibile scendere premendo down_arrow + z;
+	- È possibile attraversare i ponti in salto se si approccia da sotto o dai lati, se il protagonista ci cade o cammina sopra si comporteranno come una normale
+	  piattaforma.
+
+- L'attacco ha delle interazioni particolari con alcuni elementi di gioco, infatti se si attaccano con successo i seguenti oggetti: 
+	- GreenKappa (nemico verde che fa avanti e indietro);
+	- RangedKappa (nemico arancione che spara le palle di fuoco);
+	- Palle di fuoco del RangedKappa;
+	- Skelouton (scheletro);
+	- Bat;
+	- Candelabro;
+	- Cristallo gigante;
+  È possibile effettuare un altro salto, anche se si è già in aria.
+
+
+DESCRIZIONE DELL'HUD E DEI MENÙ
+In alto a sinistra vi è il nome del giocatore e la barra della vita, quando raggiunge lo 0, ossia tutti gli smeraldi sono vuoti, allora si perde la partita
+In alto a destra vi è il contatore della valuta di gioco
+
+Dal menù di pausa è possibile, oltre che riprendere la partita, ricominciarla oppure uscire dal gioco, inserire la godmode e mutare la musica.
+NOTA: Mutare la musica non muta anche gli effetti.
